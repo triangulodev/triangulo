@@ -1,0 +1,236 @@
+---
+title: "Criando layouts responsivos com CSS Grid"
+description: "Aprenda a utilizar técnicas do CSS Grid para criar layouts responsivos."
+ogImage: "/posts/criando-layouts-responsivos-css-grid/social.png?v=2"
+date: "2022-02-28T18:00:00-03:00"
+authorName: "Hugo de Oliveira"
+authorImage: "/authors/hugo.png"
+---
+
+O CSS Grid é uma poderosíssima ferramenta de layout. Muito além de apenas layouts estáticos, alguns truques podem transformar o CSS Grid em um grande aliado na hora de criar layouts responsivos.
+
+**Criar layouts responsivos é difícil**. Na web, dispositivos com qualquer tamanho de tela podem visitar seu site ou usar seu _webapp_.
+
+Flexibilidade. Essa é a característica principal de uma ferramenta utilizada para criar layouts responsivos. Neste post vou te mostrar com exemplos práticos como utilizar algumas propriedades do CSS Grid como `grid-template-columns` e `grid-auto-columns`, `repeat(..., minmax())`, `auto-fill` e `auto-fit` para **criar layouts responsivos robustos**.
+
+## Criando colunas responsivas com a unidade `fr`
+
+A forma mais simples de criar layouts que se adaptam com CSS Grid é utilizar a unidade `fr` para o tamanho das colunas.
+
+Como [já aprendemos no primeiro post desta série sobre CSS Grid](https://triangulo.dev/posts/css-grid-o-que-voce-precisa-saber#:~:text=Isto%20%C3%A9%20poss%C3%ADvel,em%20cont%C3%AAineres%20grid.), a unidade `fr` representa uma **fr**ação do espaço livre disponível em uma linha ou coluna.
+
+Para entender a unidade `fr` na prática, vamos criar um exemplo de galeria de imagens. Começaremos com o HTML:
+
+```html
+<section class="gallery">
+  <img
+    class="gallery-img"
+    src="https://images.unsplash.com/photo-1619447998478-8d09f6a4948b?fit=crop&w=600&q=80"
+    alt=""
+  />
+  <img
+    class="gallery-img"
+    src="https://images.unsplash.com/photo-1521813475821-5e3f5bc3c7a6?fit=crop&w=870&q=80"
+    alt=""
+  />
+  <img
+    class="gallery-img"
+    src="https://images.unsplash.com/photo-1599400028251-1ea39ae02e23?fit=crop&w=600&q=80"
+    alt=""
+  />
+  <img
+    class="gallery-img"
+    src="https://images.unsplash.com/photo-1615962849838-42f9936e4b77?fit=crop&w=600&q=80"
+    alt=""
+  />
+  <img
+    class="gallery-img"
+    src="https://images.unsplash.com/photo-1618022125607-13a0eb4d81c5?fit=crop&w=600&q=80"
+    alt=""
+  />
+</section>
+```
+
+Nesse HTML, temos uma `section` com a classe `.gallery` e várias `.gallery-img` para nossas imagens. Para estilizá-las usaremos esse CSS:
+
+```css
+.gallery {
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+
+  display: grid;
+  gap: 20px;
+
+  grid-template-columns: 200px 200px;
+}
+
+.gallery-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+```
+
+Com esse código, temos uma galeria de imagens com duas colunas, com `200px` de largura cada. **Nosso exemplo ainda não é responsivo**. Para fazer as colunas se adaptarem ao tamanho da tela, podemos usar `grid-template-columns: 1fr 1fr`.
+
+```css
+.gallery {
+  /* ... */
+  grid-template-columns: 1fr 1fr;
+}
+```
+
+Esse código significa que no nosso contêiner grid teremos duas colunas, **cada uma com uma fração do espaço disponível**. Agora, não importa o tamanho da tela, teremos duas colunas preenchendo todo o espaço livre. Como nossa `.gallery-img` ocupa toda a largura disponível em cada coluna (`width: 100%`), elas crescerão com a tela.
+
+![Exemplo de galeria CSS Grid em três resoluções diferentes: mobile, tablet e desktop](/posts/criando-layouts-responsivos-css-grid/galeria-css-grid-em-3-resolucoes-diferentes.png)
+
+## Usando CSS Grid para uma coluna fixa e outra variável
+
+Com o CSS Grid conseguimos definir uma coluna de um tamanho fixo e deixar que as outras colunas usem o resto do tamanho que sobrar dentro do contêiner grid.
+
+No nosso exemplo de galeria de imagens, podemos usar um valor diferente para `grid-template-columns`, onde a primeira coluna tem `200px` e a segunda tem `1fr` (uma **fr**ação do espaço restante disponível).
+
+```css
+.gallery {
+  /* ... */
+  grid-template-columns: 200px 1fr;
+}
+```
+
+Isso também vale para múltiplas colunas:
+
+```css
+.gallery {
+  /* ... */
+  grid-template-columns: 200px 2fr 1fr;
+}
+```
+
+A propriedade `grid-template-columns` pode receber valores de diversas unidades diferentes. `rem`, `em`, `%`, `fr`, `vw`, `min-content`, `max-content` e outras. Você pode misturar valores fixos e valores flexíveis e criar exatamente o layout que você quiser.
+
+Por mais que você defina colunas fixas, alguns layouts exigem quantidades diferentes de colunas para comportar o conteúdo em diferentes tamanhos de tela. A primeira solução que penso para isso é usar `@media` queries para mudar o valor de `grid-template-columns`.
+
+Mas existe uma outra forma:
+
+## Criando layouts responsivos com CSS Grid e `repeat(auto-fit)`
+
+A principal ferramenta para criar layouts responsivos com CSS Grid é o `repeat()`, junto com alguns valores como `auto-fit` e `minmax()`.
+
+A função `repeat()` do CSS é utilizada com propriedades, como `grid-template-columns`, para definir a estrutura repetida em um contêiner grid (elemento que tem `display: grid`). Além de valores fixos como `repeat(2, 200px)` (que criará duas colunas de `200px`), o `repeat()` também aceita a palavra-chave `auto-fit`.
+
+`auto-fit` define que o número de repetições das colunas será a maior quantidade possível que couber sem vazar do contêiner grid.
+
+Para ver na prática como o `repeat(auto-fit)` se comporta, podemos usar `grid-template-columns: repeat(auto-fit, 300px)` em um exemplo de site bastante comum: um blog. Esse código fará com que todos os elementos do contêiner grid ocupem quantas colunas de `300px` couberem dentro dele.
+
+Vamos começar a construir nosso exemplo, começando pelo HTML:
+
+```html
+<section class="blog">
+  <article class="post">
+    <img
+      class="post-image"
+      src="https://images.unsplash.com/photo-1619447998478-8d09f6a4948b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1736&q=80"
+      alt="woman in white dress shirt sitting on chair near window during daytime"
+    />
+    <h2 class="post-title">Os melhores livros para ler em uma cafeteria</h2>
+  </article>
+
+  <!-- ... mais <article>s ... -->
+</section>
+```
+
+Nesse HTML temos o `.blog`, que pode conter diversos `.post`s. Os estilos base serão:
+
+```css
+.blog {
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+
+  display: grid;
+  gap: 20px;
+}
+
+.post-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.post-title {
+  font-size: 24px;
+  margin-top: 5px;
+  margin-bottom: 0px;
+}
+```
+
+A partir desses estilos, temos um contêiner grid simples, onde cada `post` ocupa toda a tela. Se adicionarmos `grid-template-columns: repeat(auto-fit, 300px)` em `.blog`, cada `post` ocupará `300px` e teremos quantas colunas de `300px` couberem na tela.
+
+Com apenas uma definição de `grid-template-columns` usando `repeat()` e `auto-fit`, conseguimos fazer nossa página simples de blog se adaptar ao tamanho da tela.
+
+Nesse exemplo, os elementos `post` têm um tamanho predefinido de `300px`.
+
+Existe também uma outra função CSS que pode deixar nosso layout ainda mais flexível: `minmax()`.
+
+## Usando `minmax()` e `repeat(auto-fit)` para criar layouts responsivos
+
+O segundo valor passado para `repeat()` é o tamanho que cada coluna terá no nosso layout. A função CSS `minmax()` permite que esse valor seja flexível, de acordo com um tamanho mínimo e um tamanho máximo para cada coluna.
+
+Para melhorar o layout de `blog`, vamos aplicar agora um novo valor em `grid-template-columns`, usando `minmax()` em `repeat()`:
+
+```css
+.blog {
+  /* ... */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+```
+
+O valor `minmax(300px, 1fr)` nesse nosso exemplo significa que as colunas terão entre `300px` e `1fr` de tamanho. Como `1fr` é uma unidade flexível que significa "uma fração de espaço disponível", as colunas serão flexíveis e ocuparão todo o espaço disponível dentro de `blog`.
+
+Na prática, `minmax(300px, 1fr)` faz com que suas colunas ocupem no mínimo `300px`. Se houver espaço sobrando dentro do contêiner grid, mas não o suficiente para adicionar mais um coluna de `300px`, todas as outras colunas crescerão proporcionalmente para ocupar o espaço vazio.
+
+![Exemplo de blog com colunas auto-fit 300px](/posts/criando-layouts-responsivos-css-grid/colunas-com-repeat-auto-fit-minmax.svg)
+
+## Usando a função CSS `min()` junto com `minmax()` para layouts responsivos
+
+Quando usamos `minmax()`, precisamos ter cuidado com um detalhe: se o tamanho mínimo estiver em `px` ou outra unidade fixa, é possível que a coluna vaze o contêiner grid (_overflow_).
+
+Para evitar que uma coluna seja maior que o contêiner grid, podemos usar a função CSS `min()` em conjunto com `minmax()`.
+
+A função `min()` recebe diversos valores e retornará o menor entre eles. **A grande sacada é usar uma mistura de valores em unidades fixas e flexíveis**. Para resolver o nosso problema da coluna ultrapassar o tamanho do contêiner grid, podemos usar `min(100%, 300px)`, por exemplo. `100%` representará todo o espaço disponível. Se ele for menor do que `300px`, a função retornará esse valor menor, impedindo que a coluna vaze.
+
+![Demonstração de min(100%, 300px) em duas resoluções diferentes: 600px e 300px](/posts/criando-layouts-responsivos-css-grid/exemplo-min-100-300px.svg)
+
+Outros exemplos do uso da função CSS `min()`:
+
+1. `min(50vw, 200px)`: o valor mínimo entre 50% da largura da viewport (`vw`) e `200px`.
+2. `min(auto, 300px)`: o valor mínimo entre `auto` (bastante utilizado com Flexbox e CSS Grid) e `300px`.
+
+Assim como temos `min()`, a função CSS `max()` também existe. Ela retornará o maior valor entre os passado para ela. A função CSS `max()` pode ser bastante útil para quando você não quer que o tamanho de um elemento seja menor do que algum valor em telas grandes, por exemplo.
+
+## Repetindo colunas no CSS Grid com `auto-fit` vs. `auto-fill`
+
+Nos exemplos anteriores utilizamos `repeat(auto-fit, ...)` para gerar colunas que se adaptam ao tamanho disponível em um contêiner grid. Além de `auto-fit`, podemos usar também a palavra-chave `auto-fill`.
+
+Ao usar `repeat(auto-fill, ...)`, a quantidade de colunas em um contêiner grid irão se adaptar ao seu tamanho, mas também teremos colunas vazias, caso as colunas com conteúdo não sejam suficientes para preencher todo o espaço disponível.
+
+![Exemplo da diferença entre auto-fit e auto-fill](/posts/criando-layouts-responsivos-css-grid/auto-fit-vs-auto-fill.svg)
+
+Nessa imagem, podemos perceber que com `auto-fill`, uma nova coluna vazia é criada. Com `auto-fit`, em vez de criar uma nova coluna vazia, o espaço dela é adicionada ao tamanho das colunas com conteúdo.
+
+## Continue aprendendo
+
+CSS Grid é muito poderoso. De layouts fixos a layouts que se adaptam ao tamanho exato da página. Neste post exploramos como utilizá-lo para criar layouts responsivos, mas vimos apenas a superfície.
+
+Aqui no blog, este post faz parte de uma série sobre CSS Grid:
+
+- [CSS Grid: o básico que você precisa saber (com exemplos)](/posts/css-grid-o-que-voce-precisa-saber);
+- [CSS Grid: posicionando elementos, na prática](/posts/css-grid-posicionando-elementos-na-pratica);
+- [CSS Grid: alinhando elementos (com exemplos)](/posts/css-grid-alinhando-elementos-na-pratica);
+- [Criando layouts responsivos com CSS Grid](/posts/criando-layouts-responsivos-css-grid);
+- [Usando grid-template-areas para criar layouts no CSS Grid](/posts/usando-grid-template-areas-no-css-grid);
+
+Para escrever este post eu utilizei diversas referências. A principal delas foi a [especificação CSS Grid Layout Module Level 2 (csswg.org)](https://drafts.csswg.org/css-grid/#propdef-grid-template-columns). Um outro post que utilizei como referência foi o [Intrinsically Responsive CSS Grid with minmax() and min() (evanminto.com)](https://evanminto.com/blog/intrinsically-responsive-css-grid-minmax-min/). Testar e quebrar exemplos também fez parte da minha pesquisa, eu recomendo muito que você teste o que aprendeu na prática.
+
+Bons estudos!

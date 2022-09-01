@@ -1,0 +1,34 @@
+---
+title: "Como debugar o Chrome no Android usando o DevTools"
+description: "A partir do Chrome no seu computador, você pode debugar um site aberto em um dispositivo Android utilizando o Chrome DevTools."
+ogImage: "/posts/atomo-debugar-chrome-do-android-devtools/social.png"
+date: "2021-05-26"
+authorName: "Hugo de Oliveira"
+authorImage: "/authors/hugo.png"
+atom: true
+---
+
+A partir do Chrome no seu computador, **você pode debugar um site aberto em um dispositivo Android** utilizando o [Chrome DevTools](https://triangulo.dev/posts/atomo-chrome-developer-tools). Para isso:
+
+1. Primeiro, habilite o as Opções de Desenvolvedor no seu Android;
+1. Vá até as opções em **Configurações**, **Sistema**, **Opções do Desenvolvedor**;
+1. Ative a Depuração USB;
+1. No seu computador, abra o Chrome;
+1. Acesse `chrome://inspect#devices`;
+1. Habilite a opção de "Discover USB devices";
+1. Conecte o seu dispositivo Android ao seu computador por um cabo USB;
+1. Você deve agora conseguir ver o seu celular na lista de dispositivos;
+   ![Captura de tela (screenshot) da página de inspeção remota do Chrome DevTools](/posts/atomo-debugar-chrome-do-android-devtools/screenshot-inspecao-remota-android-devtools.png)
+1. Se o seu dispositivo aparecer como offline, permita a depuração USB no Android;
+1. Você pode agora clicar em "inspect" em alguma das abas listadas.
+
+## Referências
+
+- [Chrome DevTools - Remote debug Android devices (developers.chrome.com)](https://developer.chrome.com/docs/devtools/remote-debugging/)
+
+## Backlinks
+
+- [Criando animações perfeitas com CSS animation e transition](https://triangulo.dev/posts/criando-animacoes-perfeitas-com-css)
+  > Teste o exemplo em um celular Android [debugando pelo Chrome DevTools](https://triangulo.dev/posts/atomo-debugar-chrome-do-android-devtools).
+- [Analisando a Performance de Animações CSS com o DevTools](https://triangulo.dev/posts/analisando-performance-chrome-devtools)
+  > [...] Para nossos próximos testes, vou rodar o Codepen em um **Pixel 3a** e [debugar remotamente pelo USB](https://triangulo.dev/posts/atomo-debugar-chrome-do-android-devtools) utilizando o [CPU Throttling da aba de Performance](https://triangulo.dev/posts/atomo-cpu-throttling-chrome-devtools)

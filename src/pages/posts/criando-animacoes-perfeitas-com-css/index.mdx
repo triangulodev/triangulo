@@ -1,0 +1,186 @@
+---
+title: "Criando animações perfeitas com CSS animation e transition"
+description: "Mergulhe fundo em como criar e debugar animações CSS perfeitas, entendendo o fluxo de renderização dos navegadores."
+ogImage: "/posts/criando-animacoes-perfeitas-com-css/social.png"
+date: "2021-05-19"
+authorName: "Hugo de Oliveira"
+authorImage: "/authors/hugo.png"
+---
+
+Animações perfeitas dão aquele toque elegante em um site, não é mesmo? Você toca em um botão, um movimento suave acontece; abre o menu, uma transição perfeita te leva para outro contexto. Desde que o CSS3 virou algo suportado pelos navegadores mais utilizados, a web tem ótimas ferramentas para criar animações (`animation`) e transições (`transition`). Mesmo que essas ferramentas já estejam entre a gente por um tempão, ainda é difícil criar interfaces de usuário com movimentos perfeitos.
+
+Nossos olhos são muito bons em perceber movimento e nossa cabeça é muito boa em sinalizar quando algo não está funcionando do jeito certo. Como a maior parte das nossas telas é capaz de reproduzir 60 _frames_ por segundo (fps), nós estamos muito acostumados a ver essa taxa de atualização em todos os movimentos que acontecem em interfaces de usuário. Para nossas animações serem perfeitas, elas precisam se encaixar nessa taxa de atualização. Vamos entender o porquê.
+
+## O que faz uma animação ou transição ser perfeita?
+
+Em uma tela que atualiza sua imagem a uma taxa de 60fps, o navegador precisa calcular onde cada elemento do seu site aparecerá na tela a cada frame. **Para ser perfeita, o movimento da sua animação precisa acontecer a cada 16ms** (1000 milissegundos / 60 frames = 16,66). Isso significa que, nesses 16ms, o navegador precisa executar seu código, verificar qualquer mudança na posição de todos os elementos e calcular onde eles estarão.
+
+![Exemplo de animação a 60 frames por segundo](/posts/criando-animacoes-perfeitas-com-css/exemplo-de-animacao-a-60-quadros-por-segundo.png)
+
+Para sites que não mudam a posição de seus elementos, o navegador consegue evitar trabalho e calcular apenas uma vez onde cada pedaço estará. Quando acionamos animações, o navegador precisa calcular a posição dos nossos elementos a cada frame — a cada intervalo de 16ms. **Entender esse processo de computação e renderização é essencial para criar animações e transições perfeitas com CSS** usando `animation` e `transition`.
+
+Toda vez que o cálculo para renderizar o novo frame de uma animação dura mais do que o tempo para atualizar a tela, nós "perdemos frames". Isso significa que um frame deixou de ser renderizado. **A perda de frames é o que tira a fluidez de uma animação** e traz uma experiência ruim para o usuário.
+
+![Exemplo de quando um frame com 25ms é perdido](/posts/criando-animacoes-perfeitas-com-css/exemplo-frame-perdido-com-25-ms.png)
+
+## Fluxo de renderização do navegador
+
+Todos os navegadores atuais (Chrome, Firefox, Safari, Edge) adotam um fluxo de renderização parecido. Esse fluxo (_rendering pipeline_, em inglês) é [dividido em quatro fases](https://web.dev/animations-overview/):
+
+1. **Style**: Na primeira fase, o navegador calcula quais serão os valores de cada propriedade CSS de cada elemento da tela.
+1. **Layout**: Com os valores em mãos, calcula-se a disposição de todos os elementos na tela.
+1. **Paint**: O navegador agora cria instruções de renderização de todos os elementos dividos em cada camadas.
+1. **Composite**: Por fim, compõe todas as camadas na tela.
+
+Como todo esse processo precisa se encaixar em 16ms durante uma animação para que ela não "engasgue", todos os navegadores modernos possuem otimizações para passar a menor quantidade de tempo em cada fase ou até pulá-las. Para criar animações performáticas precisamos evitar trabalho.
+
+![Fluxo de renderização de um navegador. Style, Layout, Paint, Composite](/posts/criando-animacoes-perfeitas-com-css/fluxo-de-renderizacao-de-um-navegador.png)
+
+Na **fase Style**, o navegador basicamente calcula qual é o estilo a ser computado para cada elemento na página, cada nó do DOM. Por não envolver computação pesada, esta fase geralmente é bem rápida e não representa um problema de performance.
+
+## Como evitar trabalho durante uma animação CSS
+
+Após saber o estilo a ser aplicado em cada elemento, o navegador pode iniciar a **fase de Layout**. Nela será calculada a disposição de cada elemento e a ordem em que eles serão renderizados na página. Em sites com árvores do DOM muito grandes, a fase de Layout pode demorar um tempo considerável e prejudicar a taxa de frames por segundo em uma animação.
+
+Existem várias propriedades CSS que, quando mudadas, podem levar o navegador a iniciar a fase de Layout. `width`, `height`, `padding` e `margin` são algumas delas que tendemos a animar com mais frequência. Como uma mudança em um elemento no meio da página pode afetar a disposição de toda a página, animar essas propriedades pode gerar um grande trabalho a cada frame. Se possível, evite animar essas propriedades.
+
+A fase de Layout gera uma representação da página em uma **Árvore de Layout**.
+
+![Exemplo de uma Árvore de Layout criada a partir de um site](/posts/criando-animacoes-perfeitas-com-css/arvore-de-layout.png)
+
+Após calcular o posicionamento dos elementos, o navegador iniciará a **fase de Paint**. Aqui, o navegador calcula em que ordem todos os elementos devem ser renderizados, camada por camada, gerando uma representação dos comandos necessários para mostrar o que o usuário verá na tela. **A Árvore de Layout é transformada em Registros de Paint**.
+
+![Exemplo de uma Árvore de Layout transformada em registros de paint](/posts/criando-animacoes-perfeitas-com-css/registros-de-paint.png)
+
+Esta fase pode demandar bastante recurso, então o navegador tenta ao máximo diminuir a área da tela que precisa ser computada. Caso nenhum elemento tenha mudado sua aparência na tela, a fase de Paint será pulada.
+
+As propriedades que geralmente animamos que sempre demandam uma fase de Paint são as que controlam posicionamento (`top`, `left`, `right`, `bottom`), tamanho (`width`, `height`, `padding`, `margin`) e cor (`background`, `color`).
+
+## Criando animações de alta-performance com Composite Layers
+
+Após a fase de Layout, **o navegador precisa transformar os Registros de Paint em pixels**. Este processo se chama de _rasterização_ e ocorre durante a **fase Composite** (presente na grande maioria dos navegadores atuais).
+
+Nesta fase, o navegador _rasteriza_ diferentes camadas da interface de usuário e usa a GPU para compor estas camadas e tirar um pouco do peso do cálculo da CPU.
+
+![Exemplo da rasterização de cada camada](/posts/criando-animacoes-perfeitas-com-css/rasterizacao.png)
+
+Para otimizar o uso de recursos do seu computador, o Chrome rasteriza não só a parte que você está vendo na tela, mas boa parte dos elementos da página. E, em vez de criar apenas uma imagem com a composição dos elementos, o Chrome divide certos elementos e camadas diferentes, permitindo que a composição final seja feita na GPU.
+
+Como os cálculos da fase Composite rodam na thread de Composition e não influenciam na performance da thread principal, animações que usam a fase Composite são muito mais performáticas do que as que dependem das fases de Layout e Paint. Isto se deve a evitar a frequente e pesada _rasterização_ de camadas sem necessidade.
+
+![Exemplos de camadas rasterizadas](/posts/criando-animacoes-perfeitas-com-css/camadas-rasterizadas.png)
+
+Se não devemos animar `width` ou `margin` e é bom evitar mudanças em `background` e `top`, o que usar então? Que bom que você perguntou.
+
+As propriedades que, quando animadas, geram camadas que serão usadas na fase Composite são:
+
+- `opacity`
+- `transform: scale()`
+- `transform: translate()`
+- `transform: rotate()`
+- `transform: skew()`
+- `transform: matrix()`
+
+![Exemplos de animação com transform: translate3d(20px, 20px, 0)](/posts/criando-animacoes-perfeitas-com-css/animacao-com-transform-translate3d.png)
+
+Na minha experiência, elas são mais do que suficientes para boa parte das animações que criamos para melhorar a experiência do usuário.
+
+Boa parte dos computadores e celulares têm GPUs boas o suficiente para criarmos animações bastante complexas com `opacity` e `transform`.
+
+## Visualizando/debugando animações e o fluxo de renderização do navegador
+
+O Chrome possui uma incrível ferramenta que pode nos ajudar a entender todo o fluxo de renderização e o que acontece durante animações. Essa ferramenta está disponível no [Chrome Developer Tools (DevTools)](/posts/atomo-chrome-developer-tools), na aba **Performance**.
+
+Ao clicar no botão de gravação, o DevTools irá guardar dados de tudo que está acontecendo na tela e por baixo dos panos no fluxo de renderização. Assim que você parar de gravar, a ferramenta ficará recheada de informações para explorarmos:
+
+- Linha do tempo com principais eventos e gráficos;
+- Frames e seu tempo de renderização;
+- Tarefas na thread Principal;
+- Várias outras informações sobre a rede, uso da GPU, rasterização, etc.
+
+![Aba de Performance do DevTools do Chrome com um relatório de performance do site da Tesla](/posts/criando-animacoes-perfeitas-com-css/aba-performance-devtools-chrome.png)
+
+Para aprender um pouco mais sobre a aba Performance do DevTools, vamos visitar um site bastante bonito que possui animações sutis, mas que fazem toda a diferença durante a navegação: tesla.com.
+
+Na [página do Model Y](https://tesla.com/modely), animações são iniciadas conforme rolamos a página para ver mais conteúdo. Ao gravar essa interação no meu computador, pude perceber algumas animações com problemas e outras perfeitas.
+
+O interessante deste relatório da aba Performance é que podemos ir mais fundo nestes problemas e tentar entendê-lo, mesmo sem conhecer o código-fonte do site.
+
+A linha do tempo no topo do relatório mostra alguns retângulos vermelhos. Ao focar nestes frames com problemas, podemos ver que um deles demorou cerca de 146ms para ser renderizado — um número muito acima do ideal de 16ms.
+
+![Frame longo na página do Model Y no site da Tesla](/posts/criando-animacoes-perfeitas-com-css/frame-longo-no-site-da-tesla.png)
+
+Nas informações da thread principal, podemos ver que a fase de Style ocupou sozinha 52ms. Ela veio logo após uma chamada método `scrollTo` no JavaScript. Este método gera **Layout Trashing**, o que força o recálculo dos estilos de todos os elementos no DOM e cálculos da fase de Layout.
+
+![Frame longo na página do Model Y no site da Tesla](/posts/criando-animacoes-perfeitas-com-css/frame-longo-recalculate-style-site-da-tesla.png)
+
+Depois dessa parte mais pesada na performance, as animações são bem mais leves e performáticas. No quadro abaixo, podemos explorar o quão rápidas animações podem ser quando fazem uso de camadas na fase Composite.
+
+![Frame curto de uma animação usando Composite Layers](/posts/criando-animacoes-perfeitas-com-css/frame-curto-usando-composite-layers.png)
+
+Neste caso, foram **apenas 42 microssegundos necessários para a fase Composite** e 2,72 milissegundos para todo o frame.
+
+## A (má) influência do JavaScript em animações CSS
+
+Não é só o CSS que influencia no fluxo de renderização e na performance das animações CSS. Código JavaScript também pode influenciar nessas animações, como vimos no exemplo do site da Tesla.
+
+Como as fases de Style, Layout e Paint são executadas na thread principal do navegador, qualquer outro código JavaScript que estiver sendo executado ao mesmo tempo vai tomar espaço dentro do fluxo de renderização.
+
+Além disso, alguns métodos e propriedades no JavaScript afetam diretamente o fluxo de renderização. Esses métodos e propriedades geram o que chamamos de **Layout Thrashing**. Usar `element.getBoundingClientRect()`, por exemplo, obriga o navegador a recalcular os estilos do elemento e passar pela fase de Layout para gerar o resultado da chamada deste método.
+
+```js
+button.addEventListener("click", (event) => {
+  // A chamada deste método gera Layout Thrasing
+  console.log(button.getBoundingClientRect());
+});
+```
+
+A lista de métodos e propriedades que geram Layout Thrashing é bem extensa e difere um pouco entre diferentes navegadores. O Paul Irish criou o documento [What forces layout / reflow](https://gist.github.com/paulirish/5d52fb081b3570c81e3a) que conta com uma lista completa do que você deve evitar.
+
+Alguns deles são:
+
+- Geometria dos elementos: `elem.offsetLeft`, `elem.clientLeft`, `elem.getClientRects()`
+- Scroll (rolagem): `elem.scrollBy()`, `elem.scrollTo()`, `elem.scrollTop`
+- Dimensões de window: `window.scrollX`, `window.scrollY`
+- Foco: `elem.focus()`
+
+O Google também documenta a boa prática de evitar Layout Thrashing no artigo [Avoid Large, Complex Layouts and Layout Thrashing](https://developers.google.com/web/fundamentals/performance/rendering/avoid-large-complex-layouts-and-layout-thrashing?utm_source=devtools#avoid-forced-synchronous-layouts), que detalha bem algumas coisas que você deve evitar fazer durante animações, como loops que calculam e mudam o tamanho de vários elementos em sequência.
+
+## Sua vez de deixar uma animação CSS perfeita
+
+Agora que você conhece todo o fluxo de renderização do navegador, nós podemos criar uma animação CSS perfeita.
+
+E qual a melhor forma de fazer isso? Consertando uma imperfeita, é claro.
+
+No [Codepen abaixo](https://codepen.io/hugobessaa/pen/ExWgyJK), temos uma interface bem simples com um conteúdo principal e um menu lateral. No conteúdo principal, temos uma lista de tweets com uma animação de _hover_ e um botão para abrir e fechar o menu. Ao ser aberto, o menu lateral é animado e desliza da esquerda para a direita, enquanto deixa o conteúdo principal mais escuro.
+
+<PostContentIframe height="500" scrolling="no" title="CSS Animation - &quot;Imperfeito&quot;" src="https://codepen.io/hugobessaa/embed/preview/ExWgyJK?height=500&theme-id=dark&default-tab=html,result" frameborder="no" loading="lazy">
+  See the Pen <a href='https://codepen.io/hugobessaa/pen/ExWgyJK'>CSS Animation - &quot;Imperfeito&quot;</a> by Hugo
+  (<a href='https://codepen.io/hugobessaa'>@hugobessaa</a>) on <a href='https://codepen.io'>CodePen</a>.
+</PostContentIframe>
+
+Dependendo do seu computador, você poderá perceber os problemas de performance nestas animações visualmente.
+
+Caso a animação esteja rodando bem no seu computador, teste algumas coisas:
+
+- Utilize a funcionalidade de [CPU Throttling](https://umaar.com/dev-tips/88-cpu-throttling/);
+- Clique no botão "Ligar computação pesada" para simular carga na sua CPU e na thread principal da página;
+- Teste o exemplo em um celular Android [debugando pelo Chrome DevTools](https://triangulo.dev/posts/atomo-debugar-chrome-do-android-devtools).
+
+Agora é a **sua vez** de _forkar_ esse [Codepen](https://codepen.io/hugobessaa/pen/ExWgyJK) e modificar o código para deixar a animação mais otimizada. Como quero que você aprenda na prática, o código não está documentado. Use o DevTools de Performance para explorar os problemas e utilize o seu conhecimento sobre o fluxo de renderização.
+
+## Continue aprendendo
+
+Ainda não cobrimos tudo sobre animações no CSS. Aqui vão algumas referências e ferramentas para continuar estudando:
+
+- [Inside look at modern web browser (part 3)](https://developers.google.com/web/updates/2018/09/inside-browser-part3): a principal referência deste post;
+- [High Performance Animations](https://www.html5rocks.com/en/tutorials/speed/high-performance-animations/);
+- [10 principles for smooth web animations](https://blog.gyrosco.pe/smooth-css-animations-7d8ffc2c1d29);
+- [Chrome Developers: Inspect Animations](https://developer.chrome.com/docs/devtools/css/animations/);
+- [CSS GPU Animation: Doing It Right](https://www.smashingmagazine.com/2016/12/gpu-animation-doing-it-right/);
+- [Pixels are expensive](https://aerotwist.com/blog/pixels-are-expensive/);
+- [CSS Triggers](https://csstriggers.com/): lista com propriedades CSS e quais fases de renderização elas ativam em cada navegador quando alteradas;
+- [The Applied Science of Runtime Performance - Chrome Dev Summit 2014 (Paul Lewis)](https://www.youtube.com/watch?v=RCFQu0hK6bU);
+- [Braces to Pixels](https://alistapart.com/article/braces-to-pixels/);
+- [Eliminate content repaints with the new Layers panel in Chrome](https://blog.logrocket.com/eliminate-content-repaints-with-the-new-layers-panel-in-chrome-e2c306d4d752/?gi=cd6271834cea);
+- Treine seu conhecimento e analise a performance do site [https://gyrosco.pe/](https://gyrosco.pe/).

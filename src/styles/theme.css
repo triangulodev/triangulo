@@ -1,0 +1,36 @@
+@import "@radix-ui/colors/sand";
+@import "@radix-ui/colors/yellow";
+@import "@radix-ui/colors/amber";
+@import "@radix-ui/colors/orange";
+@import "@radix-ui/colors/brown";
+
+:root {
+  --accent1: var(--orange1);
+  --accent2: var(--orange2);
+  --accent3: var(--orange3);
+  --accent4: var(--orange4);
+  --accent5: var(--orange5);
+  --accent6: var(--orange6);
+  --accent7: var(--orange7);
+  --accent8: var(--orange8);
+  --accent9: var(--orange9);
+  --accent10: var(--orange10);
+  --accent11: var(--orange11);
+  --accent12: var(--orange12);
+
+  --base1: var(--sand1);
+  --base2: var(--sand2);
+  --base3: var(--sand3);
+  --base4: var(--sand4);
+  --base5: var(--sand5);
+  --base6: var(--sand6);
+  --base7: var(--sand7);
+  --base8: var(--sand8);
+  --base9: var(--sand9);
+  --base10: var(--sand10);
+  --base11: var(--sand11);
+  --base12: var(--sand12);
+
+  --font-base: "iA Quatro";
+  --font-mono: "iA Mono";
+}

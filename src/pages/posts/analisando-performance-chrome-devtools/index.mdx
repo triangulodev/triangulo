@@ -1,0 +1,105 @@
+---
+title: "Analisando a Performance de Animações CSS com o DevTools"
+description: "Aprenda a utilizar a aba de Performance do DevTools para encontrar problemas na performance das suas animações CSS"
+ogImage: "/posts/analisando-performance-chrome-devtools/social.png"
+date: "2021-05-26"
+authorName: "Hugo de Oliveira"
+authorImage: "/authors/hugo.png"
+---
+
+Uma animação lenta e desajeitada é capaz de diminuir bastante a minha percepção de valor de um site. No computador é menos comum ver animações assim, mas o que não falta são sites com animações lentas no celular.
+
+Quando for a sua vez de implementar um site com animações perfeitas, precisamos [entender o que torna uma animação fluida](https://triangulo.dev/posts/criando-animacoes-perfeitas-com-css), mas uma parte importante do processo é saber como analisar o que está acontecendo. E para esse problema, o [DevTools do Chrome](https://triangulo.dev/posts/atomo-chrome-developer-tools) tem uma ferramenta muito útil para nós: [a aba de Performance](https://triangulo.dev/posts/atomo-aba-performance-devtools).
+
+## A Aba de Performance do Chrome DevTools
+
+Para acessar a aba de Performance do Chrome DevTools, basta abrir o DevTools em **Menu ...**, **Mais Ferramentas**, **Ferramentas do Desenvolvedor**, **Performance**.
+
+![Aba de Performance do Chrome DevTools no macOS, sem relatório](/posts/analisando-performance-chrome-devtools/chrome-devtools-aba-performance-macos.png)
+
+Quando você abre a aba de Performance, ela começa vazia. No topo, temos os controles da aba.
+
+![Controles da Aba de Performance do Chrome DevTools no macOS, com etiquetas](/posts/analisando-performance-chrome-devtools/chrome-devtools-aba-performance-macos-controles.png)
+
+A aba de Performance não serve apenas para medir a performance de animações, mas também para analisar problemas de memória, rede e web vitals.
+
+## Analisando um Relatório de Performance de Animação do DevTools
+
+Neste post, vamos analisar um [Codepen](https://codepen.io/hugobessaa/pen/WNpjYgG) simples que criei. Nele temos uma lista de _tweets_ e um menu. No _hover_, os tweets fazem uma animação de mudança de tamanho e de cor. Ao clicar no botão "Menu", um menu lateral é animado da direita para a esquerda e o conteúdo da página fica mais escuro.
+
+Por ser um exemplo simples e contido, a performance das animações não deve ser ruim, mesmo que o código tenha vários problemas de performance. Para nossos próximos testes, vou rodar o Codepen em um **Pixel 3a** e [debugar remotamente pelo USB](https://triangulo.dev/posts/atomo-debugar-chrome-do-android-devtools) utilizando o [CPU Throttling da aba de Performance](https://triangulo.dev/posts/atomo-cpu-throttling-chrome-devtools).
+
+Para abrir apenas o conteúdo do Codepen no celular, sem a interface e os editores de texto:
+
+1. Abra o **[Codepen](https://codepen.io/hugobessaa/pen/WNpjYgG)** que criamos;
+2. Clique em **Change View**;
+3. Selecione **Debug mode**;
+4. Abra o link no seu celular.
+
+Com o Codepen aberto no celular e o DevTools remoto aberto, eu iniciei uma gravação e interagi com os _tweets_ e o _menu_. De cara, podemos perceber alguns problemas marcados em vermelho.
+
+O relatório do DevTool é dividido em algumas seções. A **Timeline** traz um resumo do relatório que foi gravado. Em **Frames**, temos capturas de tela dos frames renderizados durante a gravação. Em **Experience**, vemos alertas de problemas na experiência do usuário. Na seção **Main** temos um gráfico com todas as tarefas executadas na thread principal do navegador. Na parte inferior, **Summary** mostra um resumo dos tipos de tarefa executados e o total de tempo que elas ocuparam. Estas são as seções que vamos explorar neste post.
+
+![Seções da Aba de Performance do Devtools do Chrome](/posts/analisando-performance-chrome-devtools/secoes-aba-performance-chrome-devtools.png)
+
+Em Frames podemos ver alguns frames ficaram preenchidos com vermelho durante a gravação. Eles apontam para frames que demoraram para renderizar e foram descartados ("_dropped_"). **Cada frame [precisa ser renderizado em até 16ms se quisermos uma animação perfeita](https://triangulo.dev/posts/criando-animacoes-perfeitas-com-css)**, mas estamos desviando disso agora.
+
+Para conseguir analisar de perto o que aconteceu para os frames serem descartados, basta clicar na região e usar o scroll do seu mouse/trackpad para navegar pelos frames.
+
+Na seção **Main**, cada _task_ é detalhada. Embaixo da _task_, temos as partes do fluxo de renderização. A _task_ da imagem abaixo levou 23.73ms para terminar, o que acabou fazendo com que o frame fosse descartado.
+
+![Relatório da Aba de Performance do DevTools do Chrome com um frame descartado](/posts/analisando-performance-chrome-devtools/relatorio-performance-devtools-nao-otimizado-frame-descartado.png)
+
+Nossa animação está lenta. No _hover_ dos _tweets_, alteramos o `padding` dos elementos, iniciando computações de layout. Na abertura do menu, muitos [Layout Shifts](https://triangulo.dev/posts/atomo-layout-shift) e cálculos de layout e paint. Alguns frames demoraram 31ms para serem renderizados, diminuindo nossa animação a até 32fps em alguns momentos.
+
+Se clicarmos no problema de Layout Shift na seção Experience, podemos ver um resumo do que aconteceu e até qual nó do DOM foi responsável por esse problema.
+
+**Agora, o que podemos fazer para melhorar?** Basta colocar em prática o que aprendemos em [Criando animações perfeitas com CSS animation e transition](https://triangulo.dev/posts/criando-animacoes-perfeitas-com-css).
+
+Neste post não vou cobrir cada mudança que fiz no Codepen para melhorar a performance da animação. Faço isso de propósito, pois quero que você aprenda a fazer por conta própria. A dica que vou dar é que **evitar as fases de Layout e Paint é bastante importante para melhorar a performance de animações CSS**.
+
+Se você ainda não aprendeu a fazer estas melhorias, [siga estas instruções para modificar o nosso Codepen](https://triangulo.dev/posts/criando-animacoes-perfeitas-com-css#sua-vez-de-deixar-uma-animação-css-perfeita).
+
+### Analisando nossas mudanças
+
+Vamos analisar agora um [Codepen com animações fluídas](https://codepen.io/hugobessaa/pen/GRWvZYy), otimizado. O visual das animações é praticamente idêntico, mas eu alterei as animações para fazerem **melhor uso da fase de Composite**.
+
+Mesmo os frames que renderizaram duas ou três animações ao mesmo tempo, tiveram suas tasks na casa dos 10ms. O tempo que cada task leva ainda está alto, mas vale lembrar que estamos testando em um Pixel 3a com CPU Throttling em 4x.
+
+![Relatório da Aba de Performance do DevTools do Chrome depois de aplicar otimizações](/posts/analisando-performance-chrome-devtools/relatorio-performance-devtools-otimizado.png)
+
+No Codepen otimizado, as tarefas das fases de Layout e Paint ocuparam uma fração do tempo quando comparadas com as do Codepen não-otimizado. Depois da otimização nós não só temos uma computação mais rápida nessas fases, nós também evitamos que elas sejam necessárias para a maior parte dos elementos na tela.
+
+## Visualizando problemas de Paint e Layout Shift
+
+Além da aba de Performance, o DevTools do Chrome também possui algumas outras ferramentas que podem nos ajudar a debugar animações CSS.
+
+A primeira delas é a [ferramenta de Rendering](https://triangulo.dev/posts/atomo-ferramenta-rendering-devtools). Ela nos possibilita visualizar coisas como:
+
+- **Paint Flashing**: áreas que precisaram de uma fase de Paint, em verde;
+- **Layout Shift Regions**: regiões que sofreram com Layout Shift, em azul;
+- **Frame Rendering Stats**: estatísticas de renderizacão de frames e memória da GPU.
+
+Para visualizar como o primeiro Codepen não-otimizado estava sendo renderizado, vamos habilitar Paint Flashing, Layout Shift Regions na ferramenta de Rendering e interagir com a página.
+
+![Animação da visualização de Paint Flashing e Layout Shift Regions do Codepen não-otimizado](/posts/analisando-performance-chrome-devtools/gif-rendering-paint-layout-shift-nao-otimizado.gif)
+
+Nossa interação com os _tweets_ mostra o problema de animar com `padding` logo de cara: todos os outros _tweets_ visíveis precisaram de uma fase de Paint durante toda a animação.
+
+Já com o menu, o problema é maior. Quando abrimos o menu, ele passa por Paint várias vezes durante a animação o elemento que escurece o conteúdo principal também demanda Paint a cada frame.
+
+Com as mudanças que eu fiz, o que vemos no [Codepen otimizado](https://codepen.io/hugobessaa/pen/GRWvZYy) é totalmente diferente. No _hover_ apenas o _tweet_ que interagimos passa pela fase de Paint e na abertura do menu os elementos são renderizados poucas vezes.
+
+![Animação da visualização de Paint Flashing e Layout Shift Regions do Codepen otimizado](/posts/analisando-performance-chrome-devtools/gif-rendering-paint-layout-shift-otimizado.gif)
+
+Se você quiser analisar as animações, mas acha que elas estão muito rápidas, o DevTools têm também a [**ferramenta de Animations**](https://triangulo.dev/posts/atomo-ferramenta-animations-devtools) que deixa você diminuir a velocidade de todas as animações.
+
+![25% de velocidade na ferramentas de Animations](/posts/analisando-performance-chrome-devtools/animations-em-25-por-cento.png)
+
+## Continue aprendendo
+
+A aba de Performance e outras ferramentas do DevTools do Chrome são muito úteis para debugarmos animações CSS. Elas nos dão um caminho para entendermos o que está acontecendo por baixo dos panos.
+
+Nem sempre o relatório será suficiente para solucionarmos nossos problemas de performance. Na verdade, o mais importante é entender como criar animações fluídas em primeiro lugar. Explore o [Codepen não-otimizado](https://codepen.io/hugobessaa/pen/WNpjYgG) e o [Codepen otimizado](https://codepen.io/hugobessaa/pen/GRWvZYy) usando que o que aprendeu neste post para ganhar experiência e criar animações cada vez melhores.
+
+O pessoal do Chrome também escreveu [uma referência muito completa sobre a aba de Performance](https://developer.chrome.com/docs/devtools/evaluate-performance/reference/) que aborda cada uma das partes desta ferramenta em mais detalhes.

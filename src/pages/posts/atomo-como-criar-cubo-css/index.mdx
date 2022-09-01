@@ -1,0 +1,141 @@
+---
+title: "Como criar um cubo (3D) com CSS"
+description: "Usando a propriedade transform, podemos criar formas em 3D como um cubo, apenas com CSS. Aprenda como."
+ogImage: "/posts/atomo-como-criar-cubo-css/social.png"
+date: "2021-06-14"
+authorName: "Hugo de Oliveira"
+authorImage: "/authors/hugo.png"
+atom: true
+---
+
+Para criar um cubo (3D) com CSS, usaremos a propriedade `transform` para posicionar cada lado do cubo em três dimensões.
+
+A propriedade `transform` recebe como valor algumas funções que transformam o posicionamento e a forma de um elemento com CSS.
+
+Para criar nosso cubo, começaremos com o HTML.
+
+```html
+<div class="cube">
+  <div class="face face--front">Front</div>
+  <div class="face face--right">Right</div>
+  <div class="face face--back">Back</div>
+  <div class="face face--left">Left</div>
+  <div class="face face--top">Top</div>
+  <div class="face face--bottom">Bottom</div>
+</div>
+```
+
+Nesse HTML temos o elemento `.cube`, que será o nosso cubo e cada uma de suas faces (`.face`).
+
+Para melhor visualizar nosso cubo, vamos adicionar alguns estilos básicos ao elementos na página.
+
+```css
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.face {
+  background: linear-gradient(45deg, #4fd1c522, #4fd1c5cc);
+  border: 2px solid #4fd1c5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 50px;
+  font-weight: bold;
+  color: #234e52;
+}
+```
+
+Também precisamos definir o tamanho do nosso cubo. Neste exemplo, vamos usar `200px`.
+
+```css
+.cube {
+  width: 200px;
+  height: 200px;
+}
+
+.face {
+  /* ... */
+  width: 200px;
+  height: 200px;
+}
+```
+
+Agora podemos começar a posicionar os elementos em três dimensões. Para deixar todas as `.face` na mesma posição inicial, usaremos `position: absolute`.
+
+```css
+.face {
+  /* ... */
+  position: absolute;
+}
+```
+
+Todas as `.face` estão no mesmo plano, mas para criar um cubo, precisamos girá-las e posicioná-las em seu lugar. Em um cubo de 200px de largura, todas as faces estão 100px de distância do centro.
+
+Com `transform`, podemos usar `translateX()`, `translateY()` e `translateZ()`. Essas funções mudam a posição do elemento em cada um dos três eixos X, Y e Z. Também podemos usar `rotateX()` e `rotateY()`, para girar os elementos em torno de seus eixos X e Y.
+
+![Diagrama com a posição dos eixos X, Y e Z em um elemento em 3D](/posts/atomo-como-criar-cubo-css/eixos-3d-css.svg)
+
+A `.face--front` será a face da frente do cubo:
+
+```css
+.face--front {
+  transform: translateZ(100px);
+}
+```
+
+As outras faces precisarão ser giradas para suas posições. `.face--right`, `.face--back` e `.face--left` giram em torno do seu eixo Y:
+
+```css
+.face--right {
+  transform: rotateY(90deg) translateZ(100px);
+}
+
+.face--back {
+  transform: rotateY(180deg) translateZ(100px);
+}
+
+.face--left {
+  transform: rotateY(-90deg) translateZ(100px);
+}
+```
+
+Para conseguir visualizar o que estamos construindo, vamos também aplicar uma rotação ao `.cube`, para ver as faces em perspectiva. Para preservar o posicionamento em 3D dos elementos, precisamos também usar [`transform-style: preserve-3d;`](#todo-transform-style-3d-mdn).
+
+```css
+.cube {
+  /* ... */
+  transform: rotateX(-20deg) rotateY(-10deg);
+  transform-style: preserve-3d;
+}
+```
+
+![Imagem do que criamos até o momento no post, um cubo com duas faces ainda por posicionar.](/posts/atomo-como-criar-cubo-css/cubo-semi-preparado.png)
+
+Agora, precisamos posicionar `.face--top` e `.face--bottom`. Como elas ficarão posicionada para cima e para baixo, usaremos `rotateX()` para girá-las em torno do eixo X.
+
+```css
+.face--top {
+  transform: rotateX(90deg) translateZ(100px);
+}
+
+.face--bottom {
+  transform: rotateX(-90deg) translateZ(100px);
+}
+```
+
+Pronto, agora criamos um cubo com CSS.
+
+Se você quiser adicionar um pouco de perspectiva 3D aos elementos, você pode usar `perspective: 500px` em `body`.
+
+Com o cubo que criamos, podemos também fazer uma animação de rotação, para mostrar todas as faces do cubo. Fique à vontade para [explorar o Codepen que criei](https://codepen.io/hugobessaa/pen/xxqQMZy) para acompanhar esse post.
+
+<PostContentIframe height="500" scrolling="no" title="Cubo (Finalizado)" src="https://codepen.io/hugobessaa/embed/xxqQMZy?height=500&theme-id=dark&default-tab=result" frameBorder="no" loading="lazy" allowtransparency="true" allowFullScreen></PostContentIframe>
+
+## Referências
+
+- [perspective (developer.mozilla.org)](https://developer.mozilla.org/en-US/docs/Web/CSS/perspective)

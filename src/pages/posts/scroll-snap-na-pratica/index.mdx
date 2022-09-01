@@ -1,0 +1,150 @@
+---
+title: "Scroll Snap com CSS na prática"
+description: "Com o Scroll Snap no CSS você consegue pular uma parte da página no scroll com elementos que se posicionam automaticamente. Ótimo para sliders e seções de uma página."
+ogImage: "/posts/scroll-snap-na-pratica/social.png"
+date: "2021-06-09"
+authorName: "Hugo de Oliveira"
+authorImage: "/authors/hugo.png"
+---
+
+A quantidade de JavaScript que precisamos para criar webapps complexos tem crescido bastante, mas o CSS também está correndo atrás de oferecer cada vez mais funcionalidades para estilização e comportamento visual.
+
+**Scroll Snapping** (ou pular no scroll) é uma técnica bastante usada na web em componentes ou até sites inteiros para melhorar a experiência dos usuários. **Com `snap-scroll-type` e outras propriedades, conseguimos implementar essa técnica usando apenas CSS**.
+
+## O básico de Scroll Snapping com CSS
+
+Sabe aquele site com seções que tomam quase a tela inteira e que pulam o scroll para a próxima seção? Dá para implementar essa funcionalidade com só um pouco de CSS.
+
+```html
+<section class="section section-1">Seção 1</section>
+<section class="section section-2">Seção 2</section>
+<section class="section section-3">Seção 3</section>
+<section class="section section-4">Seção 4</section>
+<section class="section section-5">Seção 5</section>
+<section class="section section-6">Seção 6</section>
+<section class="section section-7">Seção 7</section>
+<section class="section section-8">Seção 8</section>
+```
+
+Com esse HTML, podemos definir `scroll-snap-type: y mandatory` no **contêiner de scroll** (que nesse caso é o próprio elemento `html`) e definir o lugar onde o scroll irá "grudar" com `scroll-snap-align: start`.
+
+```css
+html {
+  scroll-snap-type: y mandatory;
+}
+
+/* O Safari exige a definição no body */
+body {
+  scroll-snap-type: y mandatory;
+}
+
+.section {
+  scroll-snap-align: start;
+  height: 70vh;
+}
+
+/* resto do CSS no Codepen */
+```
+
+<PostContentIframe height="600" scrolling="no" title="Scroll Snap na prática (Seções horizontais)" src="https://codepen.io/hugobessaa/embed/QWpVNLm?height=500&theme-id=dark&default-tab=result" frameBorder="no" loading="lazy" allowtransparency="true" allowFullScreen />
+
+[Link para o Codepen](https://codepen.io/hugobessaa/pen/QWpVNLm).
+
+A propriedade `scroll-snap-type` recebe valores que indicam a direção (`x`, `y`, `both`, etc.) e o comportamento (`mandatory` e `proximity`). Ao usar `scroll-snap-type: y mandatory`, nós estamos indicando que queremos que o scroll sempre "pule e grude" com elementos na vertical.
+
+Para definir os pontos de contato com os elementos que estão dentro do _contêiner de scroll_, usamos `scroll-snap-align`. Essa propriedade recebe valores como `start`, `end`, `center` e também `none`.
+
+## Mandatory vs Proximity
+
+Os dois tipos de comportamento do `scroll-snap-type` são `mandatory` e `proximity`.
+
+Em `mandatory`, o navegador sempre tentará "pular e grudar" no elemento mais próximo. Esse é o comportamento que normalmente queremos.
+
+Com `proximity`, o navegador só irá "pular e grudar" no elemento mais próximo caso ele esteja realmente próximo. A definição de "próximo" varia de navegador para navegador. Apesar de um pouco confuso, esse comportamento pode ser muito útil se o usuário precisa usar o scroll para ver mais conteúdo de uma seção e apenas "pular" para a próxima quando estiver perto dela.
+
+<PostContentIframe height="600" scrolling="no" title="Scroll Snap na prática (Seções horizontais vs)" src="https://codepen.io/hugobessaa/embed/qBrMYPL?height=500&theme-id=dark&default-tab=result" frameBorder="no" loading="lazy" allowtransparency="true" allowFullScreen />
+
+[Link para o Codepen](https://codepen.io/hugobessaa/pen/qBrMYPL).
+
+## Scroll snapping na horizontal
+
+Além de grandes seções na vertical, scroll snapping é bem útil em componentes menores, como uma lista horizontal. Com scroll snapping, podemos criar a mesma interação que muitos apps nativos como Netflix e App Store usam em suas listas.
+
+<PostContentIframe height="720" scrolling="no" title="Scroll Snap na prática (Ícones de Apps)" src="https://codepen.io/hugobessaa/embed/KKWxzdB?height=500&theme-id=dark&default-tab=result" frameBorder="no" loading="lazy" allowtransparency="true" allowFullScreen />
+
+[Link para o Codepen](https://codepen.io/hugobessaa/pen/KKWxzdB).
+
+Neste exemplo, podemos rolar a lista horizontal e o scroll irá "pular e grudar" em uma das caixas, impedindo que a lista fique em uma posição de scroll estranha.
+
+Para isso, basicamente criamos um _contêiner de scroll_ horizontal, usamos `scroll-snap-type: x mandatory` e definimos o ponto de contato das caixas com `scroll-snap-align: start`.
+
+```html
+<section class="horizontal-section">
+  <div class="app-icon"></div>
+  <div class="app-icon"></div>
+  <div class="app-icon"></div>
+  <div class="app-icon"></div>
+  <div class="app-icon"></div>
+  <div class="app-icon"></div>
+  <div class="app-icon"></div>
+  <div class="app-icon"></div>
+</section>
+```
+
+```css
+.horizontal-section {
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+}
+
+.app-icon {
+  scroll-snap-align: start;
+}
+
+/* resto do estilo no Codepen */
+```
+
+Para evitar que o scroll alinhe na borda do _contêiner_, adicionamos um `scroll-padding-left: 20px`. Assim o scroll "gruda" em uma posição que fica alinhada com outros elementos na tela e também nos deixa ver uma parte das outras caixas.
+
+![Diagrama de como scroll-padding-left: 20px funciona](/posts/scroll-snap-na-pratica/scroll-padding.png)
+
+A propriedade `scroll-padding` recebe os mesmo valores que `padding`. Ela é bem útil para controlar um pouco onde o scroll irá "grudar", principalmente se você tiver um elemento como um _header/menu_ fixo flutuando no topo da tela.
+
+## Scroll Snapping em 2D (vertical e horizontal)
+
+Não é tão comum assim termos scroll vertical e horizontal ao mesmo tempo em um elemento, mas isso não quer dizer que você não possa fazer o snapping em 2D.
+
+Para "pular e grudar" o scroll vertical e horizontal, é só usar `scroll-snap-type: both mandatory`. Talvez isso seja útil para quando você criar uma grande galeria de fotos.
+
+<PostContentIframe height="600" scrolling="no" title="Scroll Snap na prática (Galeria 2D)" src="https://codepen.io/hugobessaa/embed/GRWXxXz?height=500&theme-id=dark&default-tab=result" frameBorder="no" loading="lazy" allowtransparency="true" allowFullScreen />
+
+[Link para o Codepen](https://codepen.io/hugobessaa/pen/GRWXxXz).
+
+## Explorando as possibilidades do `scroll-snap-align`
+
+Além de `start` que já vimos nos exemplo acima, a propriedade `scroll-snap-align` também recebe valores como `center` e `end`. Isso muda bastante o comportamento.
+
+Para ficar mais fácil de visualizar a diferença entre esses valores, eu criei [esse Codepen](https://codepen.io/hugobessaa/pen/bGqxKxj) demonstrando `start`, `center` e `end` lado-a-lado. Nele, temos linhas tracejadas em vermelho mostrando onde o scroll vai tentar "grudar".
+
+<PostContentIframe height="600" scrolling="no" title="Scroll Snap na prática (Comparando align)" src="https://codepen.io/hugobessaa/embed/bGqxKxj?height=500&theme-id=dark&default-tab=result" frameBorder="no" loading="lazy" allowtransparency="true" allowFullScreen />
+
+[Link para o Codepen](https://codepen.io/hugobessaa/pen/bGqxKxj).
+
+Um dos valores que eu mais gosto para o `scroll-snap-align` é `center`, porque ele deixa você facilmente criar componentes como um carrossel (também conhecido como _slider_).
+
+## Diferenças entre navegadores
+
+O suporte dos navegadores para Scroll Snapping é [bastante bom](https://caniuse.com/css-snappoints), mais de 91% dos usuários no mundo. Apesar da especificação ser bem suportada, ela ainda é um rascunho e deve ser utilizada para progressivamente melhorar a experiência do usuário. Alguns navegadores implementam apenas parte da [especificação atual](https://drafts.csswg.org/css-scroll-snap-1).
+
+Além disso, a especificação é subjetiva em algumas áreas, dando aos navegadores a discrição de implementar o algoritmo de snapping. Antes de aplicar Scroll Snap em seu projeto em produção, teste em diversos navegadores usados pelos seus usuários.
+
+## Continue aprendendo
+
+Vimos apenas uma parte do Scroll Snapping no CSS neste post. Abaixo, separei algumas referências que utilizei para criar este post e seus exemplos:
+
+- [CSS Scroll Snap Module Level 1 (drafts.csswg.org)](https://drafts.csswg.org/css-scroll-snap-1)
+- [Practical CSS Scroll Snapping(css-tricks.com)](https://css-tricks.com/practical-css-scroll-snapping/)
+- [CSS Scroll Snap (developer.mozilla.org)](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Scroll_Snap/)
+- [Basic concepts of CSS Scroll Snap (developer.mozilla.org)](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Scroll_Snap/Basic_concepts)
+
+Bons estudos!

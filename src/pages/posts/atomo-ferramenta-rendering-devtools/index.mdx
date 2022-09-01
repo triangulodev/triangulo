@@ -1,0 +1,37 @@
+---
+title: "Ferramenta de Rendering do Chrome DevTools"
+description: "A Ferramenta de Rendering do Chrome DevTools traz opções úteis para debugar a renderização de uma página na web."
+ogImage: "/posts/atomo-ferramenta-rendering-devtools/social.png"
+date: "2021-05-27"
+authorName: "Hugo de Oliveira"
+authorImage: "/authors/hugo.png"
+atom: true
+---
+
+A **Ferramenta de Rendering** do [Chrome DevTools](https://triangulo.dev/posts/atomo-chrome-developer-tools) traz opções úteis para debugar a renderização de uma página na web.
+
+Para abrir a ferramenta de Rendering, clique no **Menu ...** do DevTools, **More tools**, **Rendering**.
+
+As ferramentas disponíveis são:
+
+- **Paint Flashing**: destaca as áreas da página que precisaram de repaint;
+- **Layout Shift Regions**: destaca as áreas da página que se deslocaram devido a [Layout Shift](https://triangulo.dev/posts/atomo-layout-shift);
+- **Layer Borders**: sinaliza as bordas de camadas e tiles;
+- **Frame Rendering Stats**: mostra estatísticas de renderização de frame em tempo-real, com medidor de fps e uso da GPU;
+- **Scrolling Performance Issues**: destaca elementos que podem diminuir a velocidade de rolagem, includindo eventos de toque e rolagem ou outros problemas de rolagem na thread principal;
+- **Highlight ad frames**: destaca frames detectados como propaganda;
+- **Hit-test borders**: mostra as bordas de regiões de hit-test;
+- **Core Web Vitals**: mostra métricas da Core Web Vitals sobrepostas no site;
+- **Disable local fonts**: desabilita `local()` em `@font-face`;
+- **Emulate a focused page**: emula uma página focada;
+- **Emulate CSS media**: opções para emular `media type`, `prefers-color-scheme`, `prefers-reduced-motion` e `color-gamut`;
+- **Emulate vision deficiencies**: opções para visualizar uma página como uma pessoa com deficiências visuais como visão turva e diferentes tipos de daltonismo.
+- **Disable AVIF image format**: desabilita o tipo de imagem AVIF;
+- **Disable WebP image format**: desabilita o tipo de imagem WebP;
+
+![Exemplo de Paint Flashing e Frame Rendering Stats ativado](/posts/atomo-ferramenta-rendering-devtools/paint-flashing-frame-rendering-stats.gif)
+
+## Citações
+
+- [Analisando a Performance de Animações CSS com o DevTools](https://triangulo.dev/posts/analisando-performance-chrome-devtools)
+  > A primeira delas é a [ferramenta de Rendering](https://triangulo.dev/posts/atomo-ferramenta-rendering-devtools). Ela nos possibilita visualizar coisas como:

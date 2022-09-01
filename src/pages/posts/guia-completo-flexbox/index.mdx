@@ -1,0 +1,224 @@
+---
+title: "Guia completo de Flexbox - display: flex"
+description: "Aprenda a utilizar o Flexbox (display: flex) para criar layouts com CSS, usando este guia ilustrado com todas as suas propriedades."
+ogImage: "/posts/introducao-flexbox/social.png"
+date: "2020-10-29T10:13:00-03:00"
+authorName: "Hugo de Oliveira"
+authorImage: "/authors/hugo.png"
+---
+
+O Flexbox é um dos módulos do CSS criados para facilitar a vida de quem precisa criar layouts na web. Com ele é possível controlar o tamanho, alinhamento e distribuição de um contêiner e seus elementos-filhos (chamados de itens). Esse conjunto de ferramentas torna o Flexbox extremamente capaz de resolver problemas de layout em uma dimensão.
+
+Antes do Flexbox era bastante comum ouvir uma história de alguém que não conseguiu centralizar um elemento com CSS, já que as ferramentas de layout padrão (`block` e `inline`) não lidam muito bem com o alinhamento e distribuição de elementos. Outro problema bastante comum era não conseguir facilmente tornar o tamanho de um elemento flexível, já que a única forma de fazer isso era usando unidades em porcentagem e fazendo cálculos manuais com elas.
+
+Este post de introdução vai te mostrar os principais conceitos por trás desse poderoso módulo do CSS e como utilizá-lo para estilizar seus projetos na web. Vamos começar criando um contêiner _flex_.
+
+## Índice
+
+- [Criando um contêiner _flex_](#criando-um-contêiner-flex)
+- [Alinhando elementos com Flexbox](#alinhando-elementos-com-flexbox)
+  - [Usando a propriedade `justify-content`](#usando-a-propriedade-justify-content)
+  - [Alinhando elementos com a propriedade `align-items`](#alinhando-elementos-com-a-propriedade-align-items)
+  - [Alinhando o conteúdo no Flexbox com `align-content`](#alinhando-o-conteúdo-no-flexbox-com-align-content)
+  - [Usando `align-self` para alinhar elementos dentro de um contêiner flex](#usando-align-self-para-alinhar-elementos-dentro-de-um-contêiner-flex)
+- [Quebrando o conteúdo em novas linhas ou colunas](#quebrando-o-conteúdo-em-novas-linhas-ou-colunas)
+- [Definindo tamanhos flexíveis para os elementos _flex_](#definindo-tamanhos-flexíveis-para-os-elementos-flex)
+  - [A propriedade `flex-grow`](#a-propriedade-flex-grow)
+  - [A propriedade `flex-shrink`](#a-propriedade-flex-shrink)
+  - [Controlando o tamanho de elementos com `flex-basis`](#controlando-o-tamanho-de-elementos-com-flex-basis)
+- [Ordenando elementos-filhos de um contêiner _flex_](#ordenando-elementos-filhos-de-um-contêiner-flex)
+- [Suporte em diferentes navegadores](#suporte-em-diferentes-navegadores)
+
+## Criando um contêiner _flex_
+
+Para criar um contêiner _flex_, você precisa apenas utilizar `display: flex` em um elemento.
+
+```css
+.elemento {
+  display: flex;
+}
+```
+
+Ao aplicar a regra `display: flex`, o elemento se tornará um contêiner _flex_ e seus elementos-filhos serão do tipo _flex_. Do lado de fora, um contêiner _flex_ não é diferente de um outro elemento _block_, mas o comportamento de seus elementos-filhos é completamente modificado.
+
+**Dica:** Isso pode ser explicado na especificação [Display Module Level 3](https://www.w3.org/TR/css-display-3/), que diz que a propriedade `display` especifica dois tipos de _display_: o externo e o interno. Usar `display: flex` é, então, a forma curta de `display: block flex`, que define o display do contêiner em si como `block` e de seus elementos-filhos como `flex`.
+
+## Alinhando elementos com Flexbox
+
+A partir do momento que você tem um contêiner _flex_, seus elementos serão dispostos ao longo do **eixo principal**, formando uma linha. Usando a propriedade `flex-direction`, podemos trocar a direção do eixo principal com `flex-direction: column`, onde o elementos formarão uma coluna. O padrão para esta propriedade é `flex-direction: row`.
+
+```css
+.container-row {
+  display: flex;
+  flex-direction: row; /* o eixo principal será uma linha */
+}
+
+.container-column {
+  display: flex;
+  flex-direction: column; /* o eixo principal será uma coluna */
+}
+```
+
+![Conteiner flex e seus
+eixos](/posts/introducao-flexbox/conteiner-flex.png)
+
+A propriedade `flex-direction` recebe também valores que inverterão a ordem de disposição dos elementos de um contêiner _flex_: `row-reverse` e `column-reverse`.
+
+![flex-direction com valores row, row-reversed, column e column-reversed](/posts/introducao-flexbox/flex-direction.png)
+
+Para alinhar os elementos ao longo dos dois eixos, utilizamos três propriedades de alinhamento: `justify-content`, `align-items` e `align-content`.
+
+### Usando a propriedade `justify-content`
+
+A propriedade `justify-content` define o alinhamento do conteúdo do contêiner _flex_ ao longo de seu eixo principal. Cada um de seus possíveis valores afetará o alinhamento de todo o conteúdo, resolvendo o antigo problema de centralizar elementos ou distribuí-los de forma igual.
+
+Seu valor padrão é `flex-start`, que define que o conteúdo será alinhado a partir do começo do eixo principal.
+
+![Ilustração com exemplo de justify-content: flex-start](/posts/introducao-flexbox/justify-content-flex-start.png)
+
+O valor `flex-end` define que o conteúdo será alinhado a partir do final do eixo principal.
+
+![Ilustração com exemplo de justify-content flex-end](/posts/introducao-flexbox/justify-content-flex-end.png)
+
+Usando `center`, o conteúdo será alinhado ao centro do eixo principal.
+
+![Ilustração com exemplo de justify-content center](/posts/introducao-flexbox/justify-content-center.png)
+
+Um outro valor bastante útil é o `space-between`, que alinha o conteúdo ao longo do eixo principal e adiciona um espaço padrão entre todos os elementos.
+
+![Ilustração com exemplo de justify-content space-between](/posts/introducao-flexbox/justify-content-space-between.png)
+
+Já o `space-around` adiciona um espaço ao redor de todos os elementos.
+
+![Ilustração com exemplo de justify-content space-around](/posts/introducao-flexbox/justify-content-space-around.png)
+
+Parecido com o `space-around`, o `space-evenly` adiciona um espaço ao redor de todos os elementos de forma igual, incluindo os das pontas.
+
+![Ilustração com exemplo de justify-content space-evenly](/posts/introducao-flexbox/justify-content-space-evenly.png)
+
+Existem também [outros valores para `justify-content`](https://developer.mozilla.org/pt-BR/docs/Web/CSS/justify-content) que não cobriremos neste artigo: `start`, `end`, `left` e `right`.
+
+### Alinhando elementos com a propriedade `align-items`
+
+Para alinharmos elementos ao longo do eixo transversal de um contêiner _flex_, usamos a propriedade `align-items`. Os seus valores principais são: `stretch`, `flex-start`, `flex-end`, `center`, e `baseline`.
+
+`stretch` é o valor padrão para `align-items`. Traduzindo para português, "_stretch_" significa "esticar". Então, por padrão, os elementos serão esticados para ocupar todo o espaço disponível no eixo transversal. Isso é muito útil quando queremos que todos os elementos tenham o mesmo tamanho quando o conteúdo interno deles é diferente.
+
+![Ilustração com exemplo de align-items stretch](/posts/introducao-flexbox/align-items-stretch.png)
+
+Com `flex-start`, todos os elementos do contêiner _flex_ se alinharão a partir do início do eixo transversal.
+
+![Ilustração com exemplo de align-items flex-start](/posts/introducao-flexbox/align-items-flex-start.png)
+
+Já o `flex-end` definirá que os elementos se alinhem a partir do final do eixo transversal.
+
+![Ilustração com exemplo de align-items flex-end](/posts/introducao-flexbox/align-items-flex-end.png)
+
+Usando o valor `center`, todos os elementos serão alinhados a partir do centro do eixo transversal.
+
+![Ilustração com exemplo de align-items center](/posts/introducao-flexbox/align-items-center.png)
+
+O valor `baseline` distribuirá os elementos de certa forma que seus _baselines_ se alinhem ao longo do eixo transversal.
+
+![Ilustração com exemplo de align-items baseline](/posts/introducao-flexbox/align-items-baseline.png)
+
+Neste artigo não cobriremos alguns dos [outros valores possíveis para `align-items`](https://developer.mozilla.org/pt-BR/docs/Web/CSS/align-items) como: `start`, `self-start`, `end`, `self-end`, e os modificadores `safe` e `unsafe`.
+
+### Alinhando o conteúdo no Flexbox com `align-content`
+
+Ao invés de alinhar os elementos, é possível também alinhar todo o conteúdo de um contêiner _flex_ no eixo transversal. A propriedade `align-content` é menos utilizada que a `align-items`, mas muito útil em situações em que o contêiner _flex_ tem um tamanho pré-definido (`100vh` por exemplo) e não sabemos com antecedência o tamanho de todos os elementos-filhos.
+
+O valor padrão para esta propriedade é `normal`, que funciona como se nenhum valor tivesse sido definido.
+
+Com `flex-start`, o conteúdo será alinhado ao início do eixo transversal. Já `flex-end` alinhará o conteúdo do contêiner _flex_ ao final. Usando `center`, o conteúdo será alinhado ao centro.
+
+![Ilustração com exemplo de align-content flex-start, flex-end e center](/posts/introducao-flexbox/align-content-flex-start-end-center.png)
+
+Também podemos utilizar o valor `space-between` para adicionar espaçamento entre as linhas de conteúdo, `space-around` para espaçamento ao redor destas linhas e `space-evenly` para espaçamento igual ao redor das linhas de conteúdo incluindo as pontas.
+
+![Ilustração com exemplo de align-content space-between, space-around e space-evenly](/posts/introducao-flexbox/align-content-space.png)
+
+O valor `stretch` fará com que as linhas de conteúdo se estiquem para tomar todo o espaço disponível no eixo transversal.
+
+![Ilustração com exemplo de align-content stretch](/posts/introducao-flexbox/align-content-stretch.png)
+
+Neste artigo não cobriremos alguns dos [outros valores possíveis para `align-content`](https://developer.mozilla.org/pt-BR/docs/Web/CSS/align-content) como: `start`, `end` e os modificadores `safe` e `unsafe`.
+
+### Usando `align-self` para alinhar elementos dentro de um contêiner flex
+
+Podemos também utilizar `align-self` em elementos _flex_ para alterar seu alinhamento no eixo transversal de forma independente.
+
+![Ilustração com exemplo de align-self](/posts/introducao-flexbox/align-self.png)
+
+A propriedade `align-self` recebe os mesmos valores que `align-items` ou `align-content`.
+
+## Quebrando o conteúdo em novas linhas ou colunas
+
+Por padrão, os elementos-filhos de um contêiner _flex_ serão dispostos ao longo dos eixos, sem quebrarem em novas linhas e colunas. Para controlar este comportamento, podemos utilizar a propriedade `flex-wrap`.
+
+O valor padrão para esta propriedade é `nowrap`, que define que os elementos serão dispostos em uma única linha.
+
+`wrap` definirá que os elementos irão ocupar novas linhas, em direção ao fim do eixo transversal.
+
+Já o valor `wrap-reverse` especifica que os elementos irão ocupar novas linhas em direção ao início do eixo transversal
+
+![Ilustração com exemplo de flex-wrap](/posts/introducao-flexbox/flex-wrap.png)
+
+## Definindo tamanhos flexíveis para os elementos _flex_
+
+Além de ferramentas para distribuir e alinhar elementos-filhos em um contêiner _flex_, o Flexbox também tem propriedades para auxiliar na definição do tamanho de elementos. Assim como o nome deixa a entender, o forte dessas propriedades é poder escolher valores flexíveis. Com `flex-grow`, `flex-shrink` e `flex-basis` aplicados a um elemento-filho _flex_, podemos controlar o seu tamanho dentro um contêiner _flex_ e como ele lida com a sobra ou falta de espaço.
+
+### A propriedade `flex-grow`
+
+A propriedade `flex-grow` recebe como valor um número que represente o "fator de crescimento". Esse número define como o elemento-filho reagirá à sobra de espaço em um contêiner _flex_. A sobra de espaço é calculada pelo o tamanho total do contêiner _flex_ menos o espaço base total ocupado pelos elementos-filhos. Por padrão, o valor de `flex-grow` é `0`.
+
+Para entender um pouco melhor como essa propriedade funciona na prática, vamos utilizar um exemplo. Em um contêiner _flex_ com `300px` de tamanho, temos três elementos-filhos com `100px` de tamanho. Os dois primeiros têm o valor de `flex-grow: 1` e o terceiro tem o valor de `flex-grow: 2`. Nesse exemplo, teríamos uma sobra de espaço de `200px` que seria distribuída entre os três elementos-filhos de acordo com os seus fatores, de forma que no final o espaço ocupado por eles seja igual ao tamanho do contêiner. Já que o terceiro elemento tem um fator de crescimento `2`, e os dois primeiros têm um fator de crescimento `1`, o terceiro elemento crescerá duas vezes mais do que os outros dois.
+
+![Ilustração com exemplo de flex-grow](/posts/introducao-flexbox/flex-grow.png)
+
+### A propriedade `flex-shrink`
+
+Assim como podemos tornar flexível o crescimento dos elementos-filhos, podemos também utilizar `flex-shrink` para definir os seus fatores de encolhimento.
+
+Quando faltar espaço em um contêiner _flex_, os seus elementos-filhos são encolhidos de acordo com o fator de encolhimento. Por padrão, o valor de `flex-shrink` é `1`.
+
+![Ilustração com exemplo de flex-shrink](/posts/introducao-flexbox/flex-shrink.png)
+
+### Controlando o tamanho de elementos com `flex-basis`
+
+O tamanho dos elementos em um contêiner _flex_ é calculado também de forma flexível. Por padrão, esse tamanho é calculado de acordo com o tamanho do conteúdo do elemento ou pelo seu `width` ou `height`. Esse valor padrão ajuda a pessoa desenvolvedora a criar interfaces que se adaptam ao tamanho do conteúdo, mas pode ser um tanto confuso para quem não espera esse comportamento
+
+![Ilustração com exemplo de flex-basis auto](/posts/introducao-flexbox/flex-basis-auto.png)
+
+A propriedade `flex-basis` pode ser alterada de seu valor padrão `auto` para qualquer unidade de medida de tamanho e porcentagem. Se o elemento tiver `width` ou `height` definidos e um `flex-basis` for definido, o valor de `flex-basis` tomará precedência no cálculo do tamanho base de um elemento _flex_.
+
+![Ilustração com exemplo de flex-basis com valores numéricos](/posts/introducao-flexbox/flex-basis-numero.png)
+
+## Ordenando elementos-filhos de um contêiner _flex_
+
+Outra propriedade que o Flexbox adicionou ao CSS foi a `order`, que controla a ordem dos elementos-filhos em um contêiner _flex_. Elementos em um contêiner serão ordenados de forma ascendente baseados no valor de `order` e sua posição no DOM.
+
+O valor padrão de `order` é `0`. Você pode definir `order` com qualquer número inteiro.
+
+![Ilustração com exemplo de order](/posts/introducao-flexbox/order.png)
+
+Vale alertar que a ordenação através de valores `order` não altera a ordenação desses elementos no DOM, o que cria uma diferença na ordem real dos elementos e sua ordem de exibição. Isso é um problema no uso da navegação por teclado, mas um problema ainda maior para usuários de softwares de leitura de tela. Evite utilizar `order` se a ordenação tiver efeitos hierárquicos que prejudicariam a acessibilidade do seu site.
+
+## Suporte em diferentes navegadores
+
+O Flexbox é suportado por grande parte dos navegadores. Mesmo assim, alguns bugs podem quebrar ou mudar o comportamento dos seus elementos de um navegador para outro. O projeto [flexbugs](https://github.com/philipwalton/flexbugs) possui uma lista de mais de 10 bugs, com dicas de como contorná-los.
+
+Fora estes bugs, você pode esperar que o seu site estilizado com Flexbox seja renderizado corretamente em todos os navegadores mais utilizados do mercado. O site Can I Use [lista o módulo CSS de Flexbox](https://caniuse.com/flexbox) como sendo suportado nos navegadores de mais de 97% dos usuários no mundo.
+
+## Continue aprendendo
+
+Todas essas ferramentas do módulo CSS Flexbox trouxeram uma quantidade enorme de controle e flexibilidade para estilizar componentes e layouts com CSS. Em breve escreveremos um outro post com exemplos práticos utilizando todas as propriedades que cobrimos nesta introdução. Por enquanto, você pode dar uma olhada no [Solved by Flexbox](https://philipwalton.github.io/solved-by-flexbox/) para ver como o Flexbox resolve problemas clássicos de layout ou então jogar o [Flexbox Froggy](https://flexboxfroggy.com/) para aprender na prática.
+
+Para escrever este post eu utilizei diversas referências, incluindo a especificação da W3. Para continuar aprendendo sobre Flexbox, recomendo:
+
+- [Conceitos básicos do Flexbox (developer.mozilla.org)](https://developer.mozilla.org/pt-BR/docs/Web/CSS/CSS_Flexible_Box_Layout/Conceitos_Basicos_do_Flexbox)
+- [A guide to Flexbox (css-tricks.com)](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
+- [What Happens When You Create A Flexbox Flex Container? (smashingmagazine.com)](https://www.smashingmagazine.com/2018/08/flexbox-display-flex-container/)
+- [CSS Flexible Box Layout Module Level 1 (w3.org)](https://www.w3.org/TR/css-flexbox-1/)
+
+_Obrigado Jonathan Zanella por toda a ajuda na revisão e edição deste post._

@@ -1,0 +1,439 @@
+---
+title: "Animação dos Stories do Instagram com CSS"
+description: "Siga este tutorial para criar a animação dos Stories do Instagram com CSS, incluindo dicas para criar elementos 3D com CSS."
+ogImage: "/posts/animacao-instagram-stories-com-css/social.png"
+date: "2021-06-08"
+authorName: "Hugo de Oliveira"
+authorImage: "/authors/hugo.png"
+---
+
+As animações de interação dos Stories do Instagram são icônicas. Desde que o Instagram passou a perna no Snapchat e implementou essa função, parece que quase todos os outros aplicativos seguiram a tendência. **Talvez** não seja uma boa ideia adicionar Stories no dashboard da firma, mas, se precisar, **aqui vai um tutorial de como criar a animação de transição dos Stories do Instagram usando CSS**.
+
+Interaja com [esse Codepen](https://codepen.io/hugobessaa/pen/RwpybKY) para ver como nosso projeto vai ficar no final. O que no final é um resultado bem simples, precisou de bastante investigação para chegar em uma solução menos complexa.
+
+<PostContentIframe height="720" scrolling="no" title="Instagram Stories com CSS (do zero)" src="https://codepen.io/hugobessaa/embed/RwpybKY?height=720&theme-id=dark&default-tab=result" frameBorder="no" loading="lazy" allowtransparency="true" allowFullScreen></PostContentIframe>
+
+Neste tutorial vamos falar sobre:
+
+- Variáveis no CSS;
+- `transform`, `rotate()` e `translate()` para transformar elementos;
+- Renderizar elementos em 3D e ajustar a perspectiva com `transform-style` e `perspective`;
+- Performance de animações e transições CSS;
+- Funções de timing e `cubic-bezier`.
+
+## Adicionando o HTML e CSS iniciais
+
+Vamos começar criando [um novo Codepen](https://pen.new/), com esse HTML:
+
+```html
+<div class="container">
+  <div class="screen" id="screen" tabindex="0" role="button">
+    <div class="stories">
+      <div class="cuboid">
+        <div class="face face--front"></div>
+        <div class="face face--right"></div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+E então usar esse CSS:
+
+```css
+body {
+  background: black;
+}
+
+.container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+```
+
+Nossa estrutura HTML é bastante simples. O `.container` centraliza os elementos, o `.screen` define os estilos da "tela", `.stories` contém os elementos que iremos animar, `.cuboid` é uma forma geométrica 3D e `face` são faces do cuboide com fotos.
+
+Neste tutorial não iremos criar uma animação responsiva, já que alguns cálculos ficariam muito mais complexos. Por isso, vamos definir duas variáveis de tamanho no CSS, `--width` e `--height`.
+
+```css
+:root {
+  --width: 300px;
+  --height: 600px;
+}
+```
+
+Com essas variáveis, agora podemos estilizar `.cuboid` e `.face`:
+
+```css
+.cuboid {
+  width: var(--width);
+  height: var(--height);
+  position: relative;
+}
+
+.face {
+  width: var(--width);
+  height: var(--height);
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 16px;
+}
+```
+
+Cada `.face` também tem sua própria classe (`.face--front`, `.face--right`), que iremos estilizar separadamente. Vamos começar definindo as imagens de fundo (com [fotos do nosso queridíssimo Willian Justen](https://unsplash.com/@willianjusten)):
+
+```css
+.face--front {
+  background: url("https://images.unsplash.com/photo-1562889858-6c5831947f72?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1567&q=80");
+  background-size: cover;
+  background-position: center;
+}
+
+.face--right {
+  background: url("https://images.unsplash.com/photo-1541447237128-f4cac6138fbe?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=918&q=80");
+  background-size: cover;
+  background-position: center;
+}
+```
+
+Com esse HTML e estilos CSS, já temos toda a base para criar a animação dos Stories do Instagram. O projeto agora está assim:
+
+![Captura de Tela da estrutura base para criar a animação de Stories do Instagram com CSS](/posts/animacao-instagram-stories-com-css/estrutura-base.png)
+
+## Criando as formas 3D dos elementos com `transform`
+
+Com o que temos até aqui, não dá para fazer nossa animação. Precisamos criar o cuboide. Essa é a forma 3D que vamos girar durante a animação, para mostrar que você está indo de um Story para o outro.
+
+![Exemplo da animação dos Stories do Instagram que queremos implementar com CSS](/posts/animacao-instagram-stories-com-css/exemplo-animacao-stories-instagram-com-css.png)
+
+Nós podemos usar a propriedade `transform` para manipular a posição de cada elemento em 3D. Dentro dela, podemos usar algumas funções de transformação, como [`translateZ`](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/translateZ) e [`rotateY`](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/rotateY).
+
+Por padrão, os elementos estão todos no mesmo plano. Isso quer dizer que eles serão renderizados em 2D, independentemente dos valores de `transform`. Para mudar isso, devemos usar [`transform-style: preserve-3d`](https://developer.mozilla.org/pt-BR/docs/Web/CSS/transform-style).
+
+Para criar nosso cuboide, vamos levar cada uma das faces para sua posição no campo 3D. A posição inicial do elemento `.cuboid` e suas `.face` será o centro da nossa forma geométrica 3D.
+
+Vamos começar aplicando uma transformação no elemento `.screen` para ser mais fácil de visualizar o que estamos construindo:
+
+```css
+.screen {
+  transform: rotateY(-30deg) rotateX(-10deg);
+  transform-style: preserve-3d;
+}
+```
+
+Agora, vamos girar a `.face--right` em 90 graus no eixo vertical para que ela fique perpendicular à `.face--front`. Como `rotateY(90deg)` gira a partir do centro do elemento, `.face--right` acaba cortando a face frontal ao meio. Para movê-la para a lateral, usaremos `transformZ()`.
+
+```css
+.face--right {
+  transform: rotateY(90deg) translateZ(calc(var(--width) / 2));
+  transform-style: preserve-3d;
+  /* ... */
+}
+```
+
+A `.face--front` já está apontando para o lado correto, mas precisamos levá-la para sua posição no eixo Z.
+
+```css
+.face--front {
+  transform: translateZ(calc(var(--width) / 2));
+  transform-style: preserve-3d;
+  /* ... */
+}
+```
+
+Nossos elementos agora estão na posição correta, mas falta um pouco de perspectiva para que `.cuboid` pareça um elemento 3D de verdade. Com CSS podemos [usar a propriedade `perspective` para definir a distância da perspectiva](#atom-adicionando-perspective-a-elementos-3d-css).
+
+```css
+.screen {
+  perspective: 1600px;
+  /* ... */
+}
+```
+
+A diferença é notável!
+
+![Diferença entre não usar perspective e aplicar perspective: 1600px em um elemento com CSS](/posts/animacao-instagram-stories-com-css/diferenca-perspective-css.png)
+
+Nesse tutorial, vamos trabalhar apenas com estas duas faces, mas você já pôde começar a entender como completaríamos todas as 6 faces do cuboide.
+
+## Animando nossos Stories
+
+Nosso tutorial é sobre usar CSS para criar uma animação, mas vamos precisar de JavaScript para definir a interação do usuário com os Stories.
+
+Cada vez que clicamos nos Stories, queremos mostrar o outro lado do cuboide. O código JavaScript abaixo vai adicionar a classe `screen--showing-right` ou `screen--showing-front` no elemento `.screen` cada vez que clicarmos nele.
+
+```js
+var screen = document.getElementById("screen");
+
+screen.addEventListener("click", function () {
+  if (screen.classList.contains("screen--showing-right")) {
+    screen.classList.add("screen--showing-front");
+    screen.classList.remove("screen--showing-right");
+  } else {
+    screen.classList.add("screen--showing-right");
+    screen.classList.remove("screen--showing-front");
+  }
+});
+```
+
+Com esse código, já podemos voltar para o CSS.
+
+Podemos definir a rotação do `.cuboid` com essas novas classes. Quando `.screen--showing-right` estiver presente, giraremos o elemento para mostrar a `.face--right`. Quando `.screen--showing-front` estiver presente, voltaremos a mostrar a `.face--front`. Para isso, só precisamos de `rotateY()`.
+
+Para animar a transição entre rotações diferentes, basta adicionar um `transition`.
+
+```css
+.cuboid {
+  transform: rotateY(0deg);
+  transform-style: preserve-3d;
+  transition: transform 0.4s;
+  /* ... */
+}
+
+.screen--showing-front .cuboid {
+  transform: rotateY(0deg);
+}
+
+.screen--showing-right .cuboid {
+  transform: rotateY(-90deg);
+}
+```
+
+Agora, quando clicamos nos Stories eles devem girar. Vamos comentar nossa transformação em `.screen` para ver tudo de frente:
+
+```css
+.screen {
+  perspective: 1600px;
+  /* transform: rotateY(-30deg) rotateX(-10deg); */
+  transform-style: preserve-3d;
+}
+```
+
+Dá uma olhada no que construimos até agora ([link do Codepen](https://codepen.io/hugobessaa/pen/xxqJLdB)):
+
+<PostContentIframe height="780" scrolling="no" title="Instagram Stories (parte 1)" src="https://codepen.io/hugobessaa/embed/xxqJLdB?height=780&theme-id=dark&default-tab=result" frameBorder="no" loading="lazy" allowtransparency="true" allowFullScreen></PostContentIframe>
+
+## Ajustando a animação em "tela cheia"
+
+Se o elemento `.screen` realmente fosse a tela de um celular, nada que estivesse além das suas bordas apareceria. Para simular isso, vamos adicionar `overflow: hidden`.
+
+```css
+.screen {
+  perspective: 1600px;
+  overflow: hidden;
+}
+```
+
+Nosso `.cuboid` agora está cortado, já que ocupa mais do que o espaço da tela. Isso acontece porque o centro dele está no mesmo plano Z que `.screen`, mas suas faces estão além.
+
+Para resolver isso, vamos empurrar todo o `.stories` para trás, usando um `translateZ()` negativo na mesma proporção que o `translateZ()` da `.face--front`.
+
+```css
+.stories {
+  transform: translateZ(calc(var(--width) / 2 * -1));
+  transform-style: preserve-3d;
+}
+```
+
+Estamos cada vez mais perto da versão final dessa animação, mas ainda temos um problema. O nosso `.cuboid` está sendo cortado. Para visualizar esse problema, vamos adicionar um código de depuração:
+
+```css
+.screen {
+  perspective: 1600px;
+  /* overflow: hidden; */
+
+  transform: rotateX(-40deg);
+  transform-style: preserve-3d;
+
+  position: relative;
+}
+
+.screen:before {
+  content: "";
+  display: block;
+  width: var(--width);
+  height: var(--height);
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translateZ(1px);
+  transform-style: preserve-3d;
+  background: repeating-linear-gradient(
+    45deg,
+    #805ad544,
+    #805ad544 10px,
+    #805ad5bb 10px,
+    #805ad5bb 20px
+  );
+}
+```
+
+Agora quando clicamos em `.screen`, nosso `.cuboid` gira e podemos ver que ele corta o plano Z de `.screen`.
+
+Usando a [ferramenta de Animation do Chrome DevTools](https://triangulo.dev/posts/atomo-ferramenta-animations-devtools), podemos também diminuir a velocidade da animação para 10%.
+
+<PostContentIframe height="720" scrolling="no" title="Instagram Stories (debug)" src="https://codepen.io/hugobessaa/embed/OJpwjgb?height=720&theme-id=dark&default-tab=result" frameBorder="no" loading="lazy" allowtransparency="true" allowFullScreen></PostContentIframe>
+
+Isso acontece porque o elemento `.cuboid` gira em torno do seu eixo Y central.
+
+A distância do centro de `.cuboid` para o centro de `.face--front` é a mesma distância que movemos `.stories` no eixo Z, o que fez com que `.face--front` ficasse alinhada com `.screen` (destacado em roxo no [Codepen de depuração acima](https://codepen.io/hugobessaa/pen/OJpwjgb)).
+
+Já a distância do centro `.cuboid` para a lateral de `.face--front` é **maior**. Enquanto giramos o cuboide, uma parte dele ultrapassa `.screen` e desaparece quando usamos `overflow: hidden`.
+
+Para resolver esse problema, **precisamos aumentar a distância de `.cuboid` para `.screen`** no eixo Z durante a transição.
+
+Sua cabeça já deve estar um pouco cheia, tentando entender tudo isso, então vou tentar simplificar. A distância do centro do cuboide para uma de uma de suas arestas verticais é 140,7% maior do que a distância para o centro de uma de suas faces verticais.
+
+Isso significa que precisamos nos distanciar 40,7% a mais o `.stories` de `.screen` no meio da transição e voltar para a distância original no final.
+
+![Cuboide atravessando o elemento .screen ao ser rotacionado](/posts/animacao-instagram-stories-com-css/cuboid-atravessando-screen.svg)
+
+Como transições no CSS não aceitam valores intermediários, precisaremos usar `animation`. Nesta animação, começaremos na distância que `.stories` já estava de `.screen`, aumentando para um valor 40,7% maior no meio da animação e terminando na distância que começamos.
+
+```css
+@keyframes translate-z-1 {
+  to,
+  from {
+    transform: translateZ(calc(var(--width) / 2 * -1));
+  }
+
+  50% {
+    transform: translateZ(calc(var(--width) / 2 * -1.407));
+  }
+}
+
+@keyframes translate-z-2 {
+  to,
+  from {
+    transform: translateZ(calc(var(--width) / 2 * -1));
+  }
+
+  50% {
+    transform: translateZ(calc(var(--width) / 2 * -1.407));
+  }
+}
+```
+
+Não existe uma forma de recomeçar uma animação CSS no clique sem escrever mais JavaScript, então precisamos mudar entre duas similares conforme mudamos as classes de `.screen`.
+
+Com essas animações no nosso CSS, basta usar `animation` em `.stories`:
+
+```css
+.screen--showing-front .stories {
+  animation: translate-z-1 0.4s;
+}
+
+.screen--showing-right .stories {
+  animation: translate-z-2 0.4s;
+}
+```
+
+Quase lá.
+
+Agora, `.cuboid` atravessa menos `.screen`, mas ainda atravessa. Além disso, no final da animação `.cuboid` parece se afastar mais do que deveria da tela.
+
+![Story ainda atravessando .screen](/posts/animacao-instagram-stories-com-css/story-ainda-atravessando-screen.png)
+
+Lá vamos nós de novo para a trigonometria. Por padrão, os valores das propriedades durante a animação mudam de acordo com o que chamamos de **função de timing**. Com uma função de timing podemos alterar a mudança para ser linear, suave, abrupta ou seguir curvas de diferentes funções matemáticas.
+
+Se não definirmos a [`animation-timing-function`](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-timing-function), ela será `ease`. Além das funções pré-definidas (`ease`, `ease-in-out`, `steps()`), podemos usar `cubic-bezier()` para definir a curva dos valores.
+
+Fique a vontade para explorar [`cubic-bezier()` no MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/Tools/Cubic_Bezier_Generator) e entender como funciona.
+
+A distância que precisamos nos afastar de `.screen` muda no ritmo de uma curva de função de seno. Lembra de seno? Bom, deve ser suficiente para você saber que podemos expressar essa curva com ` cubic-bezier(0.37, 0, 0.63, 1)` (retirado de [easings.net](https://easings.net/#easeInOutSine)).
+
+Então, vamos adicionar essa função de timing em todas as nossas animações e transições:
+
+```css
+.screen--showing-front .stories {
+  animation: translate-z-1 0.4s cubic-bezier(0.37, 0, 0.63, 1);
+}
+
+.screen--showing-right .stories {
+  animation: translate-z-2 0.4s cubic-bezier(0.37, 0, 0.63, 1);
+}
+
+.cuboid {
+  transform: rotateY(0deg);
+  transform-style: preserve-3d;
+  transition: transform 0.4s cubic-bezier(0.37, 0, 0.63, 1);
+
+  width: var(--width);
+  height: var(--height);
+  position: relative;
+}
+```
+
+**Essa foi a última lição de trigonometria deste post**.
+
+Dá uma olhada no que construimos até agora, [neste Codepen](https://codepen.io/hugobessaa/pen/wvJxqPd):
+
+<PostContentIframe height="720" scrolling="no" title="Instagram Stories (parte 2)" src="https://codepen.io/hugobessaa/embed/wvJxqPd?height=720&theme-id=dark&default-tab=result" frameBorder="no" loading="lazy" allowtransparency="true" allowFullScreen></PostContentIframe>
+
+## Toques finais para uma animação de Stories perfeita
+
+A nossa animação agora está praticamente perfeita. Vamos remover o código de `.stories:before` e simplificar os estilos de `.screen`:
+
+```css
+.screen {
+  perspective: 1600px;
+  overflow: hidden;
+}
+```
+
+O toque que precisamos é escurecer as `.face` que não estarão mais de frente durante a transição. Faremos isso com `opacity`.
+
+```css
+.face {
+  /* ...  */
+  transition: opacity 0.4s;
+}
+
+.screen--showing-right .face--front {
+  opacity: 0.5;
+}
+
+.screen--showing-front .face--right {
+  opacity: 0.5;
+}
+```
+
+Para finalizar, vamos esconder a parte de tras das `.face` durante a transição
+
+```css
+.face {
+  /* ...  */
+  backface-visibility: hidden;
+}
+```
+
+Pronto! Nossa animação está completa.
+
+## Animação Stories completa e o que aprendemos até aqui
+
+Sem mais delongas, aqui está o Codepen com a animação completa do Stories do Instagram feita _quase só_ com CSS.
+
+<PostContentIframe height="720" scrolling="no" title="Instagram Stories com CSS (do zero)" src="https://codepen.io/hugobessaa/embed/RwpybKY?height=720&theme-id=dark&default-tab=result" frameBorder="no" loading="lazy" allowtransparency="true" allowFullScreen></PostContentIframe>
+
+Para chegar até aqui, precisamos aprender sobre:
+
+- Eixos de transformação do `translate()` e `rotate()`;
+- Elementos em 3D com `transform-style: preserve-3d` e `perspective`;
+- Animações e transições;
+- Funções de Timing;
+- `backface-visibility`.
+
+Com esse conhecimento, podemos usar um pouco de JavaScript para transformar esse protótipo em um componente real em uma webapp, ou ir mais além e criar novas interações em 3D em nossos projetos.
+
+Como animamos apenas `transform` e `opacity`, essas animações rodam muito bem em quase todos os dispositivos.
+
+Se você quiser continuar aprendendo sobre animações, recomendo outros dois posts aqui do Triângulo:
+
+- [Criando animações perfeitas com CSS animation e transition](https://triangulo.dev/posts/criando-animacoes-perfeitas-com-css)
+- [Analisando a Performance de Animações CSS com o DevTools](https://triangulo.dev/posts/analisando-performance-chrome-devtools)
+
+Bons estudos.

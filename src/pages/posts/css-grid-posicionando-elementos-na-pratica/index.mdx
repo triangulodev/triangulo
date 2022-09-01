@@ -1,0 +1,165 @@
+---
+title: "CSS Grid: posicionando elementos no grid, na prática"
+description: "Aprenda a utilizar grid-column e grid-row para posicionar elementos com CSS Grid."
+ogImage: "/posts/css-grid-posicionando-elementos-na-pratica/social.png"
+date: "2021-10-25"
+authorName: "Hugo de Oliveira"
+authorImage: "/authors/hugo.png"
+---
+
+No post anterior dessa série, [aprendemos o básico que precisamos saber sobre CSS Grid](/posts/css-grid-o-que-voce-precisa-saber) para usá-lo em nossos projetos. Agora, vamos nos aprofundar em como posicionar elementos em um contêiner grid (elemento com `display: grid`).
+
+## Definindo a posição de um elemento no contêiner grid
+
+Além de definir o tamanho e quantidade de linhas e colunas em um contêiner grid, nós podemos **definir a posição de cada elemento** separadamente.
+
+Usando `grid-column` e `grid-row`, podemos definir em qual coluna ou linha um item começa e termina.
+
+Para começar nossos exemplos, vamos criar uma `div` com a classe `container` com seis elementos dentro:
+
+```html
+<div class="container">
+  <div class="item item-1">Um</div>
+  <div class="item item-2">Dois</div>
+  <div class="item item-3">Três</div>
+  <div class="item item-4">Quatro</div>
+  <div class="item item-5">Cinco</div>
+  <div class="item item-6">Seis</div>
+</div>
+```
+
+Para distribuir esses elementos, eu vou criar algumas linhas e colunas com `grid-template-columns` e `grid-template-rows`.
+
+```css
+.container {
+  display: grid;
+  grid-template-rows: 100px 200px 100px;
+  grid-template-columns: 100px 200px 200px;
+
+  background: #fff6fa;
+  width: max-content; /* impede que o contêiner seja maior que o tamanho do seu conteúdo. */
+  gap: 10px;
+}
+
+.item {
+  background: #b688e0;
+  color: #6e33a6;
+}
+```
+
+O resultado é um contêiner grid com três linhas e três colunas.
+
+![Exemplo de um grid com 3 linhas e 3 colunas, mas apenas 6 elemento](/posts/css-grid-posicionando-elementos-na-pratica/exemplo-grid-seis.svg)
+
+Algumas das células disponíveis no nosso contêiner não foram preenchidas, já que por padrão cada elemento vai ocupar uma célula por vez.
+
+Usando `grid-row`, podemos mudar a posição de um elemento como o `.item-1` para qualquer linha.
+
+```css
+.item-1 {
+  grid-row: 2;
+  background: #5ed4b9; /* apenas para destacar o item-1 */
+}
+```
+
+Ao usar `grid-row: 2`, o elemento `.item-1` será posicionado na segunda linha. Na imagem a seguir, os números das linhas e das colunas estão marcados para entendermos onde cada uma está.
+
+![Exemplo de um grid com 3 linhas e 3 colunas e item-1 com grid-row: 2](/posts/css-grid-posicionando-elementos-na-pratica/exemplo-grid-row.svg)
+
+Você pode perceber que os outros items do grid também mudaram de posição. Por padrão o valor de `grid-row` e `grid-column` é `auto`, o que significa que o algoritmo por trás do posicionamento dos elementos decidirá onde cada um será posicionado, tentando não deixar espaços em branco.
+
+## Elementos que ocupam mais de uma linha ou coluna no contêiner grid
+
+Além de receber o número da linha ou coluna, as propriedades `grid-row` e `grid-column` também podem receber valores como `1 / 3` ou `2 / 4`. Estes valores definem o número da linha/coluna em que o elemento começa e termina.
+
+```css
+.item-1 {
+  grid-row: 1 / 3;
+  background: #5ed4b9; /* apenas para destacar o item-1 */
+}
+```
+
+![Exemplo de um grid com 3 linhas e 3 colunas e item-1 com grid-row: 1 / 3](/posts/css-grid-posicionando-elementos-na-pratica/exemplo-grid-row-2.svg)
+
+Podemos usar `grid-row` e `grid-column` ao mesmo tempo para posicionar elementos com mais precisão.
+
+```css
+.item-1 {
+  grid-row: 2;
+  grid-column: 1 / 4;
+  background: #5ed4b9; /* apenas para destacar o item-1 */
+}
+```
+
+![Exemplo de um grid com 3 linhas e 3 colunas e item-1 com grid-row: 2 e grid-column: 1 / 4;](/posts/css-grid-posicionando-elementos-na-pratica/exemplo-grid-row-e-column.svg)
+
+Dica: Escrever `grid-column: 1 / 4` é a forma abreviada de usar as propriedades `grid-column-start` e `grid-column-end` — assim como `grid-row` abrevia `grid-row-start` e `grid-row-end`.
+
+Para facilitar ainda mais a nossa vida, essas propriedades também recebem números negativos. Números negativos significam que contar as linhas/colunas de trás pra frente. `-1` é a última, `-2` a penúltima...
+
+```css
+.item-1 {
+  grid-column: 1 / -1;
+  background: #5ed4b9; /* apenas para destacar o item-1 */
+}
+```
+
+![Exemplo de um grid com 3 linhas e 3 colunas e item-1 com grid-column: 1 / -1;](/posts/css-grid-posicionando-elementos-na-pratica/exemplo-grid-column-negativo.svg)
+
+Essas propriedades tornam possível a criação de layouts bastante complexos com CSS Grid. A flexibilidade em tamanho de linhas e colunas, junto com a possibilidade de definir a posição de um elemento no contêiner grid abre um mar gigantesco de oportunidades que não existem em outras formas de criar layouts com CSS.
+
+## Usando span em grid-column e grid-row
+
+Além de valores absolutos, `grid-column` e `grid-row` também podem receber valores de `span`, que significa distância em inglês.
+
+Um uso comum para `span` é definir que um elemento do contêiner grid deve ocupar uma certa quantidade de colunas:
+
+```css
+.item-1 {
+  grid-column: span 2;
+  background: #5ed4b9; /* apenas para destacar o item-1 */
+}
+```
+
+![Exemplo de um grid com 3 linhas e 3 colunas e item-1 com grid-column: span 2;](/posts/css-grid-posicionando-elementos-na-pratica/exemplo-grid-column-span.svg)
+
+O `span` também pode ser utilizado como valor de `grid-column-start` ou `grid-column-end`. Nesses casos, `span` definirá a quantidade de linhas/colunas que o elemento ocupará e onde ele começará/terminará.
+
+![Exemplo de um grid com 3 linhas e 3 colunas e item-1 com grid-column e grid-row com span](/posts/css-grid-posicionando-elementos-na-pratica/exemplo-grid-column-e-row-span.svg)
+
+## Sobrepondo elementos em um contêiner grid
+
+Usando `grid-column` e `grid-row`, conseguimos também sobrepor elementos em um contêiner grid. Essa técnica é incrível.
+
+Para sobrepor elementos, você deve definir a posição dos elementos que quiser sobrepor no contêiner grid. Aqui vai um exemplo:
+
+```css
+.item-1 {
+  grid-column: 1 / span 2;
+  grid-row: 1 / span 3;
+}
+
+.item-3 {
+  grid-column: 2 / span 2;
+  grid-row: 2;
+  background: #5ed4b9; /* apenas para destacar o item-3 */
+}
+```
+
+![Exemplo de um grid com 3 linhas e 3 colunas e item-3 sobrepondo o item-1](/posts/css-grid-posicionando-elementos-na-pratica/exemplo-css-grid-sobreposicao.svg)
+
+Em vez de sobrepor elementos com `position: absolute` e posicionamento manual, sobrepô-los com CSS Grid garante que você possa aplicar todas as técnicas de alinhamento e posicionamento que vêm com essa forma de criar layouts.
+
+Assim fica fácil sobrepor elementos em layouts responsivos e que se adaptam ao conteúdo.
+
+## Continue aprendendo
+
+Agora você já sabe posicionar elementos em um contêiner grid. Esse post faz parte de uma série sobre CSS Grid:
+
+- [CSS Grid: o básico que você precisa saber (com exemplos)](/posts/css-grid-o-que-voce-precisa-saber);
+- [CSS Grid: posicionando elementos, na prática](/posts/css-grid-posicionando-elementos-na-pratica);
+- [CSS Grid: alinhando elementos (com exemplos)](/posts/css-grid-alinhando-elementos-na-pratica);
+- [Criando layouts responsivos com CSS Grid](/posts/criando-layouts-responsivos-css-grid);
+- [Usando grid-template-areas para criar layouts no CSS Grid](/posts/usando-grid-template-areas-no-css-grid);
+
+Bons estudos!

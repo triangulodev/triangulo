@@ -1,0 +1,211 @@
+---
+title: "CSS Grid: alinhando elementos (com exemplos)"
+description: "Descubra como alinhar seus elementos com CSS Grid, a ferramenta de layout mais poderosa do CSS."
+ogImage: "/posts/css-grid-alinhando-elementos-na-pratica/social.png"
+date: "2021-10-25"
+authorName: "Hugo de Oliveira"
+authorImage: "/authors/hugo.png"
+---
+
+Nós temos diversas formas de **alinhar elementos em um contêiner grid**. Vamos aprender na prática como usar cada uma das propriedades disponíveis, com exemplos fáceis de entender.
+
+Antes, a gente precisa saber o que é cada parte do grid:
+
+![Explicação de cada parte de um CSS Grid](/posts/css-grid-alinhando-elementos-na-pratica/partes-de-um-css-grid.svg)
+
+- **Contêiner grid**: Elemento com `display: grid` ou `display: inline-grid`. É o elemento pai dos itens grid.
+- **Item grid**: Elementos que são filhos diretos de um contêiner grid.
+- **Linha do grid**: Linhas que ficam entre linhas e colunas do grid.
+- **Célula do grid**: A unidade básica do grid, a interseção entre uma linha e uma coluna do grid.
+- **Trilhas do grid**: Espaço entre duas linhas do grid, representando uma coluna ou linha.
+- **Área do grid**: Espaço entre quatro linhas do grid. Pode representar múltiplas linhas e colunas.
+- **Eixo block**: Eixo em que os itens são adicionados. Por padrão, esse é ao longo de uma coluna.
+- **Eixo inline**: Eixo na direção oposta do eixo block. Geralmente também é o eixo que fica na direção do texto.
+
+Agora, vamos entender cada uma das propriedades de alinhamento:
+
+## Alinhando os itens do grid com align-items e justify-items
+
+### justify-items
+
+As vezes os itens grid são menores do que o espaço disponível na célula. A propriedade `justify-items` alinha todos os **itens grid** ao longo do **eixo inline**.
+
+![Exemplos de valores para justify-items, stretch, start, end e center](/posts/css-grid-alinhando-elementos-na-pratica/justify-items-valores.svg)
+
+- `justify-items: stretch`, o valor padrão, define que os itens grid preencherão todo o comprimento da célula. Apenas as células grid que contém tamanhos `auto` serão redimensionadas.
+- `justify-items: start`, define que os itens grid serão alinhados a partir do começo do eixo inline.
+- `justify-items: end`, define que os itens grid serão alinhados a partir do final do eixo inline.
+- `justify-items: center`, alinha os itens grid ao centro do eixo inline.
+
+### align-items
+
+Parecido com a `justify-items`, a propriedade `align-items` alinha todos os **itens grid** que são menores do que o espaço disponível em suas células ao longo do **eixo block**.
+
+![Exemplos de valores para align-items, stretch, start, end e center](/posts/css-grid-alinhando-elementos-na-pratica/align-items-valores.svg)
+
+- `align-items: stretch`, o valor padrão, define que os itens grid preencherão toda a altura da célula. Apenas as células grid que contém tamanhos `auto` serão redimensionadas.
+- `align-items: start`, define que os itens grid serão alinhados a partir do começo do eixo block.
+- `align-items: end`, define que os itens grid serão alinhados a partir do final do eixo block.
+- `align-items: center`, alinha os itens grid ao centro do eixo block.
+
+### place-items
+
+A propriedade `place-items` nos ajuda a definir `align-items` e `justify-items` ao mesmo tempo. Você pode usar apenas um valor como `start` ou passar valores do formato `<align-items> / <justify-items>`.
+
+```css
+.grid-1 {
+  display: grid;
+  place-items: center;
+
+  /* é como escrever: */
+  align-items: center;
+  justify-items: center;
+}
+
+.grid-2 {
+  display: grid;
+  place-items: start / end;
+
+  /* é como escrever: */
+  align-items: start;
+  justify-items: end;
+}
+```
+
+![Exemplos de valores para place-items: center e start / end](/posts/css-grid-alinhando-elementos-na-pratica/place-items-valores.svg)
+
+## Alinhando o conteúdo do grid com justify-content e align-content
+
+### justify-content
+
+A propriedade `justify-content` alinha todo o conteúdo de um contêiner grid ao longo do eixo inline, o que é bem útil quando o conteúdo não preenche todo o espaço dentro do contêiner.
+
+- `justify-content: stretch`, o valor padrão, define que os itens grid serão redimensionados para preencher todo o contêiner grid no eixo inline. Apenas as células grid que contém tamanhos `auto` serão redimensionadas.
+- `justify-content: start`, define que o conteúdo do grid será alinhado ao começo do eixo inline.
+- `justify-content: end`, define que o conteúdo do grid será alinhado ao final do eixo inline.
+- `justify-content: center`, centraliza o conteúdo do grid no eixo inline.
+
+![Exemplos de valores para justify-content, stretch, start, end e center](/posts/css-grid-alinhando-elementos-na-pratica/justify-content-valores.svg)
+
+Para espaçar o conteúdo, também temos:
+
+- `justify-content: space-between`: adiciona espaço entre os itens e nenhum espaço nas extremidades.
+- `justify-content: space-around`: adiciona um espaço igual entre os itens e metade do espaço nas extremidades.
+- `justify-content: space-evenly`: adiciona um espaço igual entre os itens e nas extremidades.
+
+![Exemplos de valores para justify-content: space-between, space-around, space-evenly](/posts/css-grid-alinhando-elementos-na-pratica/justify-content-space-valores.svg)
+
+### align-content
+
+A propriedade `align-content` modifica o alinhamento do conteúdo de um contêiner grid quando ele é menor do que o espaço disponível no eixo block.
+
+Os valores que podemos usar são:
+
+- `align-content: stretch`, o valor padrão, define que os itens grid serão redimensionados para preencher todo o contêiner grid no eixo block. Apenas as células grid que contém tamanhos `auto` serão redimensionadas.
+- `align-content: start`, define que o conteúdo do grid será alinhado ao começo do eixo block.
+- `align-content: end`, define que o conteúdo do grid será alinhado ao final do eixo block.
+- `align-content: center`, centraliza o conteúdo do grid no eixo block.
+
+![Exemplos de valores para align-content, stretch, start, end e center](/posts/css-grid-alinhando-elementos-na-pratica/align-content-valores.svg)
+
+Para espaçar o conteúdo no eixo block, também temos:
+
+- `align-content: space-between`: adiciona espaço entre os itens e nenhum espaço nas extremidades.
+- `align-content: space-around`: adiciona um espaço igual entre os itens e metade do espaço nas extremidades.
+- `align-content: space-evenly`: adiciona um espaço igual entre os itens e nas extremidades.
+
+![Exemplos de valores para align-content: space-between, space-around, space-evenly](/posts/css-grid-alinhando-elementos-na-pratica/align-content-space-valores.svg)
+
+### place-content
+
+A propriedade `place-content` é um atalho para definir `align-content` e `justify-content` ao mesmo tempo. Você pode usar apenas um valor como `start` ou passar valores do formato `<align-content> / <justify-content>`.
+
+```css
+.grid-1 {
+  display: grid;
+  place-content: center;
+
+  /* é como escrever: */
+  align-content: center;
+  justify-content: center;
+}
+
+.grid-2 {
+  display: grid;
+  place-content: stretch / end;
+
+  /* é como escrever: */
+  align-content: stretch;
+  justify-content: end;
+}
+```
+
+![Exemplos de valores para place-content: center e stretch / end](/posts/css-grid-alinhando-elementos-na-pratica/place-content-valores.svg)
+
+## Definindo o alinhamento de um item no grid com justify-self e align-self
+
+Para as vezes que queremos mudar o alinhamento apenas de um item grid, podemos usar `justify-self`, `align-self` e `place-self`. Essas propriedades são aplicadas no item grid.
+
+### justify-self
+
+- `justify-self: stretch`, define que o item preencherá o comprimento da célula. Apenas as células grid que contém tamanhos `auto` serão redimensionadas.
+- `justify-self: start`, move o item para o começo da célula no eixo inline.
+- `justify-self: end`, move o item para o final da célula no eixo inline.
+- `justify-self: center`, centraliza o item na célula no eixo inline.
+
+![Exemplos de valores para justify-self: stretch, start, end e center](/posts/css-grid-alinhando-elementos-na-pratica/justify-self-valores.svg)
+
+### align-self
+
+- `align-self: stretch`, define que o item preencherá a altura da célula. Apenas as células grid que contém tamanhos `auto` serão redimensionadas.
+- `align-self: start`, move o item para o começo da célula no eixo block.
+- `align-self: end`, move o item para o final da célula no eixo block.
+- `align-self: center`, centraliza o item na célula no eixo block.
+
+![Exemplos de valores para align-self: stretch, start, end e center](/posts/css-grid-alinhando-elementos-na-pratica/align-self-valores.svg)
+
+### place-self
+
+A propriedade `place-self` é um atalho para definir `align-self` e `justify-self` ao mesmo tempo. Você pode usar apenas um valor como `start` ou passar valores do formato `<align-self> / <justify-self>`.
+
+```css
+.grid {
+  display: grid;
+}
+
+.item-1 {
+  place-self: center;
+
+  /* é como escrever: */
+  align-self: center;
+  justify-self: center;
+}
+
+.item-2 {
+  place-self: stretch / end;
+
+  /* é como escrever: */
+  align-self: stretch;
+  justify-self: end;
+}
+```
+
+![Exemplos de valores para place-self: center e stretch / end](/posts/css-grid-alinhando-elementos-na-pratica/place-self-valores.svg)
+
+## Continue aprendendo
+
+O CSS Grid é uma ferramenta muito poderosa para criar layouts em duas dimensões. Neste artigo exploramos apenas uma pequena parte de todas as suas capacidades. Acompanhe os posts dessa série:
+
+- [CSS Grid: o básico que você precisa saber (com exemplos)](/posts/css-grid-o-que-voce-precisa-saber);
+- [CSS Grid: posicionando elementos, na prática](/posts/css-grid-posicionando-elementos-na-pratica);
+- [CSS Grid: alinhando elementos (com exemplos)](/posts/css-grid-alinhando-elementos-na-pratica);
+- [Criando layouts responsivos com CSS Grid](/posts/criando-layouts-responsivos-css-grid);
+- [Usando grid-template-areas para criar layouts no CSS Grid](/posts/usando-grid-template-areas-no-css-grid);
+
+Alguns destes artigos ainda não foram publicados, então inscreva-se na newsletter do Triângulo para receber atualizações.
+
+Para ir ainda mais a fundo sobre o alinhamento com CSS Grid, leia [Box alignment in CSS Grid Layout (developer.mozilla.org)](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Box_Alignment_in_CSS_Grid_Layout). A especificação [CSS Box Alignment Module Level 3 (w3.org)](https://www.w3.org/TR/css-align-3/) também pode ser útil para ter certeza de como funciona cada uma das propriedades e seus valores.
+
+Outro excelente guia sobre CSS Grid, que me ajudou bastante quando eu estava aprendendo é o [Complete Guide to Grid (css-tricks.com)](https://css-tricks.com/snippets/css/complete-guide-grid/).
+
+Nosso Guia de Estudos CSS também conta com uma [seção dedicada para o CSS Grid](https://trello.com/c/Vf40uwRL/13-css-grid). Bons estudos!

@@ -1,0 +1,293 @@
+---
+title: "CSS Grid: o básico que você precisa saber (com exemplos)"
+description: "CSS Grid é a ferramenta mais poderosa para criar layouts com CSS. Aprenda como utilizá-la com exemplos práticos e visuais."
+ogImage: "/posts/css-grid-o-que-voce-precisa-saber/social.png"
+date: "2020-11-09T19:04:00-03:00"
+authorName: "Hugo de Oliveira"
+authorImage: "/authors/hugo.png"
+---
+
+Hoje usamos CSS para estilizar layouts muito diferentes do que imaginávamos na época que a web foi criada. De tabelas para divs, de floats para Flexbox, as ferramentas disponíveis para criarmos layouts na web evoluíram muito desde os anos 90. Agora, CSS Grid já é suportado em todos os navegadores mais atuais e podemos dizer com segurança que esse é o método de layout mais poderoso que já foi adicionado ao CSS.
+
+O CSS Grid, ao contrário da maioria das outras técnicas para construir layouts, foi criado especificamente para possibilitar os layouts em duas dimensões (2D) que queremos implementar em nossos sites. Juntando cada uma das novas propriedades adicionadas ao CSS, podemos escrever um código de estilos muito claro e intencional. Além disso, os novos conceitos adicionados nos permitem implementar alguns layouts bastante complexos sem perdermos a cabeça ou usarmos vários hacks.
+
+Para criar um contêiner grid, basta usar `display: grid`. Em um contêiner grid, todos os seus filhos diretos se tornam itens grid. Com um contêiner grid em mãos podemos começar a criar layouts usando colunas e linhas.
+
+Neste primeiro exemplo, criaremos uma `div` com a classe `container` com seis elementos dentro.
+
+```html
+<div class="container">
+  <div>Um</div>
+  <div>Dois</div>
+  <div>Três</div>
+  <div>Quatro</div>
+  <div>Cinco</div>
+  <div>Seis</div>
+</div>
+```
+
+Usando `display: grid`, transformaremos esta `div` em um contêiner grid.
+
+```css
+.container {
+  display: grid;
+}
+```
+
+Agora, cada um dos seis elementos que estão dentro do nosso contêiner são itens grid. Por padrão, temos apenas uma coluna, acompanhada de linhas criadas automaticamente para cada elemento. Nada muito diferente do que veríamos em uma `div` normal.
+
+![Grid com valores padrão](/posts/css-grid-o-que-voce-precisa-saber/grid-com-valores-padrao.svg)
+
+## Trabalhando com colunas usando grid-template-columns
+
+Para criar colunas, usaremos a propriedade `grid-template-columns`, que recebe os valores de tamanho de cada coluna separados por espaço. Podemos, por exemplo, criar duas colunas com `200px` cada.
+
+```css
+.container {
+  display: grid;
+  grid-template-columns: 200px 200px;
+}
+```
+
+Agora, todos os nossos elementos estarão distribuídos entre duas colunas de um tamanho fixo. Usando `grid-template-columns` podemos implementar muitos outros layouts, misturando diferentes valores de tamanho.
+
+![Contêiner grid com grid-template-columns: 200px 200px](/posts/css-grid-o-que-voce-precisa-saber/grid-template-columns-200-200.svg)
+
+Podemos, por exemplo, criar um layout em que a primeira coluna ocupa um espaço fixo e a segunda ocupa todo o resto do espaço disponível. Isto é possível usando a unidade `fr`, introduzida exatamente para ser utilizada como valor de tamanho para linhas e colunas em contêineres grid.
+
+```css
+.container {
+  display: grid;
+  width: 500px;
+  grid-template-columns: 150px 1fr;
+}
+```
+
+![Contêiner grid com grid-template-columns: 150px 1fr](/posts/css-grid-o-que-voce-precisa-saber/grid-template-columns-150-1fr.svg)
+
+A unidade `fr` representa uma **fr**ação do espaço livre disponível em uma linha ou coluna. Podemos misturar diversos valores `fr` para formar layouts automáticos que respeitam certas proporções.
+
+```css
+.container {
+  display: grid;
+  width: 500px;
+  grid-template-columns: 2fr 1fr;
+}
+```
+
+No exemplo acima, todo o espaço disponível será dividido entre duas colunas: a primeira terá o tamanho de 2/3 o espaço total disponível e a segunda 1/3.
+
+![Contêiner grid com `grid-template-columns: 2fr 1fr`](/posts/css-grid-o-que-voce-precisa-saber/grid-template-columns-2fr-1fr.svg)
+
+## Criando linhas com CSS Grid (grid-template-rows)
+
+Até agora trabalhamos apenas com colunas. Mas o real poder do CSS Grid se mostra quando usamos linhas e colunas em conjunto.
+
+Para definir linhas no CSS Grid podemos usar a propriedade `grid-template-rows`. Da mesma forma que declaramos colunas com `grid-template-columns`, declararemos linhas usando valores separados por espaço.
+
+```css
+.container {
+  display: grid;
+  height: 300px;
+  grid-template-rows: 3fr 1fr 3fr;
+}
+```
+
+```html
+<div class="container">
+  <div>Um</div>
+  <div>Dois</div>
+  <div>Três</div>
+</div>
+```
+
+Dentro do nosso contêiner grid agora teremos 3 linhas declaradas com os valores de `3fr`, `1fr` e `3fr`. Assim como nossas colunas, o tamanho das linhas que acabamos de criar no nosso contêiner grid preenchem o espaço disponível proporcionalmente.
+
+Juntando `grid-template-columns` com `grid-template-rows`, criaremos nosso primeiro contêiner grid em duas dimensões.
+
+```css
+.container {
+  display: grid;
+  width: 500px;
+  height: 300px;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 1fr 50px 1fr;
+}
+```
+
+```html
+<div class="container">
+  <div>Um</div>
+  <div>Dois</div>
+  <div>Três</div>
+  <div>Quatro</div>
+  <div>Cinco</div>
+  <div>Seis</div>
+</div>
+```
+
+![Contêiner grid com duas colunas e três linhas](/posts/css-grid-o-que-voce-precisa-saber/grid-template-columns-rows.svg)
+
+Agora temos a combinação de duas colunas de tamanhos `2fr` e `1fr` com três linhas de tamanhos `1fr`, `100px` e `1fr`. Com apenas três declarações CSS, conseguimos criar um layout altamente flexível e bastante difícil de replicar com qualquer outra técnica CSS. **É na combinação de colunas, linhas e tamanhos flexíveis que CSS Grid se destaca de tudo o que já existiu** e põe na mão das pessoas que desenvolvem um poder imenso para criar layouts.
+
+## Adicionando espaço entre itens grid com gap
+
+Mas… e se quiséssemos adicionar um espaço entre todas essas linhas e colunas? Normalmente conhecido como “gutter”, esse espaço pode ser declarado usando a propriedade `gap`.
+
+```css
+.container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 1fr 100px 1fr;
+  gap: 20px;
+}
+```
+
+`gap` é uma forma abreviada de declarar os valores de `row-gap` (que define o espaço entre linhas) e `column-gap` (que define o espaço entre colunas). Para declarar valores diferentes podemos adicionar um segundo valor de tamanho (`gap: 20px 10px`) ou então escrever `row-gap: 20px` e `column-gap: 10px` separadamente.
+
+```css
+.container {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: 1fr 100px 2fr;
+
+  gap: 20px 10px;
+  /* ou então */
+  row-gap: 20px;
+  column-gap: 10px;
+}
+```
+
+![Contêiner grid com `gap: 20px 10px;`](/posts/css-grid-o-que-voce-precisa-saber/gap-20px-10px.svg)
+
+Usando apenas essas três propriedades, podemos implementar uma quantidade gigantesca de interfaces de usuário que antes envolveriam muito mais trabalho manual.
+
+# Explorando a grid implícita com grid-auto-rows e grid-auto-columns
+
+Nem sempre todo o conteúdo de um contêiner grid será previsível. E se tivéssemos uma lista dinâmica? Começaremos vendo o que acontece quando temos mais itens do que o nosso conjunto de linhas e colunas comporta.
+
+```html
+<div class="container">
+  <div>Um</div>
+  <div>Dois</div>
+  <div>Três</div>
+  <div>Quatro</div>
+  <div>Cinco</div>
+  <div>Seis</div>
+
+  <!-- elementos extra -->
+  <div>Sete</div>
+  <div>Oito</div>
+  <div>Nove</div>
+</div>
+```
+
+```css
+.container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 1fr 100px 1fr;
+  gap: 10px;
+}
+```
+
+![Elementos "Sete", "Oito" e "Nove" na grid implícita](/posts/css-grid-o-que-voce-precisa-saber/grid-implicita.svg)
+
+Os elementos “Sete”, “Oito” e “Nove” continuam organizados em colunas como os anteriores, mas eles já não seguem as mesmas regras para o tamanho das linhas. Isso acontece porque quando temos mais elementos do que células no nosso contêiner grid, os elementos que sobram criam novas células implícitas que ocupam as colunas disponíveis e criam novas linhas que não tinham sido declaradas.
+
+O DevTools (ferramentas de desenvolvimento) do Firefox nos permite ver exatamente o que está acontecendo por baixo dos panos.
+
+![Firefox DevTools com grid implícita](/posts/css-grid-o-que-voce-precisa-saber/grid-implicita-firefox.svg)
+
+As linhas representam a parte explícita do nosso grid. O tracejado representa a parte implícita, criada automaticamente para comportar o excesso de elementos.
+
+Assim como temos `grid-template-columns` e `grid-template-rows` para controlar o grid explícito, podemos usar `grid-auto-columns` e `grid-auto-rows` para definir como o nosso grid implícito será disposto.
+
+```css
+.container {
+  display: grid;
+  gap: 10px;
+
+  /* grid explícito */
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 100px 100px 100px;
+
+  /* grid implícito */
+  grid-auto-rows: 50px;
+}
+```
+
+Com o uso de `grid-auto-rows: 50px` definimos agora que todas as novas linhas terão `50px` de tamanho. A propriedade `grid-auto-rows` aceita muito mais do que apenas um valor. Se adicionarmos outros valores separados por espaço à essa declaração, podemos controlar de forma intercalada o tamanho de nossas linhas implícitas.
+
+```css
+.container {
+  display: grid;
+  gap: 10px;
+
+  /* grid explícito */
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 80px 80px 80px;
+
+  /* grid implícito */
+  grid-auto-rows: 50px 80px;
+}
+```
+
+![Grid implícita `grid-auto-rows: 50px 80px`](/posts/css-grid-o-que-voce-precisa-saber/grid-auto-rows-50-80.svg)
+
+## Definindo a direção do fluxo de um contêiner grid com grid-auto-flow
+
+Por padrão, cada elemento em um contêiner grid automaticamente cria um nova linha. Então um contêiner grid com três elementos dentro dele teria uma coluna e três linhas.
+
+```html
+<div class="container">
+  <div>Um</div>
+  <div>Dois</div>
+  <div>Três</div>
+</div>
+```
+
+```css
+.container {
+  display: grid;
+}
+```
+
+Como não declaramos nenhuma coluna ou linha com `grid-template-columns` ou `grid-template-rows`, toda a grid será implícita.
+
+Cada elemento no nosso grid cria uma nova linha. Para mudar este comportamento e criar colunas, basta usar `grid-auto-flow: column`.
+
+```html
+<div class="container">
+  <div>Um</div>
+  <div>Dois</div>
+  <div>Três</div>
+</div>
+```
+
+```css
+.container {
+  display: grid;
+  grid-auto-flow: column;
+}
+```
+
+![Contêiner grid com `grid-auto-flow: column`](/posts/css-grid-o-que-voce-precisa-saber/grid-auto-flow-row.svg)
+
+Juntando `grid-auto-flow`, `grid-auto-columns` e `grid-auto-rows`, podemos criar layouts automáticos que guiam o conteúdo dinâmico para seguir um padrão que definimos. Um dos [três hábitos para escrever CSS escalável](https://triangulo.dev/posts/tres-habitos-css-escalavel) é deixar o conteúdo fluir para acomodar mudanças que nem sempre conseguimos prever enquanto estamos desenvolvendo.
+
+## Continue aprendendo
+
+O CSS Grid é uma ferramenta muito poderosa para criar layouts em duas dimensões. Neste primeiro artigo exploramos apenas uma pequena parte de todas as suas capacidades. Acompanhe os posts dessa série:
+
+- [CSS Grid: o básico que você precisa saber (com exemplos)](/posts/css-grid-o-que-voce-precisa-saber);
+- [CSS Grid: posicionando elementos, na prática](/posts/css-grid-posicionando-elementos-na-pratica);
+- [CSS Grid: alinhando elementos (com exemplos)](/posts/css-grid-alinhando-elementos-na-pratica);
+- [Criando layouts responsivos com CSS Grid](/posts/criando-layouts-responsivos-css-grid);
+- [Usando grid-template-areas para criar layouts no CSS Grid](/posts/usando-grid-template-areas-no-css-grid);
+
+Alguns destes artigos ainda não foram publicados, então inscreva-se na newsletter do Triângulo para receber atualizações.
+
+Não deixe também de conferir o [Basic Concepts of grid layout (developer.mozilla.org)](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Basic_Concepts_of_Grid_Layout) para um tour completo pelas funcionalidades do CSS Grid ou o excelente [Complete Guide to Grid (css-tricks.com)](https://css-tricks.com/snippets/css/complete-guide-grid/).
+
+Nosso Guia de Estudos CSS também conta com uma [seção dedicada para o CSS Grid](https://trello.com/c/Vf40uwRL/13-css-grid). Bons estudos!

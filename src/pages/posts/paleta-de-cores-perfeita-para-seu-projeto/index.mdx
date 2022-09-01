@@ -1,0 +1,132 @@
+---
+title: "A paleta de cores perfeita para o seu projeto"
+description: "Use o sistema de cores Radix Colors para criar uma paleta bonita, funcional e acessível para seu site/aplicativo."
+ogImage: "/posts/paleta-de-cores-perfeita-para-seu-projeto/social.png"
+date: "2021-07-02"
+authorName: "Hugo de Oliveira"
+authorImage: "/authors/hugo.png"
+---
+
+Escolher uma paleta de cores para um projeto não é uma tarefa muito fácil, pelo menos para mim. Além de precisar se preocupar em ter cores que combinam entre si e ficam bonitas na tela, também precisamos ter certeza que nossa paleta é acessível.
+
+O que eu não sabia era que eu mais precisava era de um **sistema de cores**.
+
+O **[Radix Colors](https://www.radix-ui.com/colors)** é um sistema de cores open-source, feito para criarmos sites e aplicativos bonitos e acessíveis.
+
+Esse sistema de cores funciona assim: todas as 28 cores estão em uma escala de 1 a 12 e preparadas para serem usadas de acordo com algumas regras.
+
+![Escala de cores Radix Colors](/posts/paleta-de-cores-perfeita-para-seu-projeto/escala-de-cores-radix-colors-light.png)
+
+## Criando paletas com o sistema de cores Radix Colors
+
+Para compor uma paleta de cores com o Radix Colors, **podemos começar usando umas das 20 cores de destaque disponíveis**. Dessas cores, 15 foram escolhidas para funcionarem bem com o texto em branco e 5 com o texto em preto.
+
+![Cores de destaque da Radix Colors](/posts/paleta-de-cores-perfeita-para-seu-projeto/cores-destaque-radix-colors.svg)
+
+Depois de escolher uma ou várias cor de destaque, **precisamos de uma escala de cinza**. O Radix Colors vêm com 6 escalas de cinza diferentes, criadas para combinarem com diferentes cores de destaque.
+
+Para um resultado mais natural, você pode escolher a escala de cinza de acordo com as suas cores de destaque:
+
+- `Gray` é cinza puro, boa para uma combinação mais neutra;
+- `Mauve` tem tonalidades de roxo e combina com `Tomato`, `Red`, `Crimson`, `Pink`, `Plum`, `Purple` e `Violet`;
+- `Slate` tem tonalidades de azul e combina com `Indigo`, `Blue`, `Sky` e `Cyan`;
+- `Sage` tem tonalidades de verde e combina com `Teal`, `Mint` e `Green`;
+- `Olive` tem tonalidades de limão e combina com `Grass` e `Lime`;
+- `Sand` tem tonalidades de amarelo e combina com `Yellow`, `Amber`, `Orange` e `Brown`.
+
+Depois de ter nossa escala de cinza, o próximo passo é **escolher as cores semânticas**. Essas cores estão relacionadas com o que seus elementos querem comunicar, como um erro, sucesso ou informação.
+
+- **Erro**: `Red`, `Tomato` ou `Crimson`;
+- **Sucesso**: `Teal`, `Green`, `Grass` e `Mint`;
+- **Aviso**: `Yellow` ou `Amber`;
+- **Info**: `Blue`, `Sky` ou `Cyan`.
+
+Vale a pena lembrar que essas combinações fazem bastante sentido na cultura ocidental, mas seu significado pode ser diferente em outras culturas.
+
+Em aplicações mais complexas, é possível que você escolha quase todas as cores para fazerem parte da sua paleta. O bom de usar um sistema de cores como o Radix Colors é que todas as escalas de cores funcionam bem entre si.
+
+Para finalizar, **precisamos escolher as escalas de cores para nosso texto**. Existem duas formas de escolher as cores do texto com o Radix Colors.
+
+A primeira é usando o número 11 ou 12 da escala de uma das cores de destaque, que funcionam bem para textos de baixo-contraste e de alto-contraste respectivamente. Essas cores trarão um resultado mais colorido.
+
+Se você está procurando um resultado mais sério, vale a pena usar o número 11 ou 12 das escalas de cinza.
+
+![Cores de texto número 11 em cor de fundo número 3 no Radix Colors](/posts/paleta-de-cores-perfeita-para-seu-projeto/cores-texto-radix-colors.svg)
+
+## Usando escalas de cores efetivamente no seu site/aplicativo
+
+As escalas de cores do Radix Colors são numeradas do 1 ao 12. Esses números nos ajudam a escolher os tons corretos para cada aplicação. A [página de documentação do Radix Colors](https://www.radix-ui.com/docs/colors/palette-composition/understanding-the-scale) explica com detalhes quando usar cada tonalidade. Aqui vai um resumo:
+
+| Número | Aplicações                                            |
+| ------ | ----------------------------------------------------- |
+| 1      | Cor de fundo do site/aplicativo                       |
+| 2      | Cor de fundo sutil                                    |
+| 3      | Cor de fundo de um elemento da interface              |
+| 4      | Cor de fundo durante o _hover_ de um elemento         |
+| 5      | Cor de fundo de elementos selecionados ou ativos      |
+| 6      | Bordas sutis e separadores                            |
+| 7      | Bordas de elementos da interface ou indicador de foco |
+| 8      | Cor da borda durante o _hover_ de um elemento         |
+| 9      | Cores de fundo sólidas                                |
+| 10     | Cores de fundo sólidas durante o _hover_              |
+| 11     | Texto de baixo-contraste                              |
+| 12     | Texto de alto-contraste                               |
+
+![Exemplos de aplicação das Radix Colors](/posts/paleta-de-cores-perfeita-para-seu-projeto/exemplos-aplicacao-radix-colors.svg)
+
+## Usando o Radix Colors no seu projeto
+
+Para usar o Radix Colors no seu projeto, você deve instalar o pacote do npm `@radix-ui/colors`.
+
+```bash
+npm install @radix-ui/colors
+
+# se estiver usando o yarn:
+yarn add @radix-ui/colors
+```
+
+Todas as escalas de cores estão disponíveis como objetos JavaScript. Para usá-las com `styled-components`, por exemplo, basta importar as cores que você quiser e interpolar seus valores no CSS.
+
+```js
+import { gray, blue } from "@radix-ui/colors";
+import styled from "styled-components";
+
+let Button = styled.button`
+  background-color: ${gray.gray4};
+  color: ${blue.blue10};
+`;
+```
+
+Se você quiser usar as cores diretamente no CSS, sem uma biblioteca de CSS-in-JS, basta importar as cores que você quiser no CSS:
+
+```css
+@import "@radix-ui/colors/gray.css";
+@import "@radix-ui/colors/blue.css";
+
+.button {
+  background-color: var(--gray4);
+  color: var(--blue10);
+}
+```
+
+Para que esses `@import`s funcionem, você precisará utilizar um _bundler_ como Parcel, Webpack ou um framework que já faça o _bundle_ de imports CSS por baixo dos panos (NextJS, por exemplo).
+
+A [página de documentação do Radix Colors](https://www.radix-ui.com/docs/colors/getting-started/usage) tem muito mais exemplos de como usá-lo em várias configurações diferentes.
+
+## Acessibilidade na sua paleta de cores
+
+Um passo bastante importante na escolha das cores do seu site/aplicativo é verificar o contraste entre as cores utilizadas. Isso é muito importante para assegurar que mais pessoas possam efetivamente ler e utilizar sua interface.
+
+Os [WCAG 2](https://webaim.org/articles/contrast/) define importantes requisitos de cor e contraste. Em geral, **precisamos de um contraste de 4.5:1 para texto, no mínimo**.
+
+No Radix Colors, os números 11 e 12 de cada escala devem ter contraste suficiente com os números 1 e 2. Os números 9 de cada escala também passam nas regras de contraste com texto preto ou branco.
+
+Para testar o contraste de elementos no Chrome, você pode usar a ferramenta de seleção para inspeção e colocar o mouse sobre um texto.
+
+![Verificando a acessibilidade de um texto com a ferramenta de seleção para inspeção do Chrome](/posts/paleta-de-cores-perfeita-para-seu-projeto/verificando-acessibilidade-chrome.png)
+
+## Continue aprendendo
+
+A biblioteca Radix UI é bastante interessante. Além desse pacote com cores, ela também tem [componentes React acessíveis](https://www.radix-ui.com/docs/primitives), [ícones](https://icons.modulz.app/) e uma [biblioteca CSS-in-JS completíssima](https://stitches.dev/). Esses pacotes foram criados pela equipe por trás do [Modulz](https://www.modulz.app/), uma ferramenta de design de interfaces baseada em código com componentes reais.
+
+Se você está procurando por mais inspiração para um sistema de cores, recomendo dar uma olhada também na ferramenta de cores do [Material UI](https://material.io/resources/color/), no [Color Hunt](https://colorhunt.co/) e [Happy Hues](https://www.happyhues.co/).

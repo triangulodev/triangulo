@@ -1,0 +1,179 @@
+---
+title: "5 métodos do Array no JS que você deveria usar mais"
+description: "A classe Array possue muitos métodos que podem facilitar muito a vida de quem trabalha com JavaScript, mas nem todo mundo usa alguns dos seus métodos como .some ou .every."
+ogImage: "/posts/5-metodos-array/social.png"
+date: "2020-11-23"
+authorName: "Hugo de Oliveira"
+authorImage: "/authors/hugo.png"
+---
+
+Alguns dos métodos do Array já são bastante conhecidos por quem trabalha com JavaScript. Um deles é o `.map`, que tanto usamos para transformar valores em um Array. Entretanto, existem alguns métodos que eu quase nunca vi as pessoas usando, mesmo quando eles seriam perfeitos para o problema que elas estavam tentando resolver.
+
+## `.some`
+
+O método `.some` serve para você verificar se uma condição é verdadeira para pelo menos um valor dentro do Array – um caso de uso bastante comum. O `.some` recebe uma função `callbackFn` que deve testar cada um dos elementos do Array. A `callbackFn` recebe três argumentos:
+
+- `element`: o valor do elemento;
+- `index`: o índice deste elemento no Array;
+- `array`: o Array sendo testado.
+
+O valor retornado pela `callbackFn` deve ser _convertível_ para `true` ou `false` através da [coerção de tipos](https://developer.mozilla.org/en-US/docs/Glossary/Type_coercion).
+
+Para mostrar um exemplo de como usar o método `.some`, criaremos um Array `fruits` e as funções `isApple` e `isKiwi` que testarão se um elemento é uma maçã ou um kiwi.
+
+```js
+let fruits = [🍎, 🍏, 🍌, 🍊, 🥥];
+
+function isApple(fruit) {
+  return fruit === 🍎;
+}
+
+function isKiwi(fruit) {
+  return fruit === 🥝;
+}
+```
+
+Podemos então usar o método `.some` no Array `fruits`, passando como `callbackFn` uma das duas funções que criamos. Esta chamada retornará `true` se as funções retornarem `true` para pelo menos um dos elementos em `fruits`.
+
+```js
+fruits.some(isApple); // => true
+fruits.some(isKiwi); // => false
+```
+
+## `.every`
+
+Parecido com o `.some`, o `.every` é usado para verificar se uma condição é verdadeira para todos os elementos de um Array. Esse método também recebe uma função `callbackFn`, com os mesmo argumentos `element`, `index` e `array`.
+
+No exemplo a seguir, criaremos um Array de objetos com dados sobre pessoas e os testaremos com funções que verificam se os dados delas atendem à uma condição.
+
+```js
+let people = [
+  { name: "João", age: 20 },
+  { name: "Maria", age: 18 },
+  { name: "Lucas", age: 22 },
+];
+
+function isOverAge(person) {
+  return person.age >= 18;
+}
+
+function isMaria(person) {
+  return person.name === "Maria";
+}
+```
+
+A função `isOverAge` testará se `person.age` é maior do que `18`. Como esta condição é verdadeira para todos os elementos do Array, o método `.every` retornará `true` com essa condição.
+
+```js
+people.every(isOverAge); // => true
+```
+
+Já a função `isMaria` testará se `person.name` é `'Maria'`, o que não é verdadeiro para todos os elementos do Array `people`. A chamada do método `.every`, neste caso, retornará `false`.
+
+```js
+people.every(isMaria); // => false
+```
+
+## `.flat`
+
+Algumas vezes temos um Array que tem outros Arrays dentro dele e precisamos transformar todos esses elementos em um grande Array com apenas um nível de profundidade. O método `.flat` faz exatamente isso. Ele recebe um único argumento opcional `depth`, que pode ser utilizado para configurar o nível de profundidade de sub-Arrays que devem ser concatenados em um único nível.
+
+```js
+let arrays = [1, 2, 3, [4, 5], [6, 7, [8, 9]]];
+
+arrays.flat(); // => [1, 2, 3, 4, 5, 6, 7, [8, 9]]
+arrays.flat(2); // => [1, 2, 3, 4, 5, 6, 7, 8, 9]
+```
+
+Como por padrão `depth` é igual a `1`, a primeira chamada ainda retorna um array com um sub-array. Em casos em que você não tem ideia do nível de profundidade dos sub-arrays mas quer ter certeza que todos os elementos estarão em apenas um único nível, você pode passar `Infinity` como argumento para o método `.flat()`.
+
+```js
+let arrays = [[[[[[[[[[[1, 2, 3]], [[[[[[4]]]]]]]]]]]]]]];
+
+arrays.flat(Infinity); // => [1, 2, 3, 4]
+```
+
+## `.flatMap`
+
+Um dos casos de uso mais comuns para o método `.flat` é utilizá-lo logo após uma chamada ao `.map` que gerou sub-arrays. Podemos utilizar como exemplo exemplo listar todos os amigos (`.friends`) de todas as pessoas (`person`) em um Array.
+
+```js
+let people = [
+  { name: "João", friends: [{ name: "Gabriel" }, { name: "Laura" }] },
+  { name: "Maria", friends: [{ name: "Bruna" }, { name: "Luiza" }] },
+  { name: "Rebeca", friends: [{ name: "Gustavo" }] },
+];
+```
+
+Se usarmos apenas o método `.map` com uma função para retornar todos os amigos de cada uma das pessoas, teríamos um Array com sub-arrays.
+
+```js
+function getFriends(person) {
+  return person.friends;
+}
+
+people.map(getFriends);
+/* =>
+[
+  [{name: 'Gabriel'}, {name: 'Laura'}}],
+  [{name: 'Bruna'}, {name: 'Luiza}],
+  [{name: 'Gustavo}]
+]
+*/
+```
+
+Já com o método `.flatMap`, este Array retornado pela função `getFriends` será concatenado com os resultados anteriores, retornando um Array com apenas um nível de profundidade.
+
+```js
+people.flatMap(getFriends);
+/* =>
+[
+  {name: 'Gabriel'},
+  {name: 'Laura'}},
+  {name: 'Bruna'},
+  {name: 'Luiza},
+  {name: 'Gustavo}
+]
+*/
+```
+
+Vale alertar que, ao contrário do método `.flat`, não é possível controlar a profundidade de sub-arrays que serão concatenados em apenas um nível. O método `.flatMap` concatenará elementos em apenas um nível de profundidade.
+
+## `.concat`
+
+Eu sinceramente não sei porquê poucas pessoas utilizam o `.concat`, mas se precisasse apostar seria por causa da grande quantidade de exemplos que vemos utilizando o operador de `spread` (`...`) para juntar elementos de diferentes Arrays em um só.
+
+O método `.concat` pode ser utilizado para concatenar diferentes itens em um único Array. Ele recebe como argumento um ou mais itens que podem tanto ser valores quanto outros Arrays e retorna um novo Array com todos esses itens concatenados.
+
+```js
+[1].concat(2); //         => [1, 2]
+[1].concat(2, 3); //      => [1, 2, 3]
+[1].concat([2, 3]); //    => [1, 2, 3]
+[1].concat(2, [3, 4]); // => [1, 2, 3, 4]
+```
+
+Sempre que você precisar verificar se um valor é ou não um Array antes de utilizar um operador `spread`, considere usar o método `.concat`.
+
+```js
+let item = 3;
+[1, 2, ...(Array.isArray(item) ? item : [item])]; // ❌
+[1, 2].concat(item); // ✅
+```
+
+Como o método `.concat` funciona tanto em valores como em Arrays, também podemos implementar uma função que se comporta como o método `.flat` facilmente:
+
+```js
+function flat(array, nestedArray) {
+  return array.concat(...nestedArray);
+}
+
+flat([1, 2], [3, [4, 5]]); // => [1, 2, 3, 4, 5]
+```
+
+No exemplo acima, utilizamos o operador `spread` para usar cada um dos elementos de `nestedArray` como argumentos para a chamada do método `.concat`.
+
+## Continue aprendendo
+
+A classe Array tem muitos métodos úteis para facilitar a sua vida no JavaScript enquanto estiver trabalhando com Arrays. Quando utilizamos métodos como `.some` e `.every`, mostramos muito mais a intenção de um código do que quando os implementamos com loops `for` ou outros métodos mais genéricos como o `.reduce`. Para aprender mais sobre outros métodos disponíveis na classe Array, não deixe de visitar a [referência completa no MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) ou a própria [especificação oficial da classe Array](https://tc39.es/ecma262/#sec-properties-of-the-array-prototype-object).
+
+Se você transforma muitos Arrays no seu código JavaScript e já acha que os métodos da classe Array nem sempre são suficientes, vale a pena usar bibliotecas como o [Lodash](https://lodash.com/).
