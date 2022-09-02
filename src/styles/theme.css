@@ -33,4 +33,9 @@
 
   --font-base: "iA Quattro";
   --font-mono: "iA Mono";
+
+  --space-medium: 1rem;
+  --space-small: 0.5rem;
+
+  --max-width-body: calc(70ch + --space-medium + 15ch);
 }
