@@ -3,3 +3,7 @@ body {
   font-family: var(--font-base);
   font-weight: normal;
 }
+
+a:not(.raw-link) {
+  color: var(--accent11);
+}
