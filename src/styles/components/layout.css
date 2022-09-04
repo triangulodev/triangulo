@@ -4,6 +4,11 @@
   max-width: var(--max-width-body);
   align-items: center;
   gap: var(--space-medium);
+  flex-wrap: wrap;
+}
+
+.header-logo {
+  margin-right: auto;
 }
 
 .header nav ul {
@@ -11,7 +16,7 @@
   padding: 0;
   display: flex;
   align-items: center;
-  justify-content: end;
+  flex-wrap: wrap;
   list-style-type: none;
   gap: var(--space-small);
 }
