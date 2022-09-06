@@ -23,11 +23,17 @@ const posts = await Astro.glob("./posts/**/*.mdx").then(
 ---
 
 <Layout title="Triângulo - Tutoriais de Desenvolvimento Front-end">
-  <main>
-    <h2>Artigos</h2>
-    <ul>
-      {posts.map((post) => <li>{post.title}</li>)}
-    </ul>
-  </main>
-  <aside></aside>
+  <h1>Tutoriais de Desenvolvimento Front-end</h1>
+  <p>O Triângulo...</p>
+
+  <h2>Artigos</h2>
+  <ul>
+    {
+      posts.map((post) => (
+        <li>
+          <a href={post.href}>{post.title}</a>
+        </li>
+      ))
+    }
+  </ul>
 </Layout>

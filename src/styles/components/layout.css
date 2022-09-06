@@ -1,7 +1,7 @@
 .header {
   display: flex;
-  padding: var(--space-medium);
-  max-width: var(--max-width-body);
+  padding: var(--space-medium) 0;
+  width: var(--width-full);
   align-items: center;
   gap: var(--space-medium);
   flex-wrap: wrap;
@@ -19,4 +19,50 @@
   flex-wrap: wrap;
   list-style-type: none;
   gap: var(--space-small);
+}
+
+article > p,
+article > table,
+article > footer {
+  width: var(--width-normal);
+}
+
+article > dl,
+article > ol,
+article > ul {
+  width: calc(var(--width-normal) - 5%);
+  -webkit-padding-start: 5%;
+}
+
+dt:not(:first-child),
+li:not(:first-child) {
+  margin-top: var(--space-smaller);
+}
+
+figure {
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+  max-width: var(--width-normal);
+  -webkit-margin-start: 0;
+  -webkit-margin-end: 0;
+  margin: 0 0 var(--space-larger) 0;
+}
+
+figcaption {
+  float: right;
+  clear: right;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+  vertical-align: baseline;
+  position: relative;
+  max-width: var(--width-small);
+}
+
+figure.fullwidth figcaption {
+  margin-right: 24%;
 }

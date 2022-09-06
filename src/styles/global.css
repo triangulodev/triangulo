@@ -1,7 +1,14 @@
 body {
-  margin: 0;
+  font-size: 15px;
   font-family: var(--font-base);
   font-weight: normal;
+
+  width: 87.5%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 12.5%;
+  max-width: var(--max-width-body);
+  box-sizing: content-box;
 }
 
 a:not(.raw-link) {
