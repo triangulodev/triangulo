@@ -11,7 +11,7 @@ body {
   box-sizing: content-box;
 
   color: var(--base12);
-  background-color: var(--base1);
+  background-color: var(--base2);
 }
 
 a:not(.raw-link) {
