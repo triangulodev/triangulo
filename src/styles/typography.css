@@ -59,17 +59,25 @@
 }
 
 .main blockquote {
-  font-size: 1.4rem;
+  font-size: var(--font-size-small);
+  background: var(--base4);
+  padding: var(--space-medium);
 }
 
 .main blockquote p {
-  width: 55%;
-  margin-right: 40px;
+  margin: 0;
+  font-size: inherit;
+  font-style: italic;
 }
 
-.main blockquote footer {
+.main blockquote p:not(li blockquote p) {
   width: 55%;
-  font-size: 1.1rem;
+}
+
+.main blockquote footer:not(li blockquote footer) {
+  width: 55%;
+  margin-top: var(--space-medium);
+  font-size: var(--font-size-normal);
   text-align: right;
 }
 
