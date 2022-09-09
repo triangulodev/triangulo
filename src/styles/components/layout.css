@@ -26,3 +26,9 @@
   font-weight: 600;
   margin-bottom: var(--space-largest);
 }
+
+.footer {
+  width: var(--width-full);
+  padding-top: var(--space-large);
+  padding-bottom: var(--space-large);
+}
