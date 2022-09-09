@@ -108,10 +108,10 @@
   display: inline-block;
   font-size: 0.8em;
   font-family: var(--font-mono);
-  padding-inline-start: var(--space-small);
-  padding-inline-end: var(--space-small);
-  color: var(--base12);
-  background: var(--base4);
+  padding-inline-start: var(--space-smaller);
+  padding-inline-end: var(--space-smaller);
+  color: var(--support11);
+  background: var(--support3);
 }
 
 .main pre > code {
