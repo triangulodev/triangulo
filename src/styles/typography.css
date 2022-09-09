@@ -1,34 +1,79 @@
-p,
-ul,
-ol,
-dl {
+.main article > p,
+.main article > table,
+.main article > footer {
+  width: var(--width-normal);
+}
+
+.main article > dl,
+.main article > ol,
+.main article > ul {
+  width: calc(var(--width-normal) - 5%);
+  -webkit-padding-start: 5%;
+}
+
+.main dt:not(:first-child),
+.main li:not(:first-child) {
+  margin-top: var(--space-smaller);
+}
+
+.main figure {
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+  max-width: var(--width-normal);
+  -webkit-margin-start: 0;
+  -webkit-margin-end: 0;
+  margin: 0 0 var(--space-larger) 0;
+}
+
+.main figcaption {
+  float: right;
+  clear: right;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+  vertical-align: baseline;
+  position: relative;
+  max-width: var(--width-small);
+}
+
+.main figure.fullwidth figcaption {
+  margin-right: 24%;
+}
+.main p,
+.main ul,
+.main ol,
+.main dl {
   font-size: var(--font-size-normal);
   line-height: var(--line-height-normal);
 }
 
-p {
-  margin-top: var(--space-medium);
-  margin-bottom: var(--space-medium);
+.main p {
+  margin-top: var(--space-large);
+  margin-bottom: var(--space-large);
   padding-right: 0;
   vertical-align: baseline;
 }
 
-blockquote {
+.main blockquote {
   font-size: 1.4rem;
 }
 
-blockquote p {
+.main blockquote p {
   width: 55%;
   margin-right: 40px;
 }
 
-blockquote footer {
+.main blockquote footer {
   width: 55%;
   font-size: 1.1rem;
   text-align: right;
 }
 
-img {
+.main img {
   max-width: 100%;
 }
 
@@ -46,49 +91,53 @@ img {
   position: relative;
 }
 
-div.fullwidth,
-table.fullwidth {
+.main div.fullwidth,
+.main table.fullwidth {
   width: 100%;
 }
 
-code,
-pre > code {
+.main code,
+.main pre > code {
   font-family: var(--font-mono);
   font-size: var(--font-size-small);
   line-height: var(--line-height-small);
   -webkit-text-size-adjust: 100%;
 }
 
-pre > code {
-  font-size: 0.9rem;
-  width: 52.5%;
-  margin-left: 2.5%;
+.main .astro-code {
+  font-size: var(--font-size-normal);
+  width: calc(var(--width-normal) - var(--space-large));
+  margin-left: var(--space-large);
   overflow-x: auto;
   display: block;
+  padding: var(--space-medium);
+
+  border-top: 1px solid var(--base11);
+  border-bottom: 1px solid var(--base11);
 }
 
-pre.fullwidth > code {
-  width: 90%;
+.main .astro-code.fullwidth {
+  width: calc(var(--width-full) - var(--space-large));
 }
 
-.fullwidth {
+.main .fullwidth {
   max-width: 90%;
   clear: both;
 }
 
-span.newthought {
+.main span.newthought {
   font-variant: small-caps;
   font-size: 1.2em;
 }
 
-.iframe-wrapper {
+.main .iframe-wrapper {
   position: relative;
   padding-bottom: 56.25%; /* 16:9 */
   padding-top: 25px;
   height: 0;
 }
 
-.iframe-wrapper iframe {
+.main .iframe-wrapper iframe {
   position: absolute;
   top: 0;
   left: 0;

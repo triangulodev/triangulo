@@ -3,34 +3,48 @@
 @import "@radix-ui/colors/amber";
 @import "@radix-ui/colors/orange";
 @import "@radix-ui/colors/brown";
+@import "@radix-ui/colors/lime";
 
 :root {
-  --accent1: var(--orange1);
-  --accent2: var(--orange2);
-  --accent3: var(--orange3);
-  --accent4: var(--orange4);
-  --accent5: var(--orange5);
-  --accent6: var(--orange6);
-  --accent7: var(--orange7);
-  --accent8: var(--orange8);
-  --accent9: var(--orange9);
-  --accent10: var(--orange10);
-  --accent11: var(--orange11);
-  --accent12: var(--orange12);
+  --orangeDark1: hsl(30, 70%, 7.2%);
+  --orangeDark2: hsl(28, 100%, 8.4%);
+  --orangeDark3: hsl(26, 91.1%, 11.6%);
+  --orangeDark4: hsl(25, 88.3%, 14.1%);
+  --orangeDark5: hsl(24, 87.6%, 16.6%);
+  --orangeDark6: hsl(24, 88.6%, 19.8%);
+  --orangeDark7: hsl(24, 92.4%, 24%);
+  --orangeDark8: hsl(25, 100%, 29%);
+  --orangeDark9: hsl(24, 94%, 50%);
+  --orangeDark10: hsl(24, 100%, 58.5%);
+  --orangeDark11: hsl(24, 100%, 62.2%);
+  --orangeDark12: hsl(24, 97%, 93.2%);
+  --sandDark1: hsl(61, 2%, 8.3%);
+  --sandDark2: hsl(60, 3.7%, 10.6%);
+  --sandDark3: hsl(58, 3.7%, 13.1%);
+  --sandDark4: hsl(57, 3.6%, 15.3%);
+  --sandDark5: hsl(56, 3.7%, 17.4%);
+  --sandDark6: hsl(55, 3.7%, 19.9%);
+  --sandDark7: hsl(53, 3.7%, 23.6%);
+  --sandDark8: hsl(50, 3.8%, 30.6%);
+  --sandDark9: hsl(50, 4%, 42.7%);
+  --sandDark10: hsl(52, 3.1%, 48.3%);
+  --sandDark11: hsl(50, 4%, 61.8%);
+  --sandDark12: hsl(56, 4%, 92.8%);
+  --limeDark1: hsl(75, 55%, 6%);
+  --limeDark2: hsl(74, 56.8%, 7.3%);
+  --limeDark3: hsl(78, 50.2%, 9.9%);
+  --limeDark4: hsl(79, 50.3%, 12.1%);
+  --limeDark5: hsl(79, 52.6%, 14.2%);
+  --limeDark6: hsl(78, 55.7%, 16.7%);
+  --limeDark7: hsl(77, 59.7%, 20.1%);
+  --limeDark8: hsl(75, 64.8%, 24.5%);
+  --limeDark9: hsl(81, 67%, 50%);
+  --limeDark10: hsl(75, 85%, 60%);
+  --limeDark11: hsl(81, 70%, 43.8%);
+  --limeDark12: hsl(84, 79%, 92.6%);
+}
 
-  --base1: var(--sand1);
-  --base2: var(--sand2);
-  --base3: var(--sand3);
-  --base4: var(--sand4);
-  --base5: var(--sand5);
-  --base6: var(--sand6);
-  --base7: var(--sand7);
-  --base8: var(--sand8);
-  --base9: var(--sand9);
-  --base10: var(--sand10);
-  --base11: var(--sand11);
-  --base12: var(--sand12);
-
+body {
   --font-base: "iA Quattro";
   --font-mono: "iA Mono";
 
@@ -48,6 +62,7 @@
   --space-medium: 1.2rem;
   --space-large: 2rem;
   --space-larger: 3rem;
+  --space-largest: 4rem;
 
   --max-width-body: 1400px;
 
@@ -55,4 +70,102 @@
   --width-normal: 55%;
   --width-full: 90%;
   --width-sidenote: 50%;
+
+  --astro-code-color-background: transparent;
+  --astro-code-color-text: var(--base11);
+  --astro-code-token-constant: var(--accent11);
+  --astro-code-token-string: var(--support11);
+  --astro-code-token-comment: var(--base10);
+  --astro-code-token-keyword: var(--base11);
+  --astro-code-token-parameter: var(--base11);
+  --astro-code-token-function: var(--base12);
+  --astro-code-token-string-expression: var(--support11);
+  --astro-code-token-punctuation: var(--base11);
+  --astro-code-token-link: var(--base11);
+}
+
+@media (prefers-color-scheme: light) {
+  body {
+    --accent1: var(--orange1);
+    --accent2: var(--orange2);
+    --accent3: var(--orange3);
+    --accent4: var(--orange4);
+    --accent5: var(--orange5);
+    --accent6: var(--orange6);
+    --accent7: var(--orange7);
+    --accent8: var(--orange8);
+    --accent9: var(--orange9);
+    --accent10: var(--orange10);
+    --accent11: var(--orange11);
+    --accent12: var(--orange12);
+
+    --support1: var(--lime1);
+    --support2: var(--lime2);
+    --support3: var(--lime3);
+    --support4: var(--lime4);
+    --support5: var(--lime5);
+    --support6: var(--lime6);
+    --support7: var(--lime7);
+    --support8: var(--lime8);
+    --support9: var(--lime9);
+    --support10: var(--lime10);
+    --support11: var(--lime11);
+    --support12: var(--lime12);
+
+    --base1: var(--sand1);
+    --base2: var(--sand2);
+    --base3: var(--sand3);
+    --base4: var(--sand4);
+    --base5: var(--sand5);
+    --base6: var(--sand6);
+    --base7: var(--sand7);
+    --base8: var(--sand8);
+    --base9: var(--sand9);
+    --base10: var(--sand10);
+    --base11: var(--sand11);
+    --base12: var(--sand12);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    --accent1: var(--orangeDark1);
+    --accent2: var(--orangeDark2);
+    --accent3: var(--orangeDark3);
+    --accent4: var(--orangeDark4);
+    --accent5: var(--orangeDark5);
+    --accent6: var(--orangeDark6);
+    --accent7: var(--orangeDark7);
+    --accent8: var(--orangeDark8);
+    --accent9: var(--orangeDark9);
+    --accent10: var(--orangeDark10);
+    --accent11: var(--orangeDark11);
+    --accent12: var(--orangeDark12);
+
+    --support1: var(--limeDark1);
+    --support2: var(--limeDark2);
+    --support3: var(--limeDark3);
+    --support4: var(--limeDark4);
+    --support5: var(--limeDark5);
+    --support6: var(--limeDark6);
+    --support7: var(--limeDark7);
+    --support8: var(--limeDark8);
+    --support9: var(--limeDark9);
+    --support10: var(--limeDark10);
+    --support11: var(--limeDark11);
+    --support12: var(--limeDark12);
+
+    --base1: var(--sandDark1);
+    --base2: var(--sandDark2);
+    --base3: var(--sandDark3);
+    --base4: var(--sandDark4);
+    --base5: var(--sandDark5);
+    --base6: var(--sandDark6);
+    --base7: var(--sandDark7);
+    --base8: var(--sandDark8);
+    --base9: var(--sandDark9);
+    --base10: var(--sandDark10);
+    --base11: var(--sandDark11);
+    --base12: var(--sandDark12);
+  }
 }

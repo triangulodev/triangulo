@@ -9,6 +9,9 @@ body {
   padding-left: 12.5%;
   max-width: var(--max-width-body);
   box-sizing: content-box;
+
+  color: var(--base12);
+  background-color: var(--base1);
 }
 
 a:not(.raw-link) {

@@ -1,12 +1,20 @@
 <header role="banner" class="header">
   <div class="header-logo">
     <a href="/" title="Voltar para página principal"
-      ><img
-        src="/triangulo-logo.svg"
-        loading="eager"
-        decoding="async"
-        alt="Triângulo"
-      />
+      ><picture>
+        <source
+          srcset="/triangulo-logo-white.svg"
+          media="(prefers-color-scheme: dark)"
+        />
+        <img
+          src="/triangulo-logo.svg"
+          width="159"
+          height="28"
+          loading="eager"
+          decoding="async"
+          alt="Triângulo"
+        />
+      </picture>
     </a>
   </div>
 

@@ -6,7 +6,7 @@ export interface Props {
   title: string;
 }
 
-const { title } = Astro.props as Props;
+const { title } = Astro.props.frontmatter || Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -40,7 +40,10 @@ const { title } = Astro.props as Props;
   <body>
     <Header />
     <main role="main" class="main">
-      <article>
+      <article class="post">
+        <header class="post-header">
+          <h1 class="post-title">{title}</h1>
+        </header>
         <slot />
       </article>
     </main>
