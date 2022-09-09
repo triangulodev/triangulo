@@ -8,11 +8,13 @@ authorName: "Hugo de Oliveira"
 authorImage: "/authors/hugo.png"
 ---
 
+import Iframe from '../../../components/Iframe.astro'
+
 As animações de interação dos Stories do Instagram são icônicas. Desde que o Instagram passou a perna no Snapchat e implementou essa função, parece que quase todos os outros aplicativos seguiram a tendência. **Talvez** não seja uma boa ideia adicionar Stories no dashboard da firma, mas, se precisar, **aqui vai um tutorial de como criar a animação de transição dos Stories do Instagram usando CSS**.
 
 Interaja com [esse Codepen](https://codepen.io/hugobessaa/pen/RwpybKY) para ver como nosso projeto vai ficar no final. O que no final é um resultado bem simples, precisou de bastante investigação para chegar em uma solução menos complexa.
 
-<PostContentIframe height="720" scrolling="no" title="Instagram Stories com CSS (do zero)" src="https://codepen.io/hugobessaa/embed/RwpybKY?height=720&theme-id=dark&default-tab=result" frameBorder="no" loading="lazy" allowtransparency="true" allowFullScreen></PostContentIframe>
+  <Iframe fullwidth height="720" scrolling="no" title="Instagram Stories com CSS (do zero)" src="https://codepen.io/hugobessaa/embed/RwpybKY?height=720&theme-id=dark&default-tab=result" frameBorder="no" loading="lazy" allowtransparency="true" allowFullScreen />
 
 Neste tutorial vamos falar sobre:
 
@@ -216,7 +218,7 @@ Agora, quando clicamos nos Stories eles devem girar. Vamos comentar nossa transf
 
 Dá uma olhada no que construimos até agora ([link do Codepen](https://codepen.io/hugobessaa/pen/xxqJLdB)):
 
-<PostContentIframe height="780" scrolling="no" title="Instagram Stories (parte 1)" src="https://codepen.io/hugobessaa/embed/xxqJLdB?height=780&theme-id=dark&default-tab=result" frameBorder="no" loading="lazy" allowtransparency="true" allowFullScreen></PostContentIframe>
+  <Iframe fullwidth height="780" scrolling="no" title="Instagram Stories (parte 1)" src="https://codepen.io/hugobessaa/embed/xxqJLdB?height=780&theme-id=dark&default-tab=result" frameBorder="no" loading="lazy" allowtransparency="true" allowFullScreen />
 
 ## Ajustando a animação em "tela cheia"
 
@@ -277,7 +279,7 @@ Agora quando clicamos em `.screen`, nosso `.cuboid` gira e podemos ver que ele c
 
 Usando a [ferramenta de Animation do Chrome DevTools](https://triangulo.dev/posts/atomo-ferramenta-animations-devtools), podemos também diminuir a velocidade da animação para 10%.
 
-<PostContentIframe height="720" scrolling="no" title="Instagram Stories (debug)" src="https://codepen.io/hugobessaa/embed/OJpwjgb?height=720&theme-id=dark&default-tab=result" frameBorder="no" loading="lazy" allowtransparency="true" allowFullScreen></PostContentIframe>
+  <Iframe fullwidth height="720" scrolling="no" title="Instagram Stories (debug)" src="https://codepen.io/hugobessaa/embed/OJpwjgb?height=720&theme-id=dark&default-tab=result" frameBorder="no" loading="lazy" allowtransparency="true" allowFullScreen />
 
 Isso acontece porque o elemento `.cuboid` gira em torno do seu eixo Y central.
 
@@ -373,7 +375,7 @@ Então, vamos adicionar essa função de timing em todas as nossas animações e
 
 Dá uma olhada no que construimos até agora, [neste Codepen](https://codepen.io/hugobessaa/pen/wvJxqPd):
 
-<PostContentIframe height="720" scrolling="no" title="Instagram Stories (parte 2)" src="https://codepen.io/hugobessaa/embed/wvJxqPd?height=720&theme-id=dark&default-tab=result" frameBorder="no" loading="lazy" allowtransparency="true" allowFullScreen></PostContentIframe>
+  <Iframe fullwidth height="720" scrolling="no" title="Instagram Stories (parte 2)" src="https://codepen.io/hugobessaa/embed/wvJxqPd?height=720&theme-id=dark&default-tab=result" frameBorder="no" loading="lazy" allowtransparency="true" allowFullScreen />
 
 ## Toques finais para uma animação de Stories perfeita
 
@@ -418,7 +420,7 @@ Pronto! Nossa animação está completa.
 
 Sem mais delongas, aqui está o Codepen com a animação completa do Stories do Instagram feita _quase só_ com CSS.
 
-<PostContentIframe height="720" scrolling="no" title="Instagram Stories com CSS (do zero)" src="https://codepen.io/hugobessaa/embed/RwpybKY?height=720&theme-id=dark&default-tab=result" frameBorder="no" loading="lazy" allowtransparency="true" allowFullScreen></PostContentIframe>
+  <Iframe fullwidth height="720" scrolling="no" title="Instagram Stories com CSS (do zero)" src="https://codepen.io/hugobessaa/embed/RwpybKY?height=720&theme-id=dark&default-tab=result" frameBorder="no" loading="lazy" allowtransparency="true" allowFullScreen />
 
 Para chegar até aqui, precisamos aprender sobre:
 

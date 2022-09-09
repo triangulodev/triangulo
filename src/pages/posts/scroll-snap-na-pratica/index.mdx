@@ -8,6 +8,8 @@ authorName: "Hugo de Oliveira"
 authorImage: "/authors/hugo.png"
 ---
 
+import Iframe from '../../../components/Iframe.astro'
+
 A quantidade de JavaScript que precisamos para criar webapps complexos tem crescido bastante, mas o CSS também está correndo atrás de oferecer cada vez mais funcionalidades para estilização e comportamento visual.
 
 **Scroll Snapping** (ou pular no scroll) é uma técnica bastante usada na web em componentes ou até sites inteiros para melhorar a experiência dos usuários. **Com `snap-scroll-type` e outras propriedades, conseguimos implementar essa técnica usando apenas CSS**.
@@ -47,7 +49,7 @@ body {
 /* resto do CSS no Codepen */
 ```
 
-<PostContentIframe height="600" scrolling="no" title="Scroll Snap na prática (Seções horizontais)" src="https://codepen.io/hugobessaa/embed/QWpVNLm?height=500&theme-id=dark&default-tab=result" frameBorder="no" loading="lazy" allowtransparency="true" allowFullScreen />
+<Iframe fullwidth height="600" scrolling="no" title="Scroll Snap na prática (Seções horizontais)" src="https://codepen.io/hugobessaa/embed/QWpVNLm?height=500&theme-id=dark&default-tab=result" frameBorder="no" loading="lazy" allowtransparency="true" allowFullScreen />
 
 [Link para o Codepen](https://codepen.io/hugobessaa/pen/QWpVNLm).
 
@@ -63,7 +65,7 @@ Em `mandatory`, o navegador sempre tentará "pular e grudar" no elemento mais pr
 
 Com `proximity`, o navegador só irá "pular e grudar" no elemento mais próximo caso ele esteja realmente próximo. A definição de "próximo" varia de navegador para navegador. Apesar de um pouco confuso, esse comportamento pode ser muito útil se o usuário precisa usar o scroll para ver mais conteúdo de uma seção e apenas "pular" para a próxima quando estiver perto dela.
 
-<PostContentIframe height="600" scrolling="no" title="Scroll Snap na prática (Seções horizontais vs)" src="https://codepen.io/hugobessaa/embed/qBrMYPL?height=500&theme-id=dark&default-tab=result" frameBorder="no" loading="lazy" allowtransparency="true" allowFullScreen />
+<Iframe fullwidth height="600" scrolling="no" title="Scroll Snap na prática (Seções horizontais vs)" src="https://codepen.io/hugobessaa/embed/qBrMYPL?height=500&theme-id=dark&default-tab=result" frameBorder="no" loading="lazy" allowtransparency="true" allowFullScreen />
 
 [Link para o Codepen](https://codepen.io/hugobessaa/pen/qBrMYPL).
 
@@ -71,7 +73,7 @@ Com `proximity`, o navegador só irá "pular e grudar" no elemento mais próximo
 
 Além de grandes seções na vertical, scroll snapping é bem útil em componentes menores, como uma lista horizontal. Com scroll snapping, podemos criar a mesma interação que muitos apps nativos como Netflix e App Store usam em suas listas.
 
-<PostContentIframe height="720" scrolling="no" title="Scroll Snap na prática (Ícones de Apps)" src="https://codepen.io/hugobessaa/embed/KKWxzdB?height=500&theme-id=dark&default-tab=result" frameBorder="no" loading="lazy" allowtransparency="true" allowFullScreen />
+<Iframe fullwidth height="720" scrolling="no" title="Scroll Snap na prática (Ícones de Apps)" src="https://codepen.io/hugobessaa/embed/KKWxzdB?height=500&theme-id=dark&default-tab=result" frameBorder="no" loading="lazy" allowtransparency="true" allowFullScreen />
 
 [Link para o Codepen](https://codepen.io/hugobessaa/pen/KKWxzdB).
 
@@ -117,7 +119,7 @@ Não é tão comum assim termos scroll vertical e horizontal ao mesmo tempo em u
 
 Para "pular e grudar" o scroll vertical e horizontal, é só usar `scroll-snap-type: both mandatory`. Talvez isso seja útil para quando você criar uma grande galeria de fotos.
 
-<PostContentIframe height="600" scrolling="no" title="Scroll Snap na prática (Galeria 2D)" src="https://codepen.io/hugobessaa/embed/GRWXxXz?height=500&theme-id=dark&default-tab=result" frameBorder="no" loading="lazy" allowtransparency="true" allowFullScreen />
+<Iframe fullwidth height="600" scrolling="no" title="Scroll Snap na prática (Galeria 2D)" src="https://codepen.io/hugobessaa/embed/GRWXxXz?height=500&theme-id=dark&default-tab=result" frameBorder="no" loading="lazy" allowtransparency="true" allowFullScreen />
 
 [Link para o Codepen](https://codepen.io/hugobessaa/pen/GRWXxXz).
 
@@ -127,7 +129,7 @@ Além de `start` que já vimos nos exemplo acima, a propriedade `scroll-snap-ali
 
 Para ficar mais fácil de visualizar a diferença entre esses valores, eu criei [esse Codepen](https://codepen.io/hugobessaa/pen/bGqxKxj) demonstrando `start`, `center` e `end` lado-a-lado. Nele, temos linhas tracejadas em vermelho mostrando onde o scroll vai tentar "grudar".
 
-<PostContentIframe height="600" scrolling="no" title="Scroll Snap na prática (Comparando align)" src="https://codepen.io/hugobessaa/embed/bGqxKxj?height=500&theme-id=dark&default-tab=result" frameBorder="no" loading="lazy" allowtransparency="true" allowFullScreen />
+<Iframe fullwidth height="600" scrolling="no" title="Scroll Snap na prática (Comparando align)" src="https://codepen.io/hugobessaa/embed/bGqxKxj?height=500&theme-id=dark&default-tab=result" frameBorder="no" loading="lazy" allowtransparency="true" allowFullScreen />
 
 [Link para o Codepen](https://codepen.io/hugobessaa/pen/bGqxKxj).
 

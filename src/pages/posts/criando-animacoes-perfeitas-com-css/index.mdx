@@ -8,6 +8,8 @@ authorName: "Hugo de Oliveira"
 authorImage: "/authors/hugo.png"
 ---
 
+import Iframe from '../../../components/Iframe.astro'
+
 Animações perfeitas dão aquele toque elegante em um site, não é mesmo? Você toca em um botão, um movimento suave acontece; abre o menu, uma transição perfeita te leva para outro contexto. Desde que o CSS3 virou algo suportado pelos navegadores mais utilizados, a web tem ótimas ferramentas para criar animações (`animation`) e transições (`transition`). Mesmo que essas ferramentas já estejam entre a gente por um tempão, ainda é difícil criar interfaces de usuário com movimentos perfeitos.
 
 Nossos olhos são muito bons em perceber movimento e nossa cabeça é muito boa em sinalizar quando algo não está funcionando do jeito certo. Como a maior parte das nossas telas é capaz de reproduzir 60 _frames_ por segundo (fps), nós estamos muito acostumados a ver essa taxa de atualização em todos os movimentos que acontecem em interfaces de usuário. Para nossas animações serem perfeitas, elas precisam se encaixar nessa taxa de atualização. Vamos entender o porquê.
@@ -155,10 +157,10 @@ E qual a melhor forma de fazer isso? Consertando uma imperfeita, é claro.
 
 No [Codepen abaixo](https://codepen.io/hugobessaa/pen/ExWgyJK), temos uma interface bem simples com um conteúdo principal e um menu lateral. No conteúdo principal, temos uma lista de tweets com uma animação de _hover_ e um botão para abrir e fechar o menu. Ao ser aberto, o menu lateral é animado e desliza da esquerda para a direita, enquanto deixa o conteúdo principal mais escuro.
 
-<PostContentIframe height="500" scrolling="no" title="CSS Animation - &quot;Imperfeito&quot;" src="https://codepen.io/hugobessaa/embed/preview/ExWgyJK?height=500&theme-id=dark&default-tab=html,result" frameborder="no" loading="lazy">
+<Iframe fullwidth height="500" scrolling="no" title="CSS Animation - &quot;Imperfeito&quot;" src="https://codepen.io/hugobessaa/embed/preview/ExWgyJK?height=500&theme-id=dark&default-tab=html,result" frameborder="no" loading="lazy">
   See the Pen <a href='https://codepen.io/hugobessaa/pen/ExWgyJK'>CSS Animation - &quot;Imperfeito&quot;</a> by Hugo
   (<a href='https://codepen.io/hugobessaa'>@hugobessaa</a>) on <a href='https://codepen.io'>CodePen</a>.
-</PostContentIframe>
+</Iframe>
 
 Dependendo do seu computador, você poderá perceber os problemas de performance nestas animações visualmente.
 

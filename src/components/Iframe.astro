@@ -1,0 +1,7 @@
+---
+const props = Astro.props;
+---
+
+<div class:list={["iframe-wrapper", { fullwidth: props.fullwidth }]}>
+  <iframe {...props}></iframe>
+</div>
