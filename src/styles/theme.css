@@ -45,8 +45,12 @@
 }
 
 body {
-  --font-base: "iA Quattro";
-  --font-mono: "iA Mono";
+  --font-base: "iA Quattro", ms pgothic, -system-ui, -apple-system,
+    BlinkMacSystemFont, segoe ui, Roboto, Helvetica, Arial, apple color emoji,
+    segoe ui emoji, segoe ui symbol, sans-serif;
+  --font-mono: "iA Mono", ms pgothic, -system-ui, -apple-system,
+    BlinkMacSystemFont, segoe ui, Roboto, Helvetica, Arial, apple color emoji,
+    segoe ui emoji, segoe ui symbol, sans-serif;
 
   --font-size-small: 1rem;
   --font-size-normal: 1.2rem;
