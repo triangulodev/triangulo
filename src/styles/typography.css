@@ -97,27 +97,26 @@
 
 .sidenote:before {
   content: counter(sidenote-counter) " ";
-  font-size: 1rem;
-  top: -0.5rem;
+  font-size: var(--font-size-small);
+  top: calc(var(--space-smaller) * -1);
 }
 
 .sidenote-number:after {
   content: counter(sidenote-counter);
-  font-size: 1rem;
-  top: -0.5rem;
+  font-size: var(--font-size-small);
+  top: calc(var(--space-smaller) * -1);
   left: 0.1rem;
 }
 
-.sidenote,
-.marginnote {
+.sidenote {
   float: right;
   clear: right;
-  margin-right: -60%;
-  width: 50%;
-  margin-top: 0.3rem;
+  margin-right: calc(var(--width-full) - var(--width-sidenote) - 100%);
+  width: var(--width-sidenote);
+  margin-top: var(--space-small);
   margin-bottom: 0;
-  font-size: 1.1rem;
-  line-height: 1.3;
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
   vertical-align: baseline;
   position: relative;
 }
