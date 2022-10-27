@@ -97,7 +97,7 @@ const hideInfo = Astro.props.frontmatter?.hideInfo;
             hideInfo ? null : (
               <p class="post-info">
                 Escrito por <strong>{author}</strong> em{" "}
-                {new Intl.DateTimeFormat({ locale: "pt-BR" }).format(date)}.
+                {new Intl.DateTimeFormat("pt-BR").format(date)}.
               </p>
             )
           }
