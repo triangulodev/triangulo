@@ -88,50 +88,51 @@ body {
   --astro-code-token-link: var(--base11);
 }
 
-@media (prefers-color-scheme: light) {
-  body {
-    --accent1: var(--orange1);
-    --accent2: var(--orange2);
-    --accent3: var(--orange3);
-    --accent4: var(--orange4);
-    --accent5: var(--orange5);
-    --accent6: var(--orange6);
-    --accent7: var(--orange7);
-    --accent8: var(--orange8);
-    --accent9: var(--orange9);
-    --accent10: var(--orange10);
-    --accent11: var(--orange11);
-    --accent12: var(--orange12);
+/* @media (prefers-color-scheme: light) { */
+body {
+  --accent1: var(--orange1);
+  --accent2: var(--orange2);
+  --accent3: var(--orange3);
+  --accent4: var(--orange4);
+  --accent5: var(--orange5);
+  --accent6: var(--orange6);
+  --accent7: var(--orange7);
+  --accent8: var(--orange8);
+  --accent9: var(--orange9);
+  --accent10: var(--orange10);
+  --accent11: var(--orange11);
+  --accent12: var(--orange12);
 
-    --support1: var(--lime1);
-    --support2: var(--lime2);
-    --support3: var(--lime3);
-    --support4: var(--lime4);
-    --support5: var(--lime5);
-    --support6: var(--lime6);
-    --support7: var(--lime7);
-    --support8: var(--lime8);
-    --support9: var(--lime9);
-    --support10: var(--lime10);
-    --support11: var(--lime11);
-    --support12: var(--lime12);
+  --support1: var(--lime1);
+  --support2: var(--lime2);
+  --support3: var(--lime3);
+  --support4: var(--lime4);
+  --support5: var(--lime5);
+  --support6: var(--lime6);
+  --support7: var(--lime7);
+  --support8: var(--lime8);
+  --support9: var(--lime9);
+  --support10: var(--lime10);
+  --support11: var(--lime11);
+  --support12: var(--lime12);
 
-    --base1: var(--sand1);
-    --base2: var(--sand2);
-    --base3: var(--sand3);
-    --base4: var(--sand4);
-    --base5: var(--sand5);
-    --base6: var(--sand6);
-    --base7: var(--sand7);
-    --base8: var(--sand8);
-    --base9: var(--sand9);
-    --base10: var(--sand10);
-    --base11: var(--sand11);
-    --base12: var(--sand12);
-  }
+  --base1: var(--sand1);
+  --base2: var(--sand2);
+  --base3: var(--sand3);
+  --base4: var(--sand4);
+  --base5: var(--sand5);
+  --base6: var(--sand6);
+  --base7: var(--sand7);
+  --base8: var(--sand8);
+  --base9: var(--sand9);
+  --base10: var(--sand10);
+  --base11: var(--sand11);
+  --base12: var(--sand12);
 }
 
-@media (prefers-color-scheme: dark) {
+/* } */
+
+/* @media (prefers-color-scheme: dark) {
   body {
     --accent1: var(--orangeDark1);
     --accent2: var(--orangeDark2);
@@ -172,4 +173,4 @@ body {
     --base11: var(--sandDark11);
     --base12: var(--sandDark12);
   }
-}
+} */
