@@ -1,14 +1,14 @@
-.main article > p,
-.main article > table,
-.main article > footer {
-  width: var(--width-normal);
+.main article>p,
+.main article>table,
+.main article>footer {
+  width: var(--width-full);
 }
 
-.main article > dl,
-.main article > ol,
-.main article > ul {
-  width: calc(var(--width-normal) - var(--space-large));
-  -webkit-padding-start: var(--space-large);
+.main article>dl,
+.main article>ol,
+.main article>ul {
+  width: calc(var(--width-full) - var(--space-medium));
+  -webkit-padding-start: var(--space-medium);
 }
 
 .main dt:not(:first-child),
@@ -16,21 +16,31 @@
   margin-top: var(--space-smaller);
 }
 
+.main img {
+  max-width: 100%;
+}
+
+.main p:has(img) {
+  width: 100%;
+}
+
+/* Not in use, as Markdown is not rendering figure as of now */
 .main figure {
   padding: 0;
   border: 0;
   font-size: 100%;
   font: inherit;
   vertical-align: baseline;
-  max-width: var(--width-normal);
   -webkit-margin-start: 0;
   -webkit-margin-end: 0;
-  margin: 0 0 var(--space-larger) 0;
+
+  max-width: var(--width-full);
+  margin: 0 0 var(--space-medium) 0;
 }
 
 .main figcaption {
   float: right;
-  clear: right;
+  clear: both;
   margin-top: 0;
   margin-bottom: 0;
   font-size: var(--font-size-small);
@@ -40,9 +50,6 @@
   max-width: var(--width-small);
 }
 
-.main figure.fullwidth figcaption {
-  margin-right: 24%;
-}
 .main p,
 .main ul,
 .main ol,
@@ -71,18 +78,14 @@
 }
 
 .main blockquote p:not(li blockquote p) {
-  width: 55%;
+  width: var(--width-full);
 }
 
 .main blockquote footer:not(li blockquote footer) {
-  width: 55%;
+  width: var(--width-full);
   margin-top: var(--space-medium);
   font-size: var(--font-size-normal);
   text-align: right;
-}
-
-.main img {
-  max-width: 100%;
 }
 
 .sidenote-number {
@@ -109,16 +112,15 @@
 }
 
 .sidenote {
-  float: right;
-  clear: right;
-  margin-right: calc(var(--width-full) - var(--width-sidenote) - 100%);
-  width: var(--width-sidenote);
   margin-top: var(--space-small);
-  margin-bottom: 0;
   font-size: var(--font-size-small);
   line-height: var(--line-height-small);
   vertical-align: baseline;
   position: relative;
+  float: right;
+  padding: var(--space-small);
+  background: var(--base4);
+  color: var(--base11);
 }
 
 .main div.fullwidth,
@@ -136,7 +138,7 @@
   background: var(--support3);
 }
 
-.main pre > code {
+.main pre>code {
   font-family: var(--font-mono);
   font-size: var(--font-size-small);
   line-height: var(--line-height-small);
@@ -145,18 +147,19 @@
 
 .main .astro-code {
   font-size: var(--font-size-normal);
-  width: calc(var(--width-normal) - var(--space-large));
-  margin-left: var(--space-large);
   overflow-x: auto;
   display: block;
-  padding: var(--space-medium);
 
   border-top: 1px solid var(--base11);
   border-bottom: 1px solid var(--base11);
+
+  width: var(--width-full);
+  margin-left: var(--space-small);
+  padding: var(--space-small);
 }
 
 .main .astro-code.fullwidth {
-  width: calc(var(--width-full) - var(--space-large));
+  width: calc(var(--width-full) - var(--space-medium));
 }
 
 .main .fullwidth {
@@ -170,9 +173,78 @@
 }
 
 .main .iframe-wrapper {
-  width: var(--width-normal);
+  width: var(--width-full);
 }
 
 .main .iframe-wrapper iframe {
-  width: 100%;
+  width: var(--width-full);
+}
+
+@media (max-width: 1099px) {
+  .sidenote {
+    clear: both;
+
+    margin-left: var(--space-medium);
+    margin-bottom: var(--space-small);
+  }
+}
+
+@media (min-width: 1100px) {
+
+  .main article>p,
+  .main article>table,
+  .main article>footer {
+    width: var(--width-normal);
+  }
+
+  .main article>dl,
+  .main article>ol,
+  .main article>ul {
+    width: calc(var(--width-normal) - var(--space-large));
+    -webkit-padding-start: var(--space-large);
+  }
+
+  .main figure {
+    max-width: var(--width-normal);
+    margin: 0 0 var(--space-larger) 0;
+  }
+
+  .main figcaption {
+
+    clear: right;
+  }
+
+  .main figure.fullwidth figcaption {
+
+    margin-right: 24%;
+  }
+
+  .main blockquote p:not(li blockquote p) {
+
+    width: var(--width-normal);
+  }
+
+  .main blockquote footer:not(li blockquote footer) {
+
+    width: var(--width-normal);
+  }
+
+  .sidenote {
+    width: var(--width-sidenote);
+    clear: right;
+    margin-right: calc(var(--width-full) - var(--width-sidenote) - 100%);
+    margin-bottom: 0;
+  }
+
+  .main .astro-code {
+
+    width: var(--width-normal);
+    margin-left: var(--space-medium);
+    padding: var(--space-medium);
+  }
+
+  .main .astro-code.fullwidth {
+
+    width: calc(var(--width-full) - var(--space-large));
+  }
 }

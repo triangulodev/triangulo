@@ -21,6 +21,10 @@
   gap: var(--space-small);
 }
 
+.post-header {
+  padding-right: var(--space-small);
+}
+
 .post-title {
   font-size: var(--font-size-large-plus);
   font-weight: 600;
