@@ -138,6 +138,12 @@
   background: var(--support3);
 }
 
+.main a code:not(pre > code) {
+  color: var(--accent11);
+  background: var(--accent3);
+  text-decoration: underline;
+}
+
 .main pre>code {
   font-family: var(--font-mono);
   font-size: var(--font-size-small);
