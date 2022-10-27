@@ -3,10 +3,29 @@ import Header from "../components/Header.astro";
 import "../styles/index.css";
 
 export interface Props {
-  title: string;
+  frontmatter?: {
+    title?: string;
+    description?: string;
+    canonicalURL?: URL | string;
+    ogImage?: string;
+    date?: string;
+    author?: string;
+  };
 }
 
-const { title } = Astro.props.frontmatter || Astro.props;
+const title = Astro.props.frontmatter?.title || "Triângulo";
+const date = Astro.props.frontmatter?.date
+  ? new Date(Astro.props.frontmatter?.date)
+  : new Date();
+const description = Astro.props.frontmatter?.description || "";
+const canonicalURL =
+  Astro.props.frontmatter?.canonicalURL ||
+  new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL(
+  Astro.props.frontmatter?.ogImage || "/social.png",
+  Astro.site
+);
+const author = Astro.props.frontmatter?.author || "Hugo de Oliveira";
 ---
 
 <!DOCTYPE html>
@@ -47,6 +66,24 @@ const { title } = Astro.props.frontmatter || Astro.props;
     <link rel="manifest" href="/manifest.json" />
 
     <title>{title}</title>
+    <meta name="title" content={title} />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    <meta name="author" content={author} />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={canonicalURL} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={ogImage} />
   </head>
   <body>
     <Header />
@@ -54,6 +91,7 @@ const { title } = Astro.props.frontmatter || Astro.props;
       <article class="post">
         <header class="post-header">
           <h1 class="post-title">{title}</h1>
+          <p class="post-info">Escrito por <strong>{author}</strong> em {new Intl.DateTimeFormat().format(date)}</p>
         </header>
         <slot />
       </article>

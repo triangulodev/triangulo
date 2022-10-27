@@ -24,7 +24,11 @@
 .post-title {
   font-size: var(--font-size-large-plus);
   font-weight: 600;
-  margin-bottom: var(--space-largest);
+  margin-bottom: var(--space-small);
+}
+
+.post-info {
+  color: var(--base11);
 }
 
 .footer {
