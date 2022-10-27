@@ -10,6 +10,7 @@ export interface Props {
     ogImage?: string;
     date?: string;
     author?: string;
+    hideInfo?: boolean;
   };
 }
 
@@ -26,6 +27,7 @@ const ogImage = new URL(
   Astro.site
 );
 const author = Astro.props.frontmatter?.author || "Hugo de Oliveira";
+const hideInfo = Astro.props.frontmatter?.hideInfo;
 ---
 
 <!DOCTYPE html>
@@ -91,7 +93,14 @@ const author = Astro.props.frontmatter?.author || "Hugo de Oliveira";
       <article class="post">
         <header class="post-header">
           <h1 class="post-title">{title}</h1>
-          <p class="post-info">Escrito por <strong>{author}</strong> em {new Intl.DateTimeFormat().format(date)}</p>
+          {
+            hideInfo ? null : (
+              <p class="post-info">
+                Escrito por <strong>{author}</strong> em{" "}
+                {new Intl.DateTimeFormat().format(date)}.
+              </p>
+            )
+          }
         </header>
         <slot />
       </article>
