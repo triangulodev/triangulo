@@ -17,6 +17,7 @@
     "@astrojs/image": "^0.11.0",
     "@astrojs/mdx": "^0.11.5",
     "@astrojs/rss": "^1.0.3",
+    "@astrojs/sitemap": "^1.0.0",
     "@radix-ui/colors": "^0.1.8"
   }
 }
