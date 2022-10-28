@@ -1,20 +1,12 @@
+---
+import { Image } from "@astrojs/image/components";
+import trianguloLogo from "./triangulo-logo.svg";
+---
+
 <header role="banner" class="header">
   <div class="header-logo">
-    <a href="/" title="Voltar para página principal"
-      ><picture>
-        <source
-          srcset="/triangulo-logo.svg"
-          media="(prefers-color-scheme: dark)"
-        />
-        <img
-          src="/triangulo-logo.svg"
-          width="159"
-          height="28"
-          loading="eager"
-          decoding="async"
-          alt="Triângulo"
-        />
-      </picture>
+    <a href="/" title="Voltar para página principal">
+      <img src={trianguloLogo} alt="Triângulo" />
     </a>
   </div>
 

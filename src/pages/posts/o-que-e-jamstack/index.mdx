@@ -8,9 +8,11 @@ authorName: "Hugo de Oliveira"
 authorImage: "/authors/hugo.png"
 ---
 
+import PageImage from '../../../components/PageImage.astro';
+
 **A Jamstack é uma arquitetura criada para construir sites mais rápidos, que escalam com facilidade e que são mais seguros. Antes mais conhecidos como "sites estáticos", esses sites são geralmente um conjunto de arquivos HTML, CSS e JS que conversam com o servidor apenas quando necessário.**
 
-![O que é a Jamstack, as tecnologias fundamentais e principais vantagens](/posts/o-que-e-jamstack/jamstack-grafico-base.png)
+<PageImage src={import('./jamstack-grafico-base.png')} alt="O que é a Jamstack, as tecnologias fundamentais e principais vantagens" />
 
 Um dos motivos para a Jamstack estar se tornando tão popular é a explosão de ferramentas poderosas que permitem criar sites que vão além do que tradicionalmente sites "estáticos" faziam. Agora existem diversos CDNs especializados em entregar esses sites rapidamente para usuários de qualquer lugar do mundo, ferramentas para integração e publicação contínua, CMSs Headless perfeitos para sites Jamstack e ferramentas para criá-los sem dor de cabeça.
 
