@@ -8,7 +8,7 @@
 .main article > ol,
 .main article > ul {
   width: calc(var(--width-full) - var(--space-medium));
-  -webkit-padding-start: var(--space-medium);
+  -webkit-padding-start: var(--space-large);
 }
 
 .main dt:not(:first-child),
@@ -185,8 +185,8 @@
 }
 
 .main .iframe-wrapper {
-  width: calc(100% + var(--space-small) + var(--space-small));
-  margin-left: calc(-1 * var(--space-small));
+  width: calc(100% + var(--space-medium) + var(--space-medium));
+  margin-left: calc(-1 * var(--space-medium));
 }
 
 .main .iframe-wrapper iframe {
@@ -213,7 +213,6 @@
   .main article > ol,
   .main article > ul {
     width: calc(var(--width-normal) - var(--space-large));
-    -webkit-padding-start: var(--space-large);
   }
 
   .main figure {
