@@ -68,7 +68,8 @@
 
 .main h2 {
   font-size: var(--font-size-large);
-  margin-top: var(--space-largest);
+  padding-top: var(--space-large);
+  margin-top: var(--space-large);
 }
 
 .main h3 {
