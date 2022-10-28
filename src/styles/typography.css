@@ -66,6 +66,19 @@
   vertical-align: baseline;
 }
 
+.main h2 {
+  font-size: var(--font-size-large);
+  margin-top: var(--space-largest);
+}
+
+.main h3 {
+  font-size: var(--font-size-normal-plus);
+}
+
+.main h4 {
+  font-size: var(--font-size-normal);
+}
+
 .main blockquote {
   font-size: var(--font-size-small);
   background: var(--base4);
