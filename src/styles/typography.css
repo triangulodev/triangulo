@@ -22,7 +22,8 @@
 }
 
 .main p:has(img) {
-  width: 100%;
+  width: calc(100% + var(--space-small) + var(--space-small));
+  margin-left: calc(-1 * var(--space-small));
 }
 
 /* Not in use, as Markdown is not rendering figure as of now */
@@ -138,11 +139,6 @@
   color: var(--base11);
 }
 
-.main div.fullwidth,
-.main table.fullwidth {
-  width: 100%;
-}
-
 .main code:not(pre > code) {
   display: inline-block;
   font-size: 0.8em;
@@ -183,22 +179,18 @@
   width: calc(var(--width-full) - var(--space-medium));
 }
 
-.main .fullwidth {
-  max-width: 90%;
-  clear: both;
-}
-
 .main span.newthought {
   font-variant: small-caps;
   font-size: 1.2em;
 }
 
 .main .iframe-wrapper {
-  width: var(--width-full);
+  width: calc(100% + var(--space-small) + var(--space-small));
+  margin-left: calc(-1 * var(--space-small));
 }
 
 .main .iframe-wrapper iframe {
-  width: var(--width-full);
+  width: 100%;
 }
 
 @media (max-width: 1099px) {
@@ -260,6 +252,11 @@
 
   .main .astro-code.fullwidth {
     width: calc(var(--width-full) - var(--space-large));
+  }
+
+  .main .iframe-wrapper {
+    width: var(--width-full);
+    margin-left: 0;
   }
 }
 
