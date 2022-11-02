@@ -7,11 +7,13 @@ export const get = () =>
     title: "Triângulo",
     description: "Aprenda os fundamentos do desenvolvimento frontend",
     site: import.meta.env.SITE,
-    items: pages.map((post) => ({
-      link: post.url,
-      title: post.frontmatter.title,
-      pubDate: post.frontmatter.date,
-      description: post.frontmatter.description,
-    })),
+    items: pages
+      .filter((post) => !post.frontmatter?.hideFromRSS)
+      .map((post) => ({
+        link: post.url,
+        title: post.frontmatter.title,
+        pubDate: post.frontmatter.date,
+        description: post.frontmatter.description,
+      })),
     customData: `<language>pt-br</language>`,
   });
