@@ -27,7 +27,7 @@
 
 .post-title {
   font-size: var(--font-size-large-plus);
-  font-weight: 600;
+  font-weight: bold;
   margin-bottom: var(--space-small);
 }
 
