@@ -1,3 +1,3 @@
 # Triângulo
 
-Esse é o repositório do site do [Triângulo][https://triangulo.dev/].
+Esse é o repositório do site do [Triângulo](https://triangulo.dev/).
