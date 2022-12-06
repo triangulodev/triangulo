@@ -1,4 +1,11 @@
 {
+  "redirects": [
+    {
+      "source": "/posts/usando-grid-template-areas-no-css-grid",
+      "destination": "/posts/usando-grid-template-areas-do-css-grid",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/assets/(.*)",

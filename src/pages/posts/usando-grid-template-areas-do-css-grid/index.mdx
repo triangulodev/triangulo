@@ -1,18 +1,27 @@
 ---
 layout: "../../../layouts/Layout.astro"
-title: "Usando grid-template-areas para criar layouts no CSS Grid"
-description: "Crie áreas em um contêiner grid usando a propriedade grid-template-areas"
-ogImage: "/posts/usando-grid-template-areas-no-css-grid/social.png"
-date: "2022-08-12T18:00:00-03:00"
+title: "Usando grid-template-areas do CSS Grid"
+description: "Áreas podem ser utilizadas para delimitar espaços no seu layout que serão utilizados por alguns elementos. Elas também servem para facilitar a criação de layouts responsivos com CSS Grid."
+ogImage: "/posts/usando-grid-template-areas-do-css-grid/social.png"
+date: "2022-12-06T18:00:00-03:00"
 authorName: "Hugo de Oliveira"
 authorImage: "/authors/hugo.png"
 ---
 
-Áreas no grid podem ser utilizadas para delimitar espaços no seu layout que serão utilizados por alguns elementos. Elas também servem para facilitar a criação de layouts responsivos com CSS Grid.
+import SideNote from "../../../components/typography/SideNote.astro";
 
-![Partes do CSS Grid, com foco na área do grid](/posts/usando-grid-template-areas-no-css-grid/partes-do-css-grid-com-foco-na-area.svg)
+**Áreas facilitam muito a criação de layouts no CSS Grid**. Junto com todas as outras ferramentas desse algoritmo de layout do CSS, áreas deixam simples criar **layouts responsivos com apenas um pouco de código**.
 
-Para criar áreas no grid podemos usar a propriedade `grid-template-areas`. A sintaxe do `grid-template-areas` é intuitiva: você só precisa usar _strings_ que definem tanto os nomes das áreas quanto suas estruturas e posicionamento.
+![Partes do CSS Grid, com foco na área do grid](/posts/usando-grid-template-areas-do-css-grid/partes-do-css-grid-com-foco-na-area.svg)
+
+Algumas das vantagens de usar áreas do CSS Grid, são:
+
+1. Fácil definição de posição das áreas da sua aplicação em diferente _breakpoints_;
+1. O código demonstra visualmente o layout que você está criando;
+1. Você pode referenciar os nomes das áreas em `grid-column` e `grid-row`;
+1. É possível definir "espaços em branco" de forma bastante clara.
+
+Para criar áreas no grid usamos a propriedade `grid-template-areas`. A sintaxe do `grid-template-areas` é intuitiva: você só precisa usar _strings_ que definem tanto os nomes das áreas quanto suas estruturas e posicionamento.
 
 ```css
 .container {
@@ -23,7 +32,7 @@ Para criar áreas no grid podemos usar a propriedade `grid-template-areas`. A si
 }
 ```
 
-Quando definidos, os nomes das áreas podem ser usados em conjunto com as propriedades `grid-column`, `grid-row`, `grid-area` e outras para definir o posicionamento de itens no grid.
+Quando definidos, os nomes das áreas podem ser usados em conjunto com as propriedades `grid-column`, `grid-row`, `grid-area` e outras para definir o posicionamento de itens no grid. É daí que vem o poder.
 
 ## Índice
 
@@ -33,7 +42,7 @@ Para aprender a usar o `grid-template-areas`, nós vamos usar o layout de um blo
 
 A página que vamos implementar é a página de um artigo. Nela temos o cabeçalho do site (_header_), o conteúdo (_content_), a barra lateral (_sidebar_) e o rodapé (_footer_). Para estruturar esse layout, vamos usar três _strings_ organizadas da mesma forma que essas seções estarão dispostas na tela:
 
-![Exemplo de layout de uma página de artigo em um blog](/posts/usando-grid-template-areas-no-css-grid/layout-artigo-no-blog.svg)
+![Exemplo de layout de uma página de artigo em um blog](/posts/usando-grid-template-areas-do-css-grid/layout-artigo-no-blog.svg)
 
 ```css
 .page {
@@ -45,11 +54,7 @@ A página que vamos implementar é a página de um artigo. Nela temos o cabeçal
 }
 ```
 
-Essa definição já vai criar quatro áreas no contêiner grid: `header`, `content`, `sidebar` e `footer`. Da definição também saem as três linhas e as duas colunas.
-
-Não existe um limite definido de quantas linhas e colunas podemos criar dessa forma. A única regra é que cada área precisa ser um retângulo. Se você tentar criar áreas em formatos de "T", "L" ou "cruz", aquela área será inválida.
-
-![Exemplos de formatos inválidos para áreas no grid, including T, L e cruz](/posts/usando-grid-template-areas-no-css-grid/formatos-invalidos-de-areas-no-grid.svg)
+Essa definição já vai criar quatro áreas no contêiner grid: `header`, `content`, `sidebar` e `footer`. Da definição também saem as três linhas e as duas colunas. Não existe um limite definido de quantas linhas e colunas podemos criar dessa forma. A única regra é que cada área precisa ser um retângulo<SideNote>Se você tentar criar áreas em formatos de "T", "L" ou "cruz", aquela área será inválida. ![Exemplos de formatos inválidos para áreas no grid, including T, L e cruz](/posts/usando-grid-template-areas-do-css-grid/formatos-invalidos-de-areas-no-grid.svg)</SideNote>.
 
 Adicionando um HTML simples no projeto, podemos perceber que cada elemento ocupa cada coluna e linha em sequência, ignorando as áreas.
 
@@ -62,7 +67,7 @@ Adicionando um HTML simples no projeto, podemos perceber que cada elemento ocupa
 </main>
 ```
 
-![Exemplo da posição incorreta dos elementos por não definir a área no grid que cada um ocupa](/posts/usando-grid-template-areas-no-css-grid/posicao-incorreta-elementos-no-grid.svg)
+![Exemplo da posição incorreta dos elementos por não definir a área no grid que cada um ocupa](/posts/usando-grid-template-areas-do-css-grid/posicao-incorreta-elementos-no-grid.svg)
 
 Isso acontece porque ainda não definimos a área que cada elemento vai ocupar.
 
@@ -116,7 +121,7 @@ Já parece um pouco melhor, mas ainda precisamos definir o tamanho de cada área
 
 ## Definindo o tamanho de áreas no grid com `grid-template-rows` e `grid-template-columns`
 
-O jeito de definir o tamanho de linhas e colunas em um contêiner grid é com `grid-template-rows` e `grid-template-columns`, como mostramos no [post que cobrimos o básico que você precisa saber de CSS Grid](https://triangulo.dev/posts/css-grid-o-que-voce-precisa-saber). Quando usamos `grid-template-areas` não é diferente.
+Para definir o tamanho de linhas e colunas em um contêiner grid usamo `grid-template-rows` e `grid-template-columns`, como mostramos no [post que cobrimos o básico que você precisa saber de CSS Grid](https://triangulo.dev/posts/css-grid-o-que-voce-precisa-saber). Quando usamos `grid-template-areas` não é muito diferente.
 
 No nosso exemplo, nós temos três linhas e duas colunas. Então, basta definir o tamanho dessas linhas e colunas no nosso CSS:
 
@@ -127,7 +132,7 @@ No nosso exemplo, nós temos três linhas e duas colunas. Então, basta definir 
 }
 ```
 
-![Resultado final de aplicar tamanho às áreas no grid](/posts/usando-grid-template-areas-no-css-grid/layout-artigo-no-blog.svg)
+![Resultado final de aplicar tamanho às áreas no grid](/posts/usando-grid-template-areas-do-css-grid/layout-artigo-no-blog.svg)
 
 Qualquer valor válido para as propriedades `grid-template-rows` e `grid-template-columns` pode ser usado aqui. Isso é muito útil para criar layouts bem flexíveis e exatamente como queremos.
 
@@ -146,7 +151,7 @@ Vamos supor que nós queremos que uma parte do grid não faça parte de uma áre
 }
 ```
 
-![Resultado de adicionar um espaço em branco às áreas no grid](/posts/usando-grid-template-areas-no-css-grid/layout-grid-com-espaco-em-branco.svg)
+![Resultado de adicionar um espaço em branco às áreas no grid](/posts/usando-grid-template-areas-do-css-grid/layout-grid-com-espaco-em-branco.svg)
 
 ## Design responsivo com áreas no grid e @media queries
 
@@ -168,7 +173,7 @@ Numa página de artigo em um blog, por exemplo, teríamos que acomodar a barra l
 }
 ```
 
-![Resultado de usar @media queries para controlar as áreas no grid em diferentes tamanho de tela. À esquerda temos um layout em uma coluna, para telas com menos de 500px de largura. À direita, um layout com duas colunas, para telas com 500px ou mais de largura](/posts/usando-grid-template-areas-no-css-grid/design-responsivo-com-areas-no-grid.svg)
+![Resultado de usar @media queries para controlar as áreas no grid em diferentes tamanho de tela. À esquerda temos um layout em uma coluna, para telas com menos de 500px de largura. À direita, um layout com duas colunas, para telas com 500px ou mais de largura](/posts/usando-grid-template-areas-do-css-grid/design-responsivo-com-areas-no-grid.svg)
 
 Nessa `@media` query, mudamos o layout de `.page` para ter uma coluna e quatro linhas. Além de mudar o valor de `grid-template-areas`, também tivemos que alterar `grid-template-rows` e `grid-template-columns`.
 
@@ -178,7 +183,7 @@ Juntar `@media` queries e `grid-template-areas` é um super poder no CSS Grid, j
 
 Quando criamos áreas no grid usando a propriedade `grid-template-areas`, são criados também nomes para linhas e colunas no nosso grid. Esses nomes seguem o padrão `area-start` e `area-end` para o começo e o término de cada área.
 
-![Exemplos dos nomes de linhas -start e -end](/posts/usando-grid-template-areas-no-css-grid/exemplo-linhas-start-end.svg)
+![Exemplos dos nomes de linhas -start e -end](/posts/usando-grid-template-areas-do-css-grid/exemplo-linhas-start-end.svg)
 
 Esses nomes podem ser usados em propriedades como `grid-column-start`, `grid-column-end`, `grid-row-start` e `grid-row-end`. Podemos, então, definir que um elemento começa em uma parte da área e termina em outra área, por exemplo. Não ficamos limitados a usar apenas uma área por inteiro.
 
@@ -196,7 +201,7 @@ Esses nomes podem ser usados em propriedades como `grid-column-start`, `grid-col
 }
 ```
 
-![Exemplo do popup estilizado com os nomes de linhas e colunas](/posts/usando-grid-template-areas-no-css-grid/exemplo-popup-com-grid-column-row-names.svg)
+![Exemplo do popup estilizado com os nomes de linhas e colunas](/posts/usando-grid-template-areas-do-css-grid/exemplo-popup-com-grid-column-row-names.svg)
 
 ## Usando a "propriedade-atalho" `grid-template`
 
@@ -240,7 +245,7 @@ Esse é o último post de uma série que explora várias das funcionalidades do 
 - [CSS Grid: posicionando elementos, na prática](/posts/css-grid-posicionando-elementos-na-pratica);
 - [CSS Grid: alinhando elementos (com exemplos)](/posts/css-grid-alinhando-elementos-na-pratica);
 - [Criando layouts responsivos com CSS Grid](/posts/criando-layouts-responsivos-css-grid);
-- [Usando grid-template-areas para criar layouts no CSS Grid](/posts/usando-grid-template-areas-no-css-grid);
+- [Usando grid-template-areas para criar layouts no CSS Grid](/posts/usando-grid-template-areas-do-css-grid);
 
 Para escrever esse post eu usei o [excelente artigo no MDN sobre `grid-template-areas` (developer.mozilla.org)](https://developer.mozilla.org/en-US/docs/Web/CSS/grid-template-areas) e também a [especificação do CSS Grid (drafts.csswg.org)](https://drafts.csswg.org/css-grid/#grid-template-areas-property).
 
