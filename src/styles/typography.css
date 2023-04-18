@@ -167,11 +167,9 @@
   overflow-x: auto;
   display: block;
 
-  border-top: 1px solid var(--base11);
-  border-bottom: 1px solid var(--base11);
+  border-left: 1px solid var(--base8);
 
   width: var(--width-full);
-  margin-left: var(--space-small);
   padding: var(--space-small);
 }
 
@@ -245,7 +243,6 @@
 
   .main .astro-code {
     width: var(--width-normal);
-    margin-left: var(--space-medium);
     padding: var(--space-medium);
   }
 
@@ -258,4 +255,3 @@
     margin-left: 0;
   }
 }
-
