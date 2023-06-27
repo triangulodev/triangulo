@@ -21,6 +21,15 @@
   height: auto;
 }
 
+/* Hack to prevent transparent images from looking bad on dark mode */
+
+@media (prefers-color-scheme: dark) {
+  .main img {
+    background: var(--base12);
+    padding: 5px;
+  }
+}
+
 .main p:has(img) {
   width: calc(100% + var(--space-small) + var(--space-small));
   margin-left: calc(-1 * var(--space-small));

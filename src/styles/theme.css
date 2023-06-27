@@ -1,3 +1,4 @@
+@import "@radix-ui/colors/gray";
 @import "@radix-ui/colors/sand";
 @import "@radix-ui/colors/yellow";
 @import "@radix-ui/colors/amber";
@@ -30,6 +31,18 @@
   --sandDark10: hsl(52, 3.1%, 48.3%);
   --sandDark11: hsl(50, 4%, 61.8%);
   --sandDark12: hsl(56, 4%, 92.8%);
+  --grayDark1: hsl(0, 0%, 8.5%);
+  --grayDark2: hsl(0, 0%, 11%);
+  --grayDark3: hsl(0, 0%, 13.6%);
+  --grayDark4: hsl(0, 0%, 15.8%);
+  --grayDark5: hsl(0, 0%, 17.9%);
+  --grayDark6: hsl(0, 0%, 20.5%);
+  --grayDark7: hsl(0, 0%, 24.3%);
+  --grayDark8: hsl(0, 0%, 31.2%);
+  --grayDark9: hsl(0, 0%, 43.9%);
+  --grayDark10: hsl(0, 0%, 49.4%);
+  --grayDark11: hsl(0, 0%, 62.8%);
+  --grayDark12: hsl(0, 0%, 93%);
   --limeDark1: hsl(75, 55%, 6%);
   --limeDark2: hsl(74, 56.8%, 7.3%);
   --limeDark3: hsl(78, 50.2%, 9.9%);
@@ -116,23 +129,23 @@ body {
   --support11: var(--lime11);
   --support12: var(--lime12);
 
-  --base1: var(--sand1);
-  --base2: var(--sand2);
-  --base3: var(--sand3);
-  --base4: var(--sand4);
-  --base5: var(--sand5);
-  --base6: var(--sand6);
-  --base7: var(--sand7);
-  --base8: var(--sand8);
-  --base9: var(--sand9);
-  --base10: var(--sand10);
-  --base11: var(--sand11);
-  --base12: var(--sand12);
+  --base1: var(--gray1);
+  --base2: var(--gray2);
+  --base3: var(--gray3);
+  --base4: var(--gray4);
+  --base5: var(--gray5);
+  --base6: var(--gray6);
+  --base7: var(--gray7);
+  --base8: var(--gray8);
+  --base9: var(--gray9);
+  --base10: var(--gray10);
+  --base11: var(--gray11);
+  --base12: var(--gray12);
 }
 
 /* } */
 
-/* @media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
   body {
     --accent1: var(--orangeDark1);
     --accent2: var(--orangeDark2);
@@ -173,4 +186,4 @@ body {
     --base11: var(--sandDark11);
     --base12: var(--sandDark12);
   }
-} */
+}
