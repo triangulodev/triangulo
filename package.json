@@ -21,5 +21,8 @@
     "@radix-ui/colors": "^0.1.8",
     "remark-toc": "^8.0.1"
   },
+  "engines": {
+    "node": "20.11.1"
+  },
   "packageManager": "yarn@4.1.0"
 }
