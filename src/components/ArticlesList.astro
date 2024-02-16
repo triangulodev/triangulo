@@ -10,8 +10,8 @@ const posts = await Astro.glob("../pages/posts/**/*.mdx").then((posts) =>
       title: frontmatter.title,
       description: frontmatter.description,
       authors: frontmatter.authors,
-      publishDate: Intl.DateTimeFormat("pt-BR").format(
-        new Date(frontmatter.date)
+      pubDate: Intl.DateTimeFormat("pt-BR").format(
+        new Date(frontmatter.pubDate)
       ),
       ogImage: frontmatter.ogImage,
       href: url,
