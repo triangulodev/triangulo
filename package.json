@@ -20,5 +20,6 @@
     "@astrojs/sitemap": "^1.0.0",
     "@radix-ui/colors": "^0.1.8",
     "remark-toc": "^8.0.1"
-  }
+  },
+  "packageManager": "yarn@4.1.0"
 }
