@@ -10,15 +10,15 @@
     "astro": "astro"
   },
   "devDependencies": {
-    "astro": "4.4.0",
+    "astro": "5.12.9",
     "prettier-plugin-astro": "^0.5.4"
   },
   "dependencies": {
-    "@astrojs/mdx": "2.1.1",
-    "@astrojs/rss": "4.0.5",
-    "@astrojs/sitemap": "3.0.5",
+    "@astrojs/mdx": "4.3.3",
+    "@astrojs/rss": "4.0.12",
+    "@astrojs/sitemap": "3.4.2",
     "@radix-ui/colors": "^0.1.8",
-    "remark-toc": "^8.0.1"
+    "remark-toc": "8.0.1"
   },
   "engines": {
     "node": "18.19.1"

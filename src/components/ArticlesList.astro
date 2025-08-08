@@ -1,22 +1,25 @@
 ---
-const posts = await Astro.glob("../pages/posts/**/*.mdx").then((posts) =>
-  posts
-    .sort((a, b) => {
-      if (a.frontmatter?.date < b.frontmatter?.date) return -1;
-      if (b.frontmatter?.date > a.frontmatter?.date) return 1;
-      return 0;
-    })
-    .map(({ frontmatter, url }) => ({
-      title: frontmatter.title,
-      description: frontmatter.description,
-      authors: frontmatter.authors,
-      pubDate: Intl.DateTimeFormat("pt-BR").format(
-        new Date(frontmatter.pubDate)
-      ),
-      ogImage: frontmatter.ogImage,
-      href: url,
-    }))
-);
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('posts')
+  .then((posts) =>
+    posts
+      .sort((a, b) => {
+        if (a.data.pubDate < b.data.pubDate) return -1;
+        if (b.data.pubDate > a.data.pubDate) return 1;
+        return 0;
+      })
+      .map((post) => ({
+        title: post.data.title,
+        description: post.data.description,
+        authorName: post.data.authorName,
+        pubDate: Intl.DateTimeFormat("pt-BR").format(
+          new Date(post.data.pubDate)
+        ),
+        ogImage: post.data.ogImage,
+        href: `/posts/${post.id}`,
+      }))
+  );
 ---
 
 <ul>

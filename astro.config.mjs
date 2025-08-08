@@ -10,10 +10,12 @@ export default defineConfig({
   integrations: [
     mdx({
       remarkPlugins: [[remarkToc, { heading: "Índice", tight: true }]],
+      smartypants: false,
     }),
     sitemap(),
   ],
   markdown: {
+    smartypants: false,
     shikiConfig: {
       theme: "css-variables",
     },
